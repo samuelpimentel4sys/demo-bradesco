@@ -1,20 +1,5 @@
 # Demo Bradesco 🚀
 
-=======
-# Demo Bradesco 🚀
->>>>>>> 1ba823e (docs: remove references to POC Tiago from README)
-### Angular 21 + FastAPI (Python) + SQLite
-=======
-# Demo Bradesco 🚀
-
-### Angular 21 + FastAPI (Python) + SQLite
-
-=======
-# Demo Bradesco 🚀
-
-=======
-# Demo Bradesco 🚀
->>>>>>> 1ba823e (docs: remove references to POC Tiago from README)
 ### Angular 21 + FastAPI (Python) + SQLite
 
 Este repositório contém um projeto de demonstração de autenticação e gerenciamento de usuários desenvolvido para demonstrar uma integração limpa entre um frontend moderno em **Angular 21** e um backend robusto em **FastAPI (Python)**, utilizando **SQLite** como banco de dados embarcado.
