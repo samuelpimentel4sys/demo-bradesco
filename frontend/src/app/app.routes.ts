@@ -11,6 +11,12 @@ export const routes: Routes = [
     loadComponent: () => import('./dashboard/dashboard').then(m => m.DashboardComponent),
     canActivate: [authGuard]
   },
+  // TC-58-08, TC-58-09, TC-58-10
+  {
+    path: 'recorrencias',
+    loadComponent: () => import('./recorrencias/recorrencias.component').then(m => m.RecorrenciasComponent),
+    canActivate: [authGuard]
+  },
   {
     path: '',
     redirectTo: 'dashboard',
