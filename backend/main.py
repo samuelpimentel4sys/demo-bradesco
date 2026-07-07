@@ -1,116 +1,85 @@
-from fastapi import FastAPI, HTTPException, status
+
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import sqlite3
-from database import init_db, get_db_connection
+from typing import List, Literal
 
-app = FastAPI(
-    title="POC Login Backend",
-    description="Backend Python limpo em FastAPI com SQLite para a POC de Login",
-    version="1.0.0"
-)
+app = FastAPI()
 
-# Permitir CORS para o frontend Angular (normalmente roda na porta 4200)
+# Configuração de CORS para permitir requisições do frontend Angular
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Em produção, especifique as origens permitidas
+    allow_origins=["http://localhost:4200"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Inicializar o banco de dados no startup
-@app.on_event("startup")
-def on_startup():
-    init_db()
+# Modelo de dados
+class Recorrencia(BaseModel):
+    id: int
+    beneficiario: str
+    valor: float
+    status: Literal["ativa", "pausada", "pendente_aprovacao"]
 
-# Modelos do Pydantic para validação de entrada
-class LoginRequest(BaseModel):
-    username: str
-    password: str
+# Mock do banco de dados em memória
+recorrencias_db = [
+    Recorrencia(id=1, beneficiario="Netflix", valor=39.90, status="ativa"),
+    Recorrencia(id=2, beneficiario="Spotify", valor=21.90, status="ativa"),
+    Recorrencia(id=3, beneficiario="Amazon Prime", valor=14.90, status="pendente_aprovacao"),
+    Recorrencia(id=4, beneficiario="Academia", valor=120.00, status="pausada"),
+]
 
-class RegisterRequest(BaseModel):
-    username: str
-    password: str
-    full_name: str
-
-# Endpoints do app
 @app.get("/")
 def read_root():
-    return {"message": "API de Autenticação da POC está online!", "docs": "/docs"}
+    return {"Hello": "World"}
 
-@app.post("/api/login")
-def login(request: LoginRequest):
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    
-    cursor.execute(
-        "SELECT id, username, full_name, password FROM users WHERE username = ?", 
-        (request.username,)
-    )
-    user = cursor.fetchone()
-    conn.close()
-    
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Usuário ou senha incorretos."
-        )
-        
-    # Verificação de senha em texto plano (simples para a POC)
-    if user["password"] != request.password:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Usuário ou senha incorretos."
-        )
-        
-    # Login de sucesso, gera um token simples de mock
-    token = f"mock-token-jwt-for-{user['username']}-xyz123"
-    
-    return {
-        "access_token": token,
-        "token_type": "bearer",
-        "user": {
-            "id": user["id"],
-            "username": user["username"],
-            "full_name": user["full_name"]
-        }
-    }
+# Endpoint para NAI-59
+@app.get("/api/recorrencias", response_model=List[Recorrencia])
+def get_recorrencias():
+    """
+    Retorna a lista de recorrências cadastradas.
+    """
+    return recorrencias_db
 
-@app.post("/api/register")
-def register(request: RegisterRequest):
-    if not request.username or not request.password or not request.full_name:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Todos os campos são obrigatórios."
-        )
-        
-    conn = get_db_connection()
-    cursor = conn.cursor()
+# Endpoints para NAI-61
+@app.post("/api/recorrencias/{recorrencia_id}/approve")
+def approve_recorrencia(recorrencia_id: int):
+    """
+    Aprova uma recorrência com status 'pendente_aprovacao'.
+    """
+    item = next((r for r in recorrencias_db if r.id == recorrencia_id), None)
+    if not item:
+        raise HTTPException(status_code=404, detail=f"Recorrência com ID {recorrencia_id} não encontrada")
     
-    # Verificar se usuário já existe
-    cursor.execute("SELECT id FROM users WHERE username = ?", (request.username,))
-    existing_user = cursor.fetchone()
+    # Em um app real, haveria a mudança de estado aqui.
+    # item.status = "ativa"
     
-    if existing_user:
-        conn.close()
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Nome de usuário já cadastrado."
-        )
+    return {"message": f"Recorrência {recorrencia_id} aprovada com sucesso"}
+
+@app.post("/api/recorrencias/{recorrencia_id}/pause")
+def pause_recorrencia(recorrencia_id: int):
+    """
+    Pausa uma recorrência 'ativa'.
+    """
+    item = next((r for r in recorrencias_db if r.id == recorrencia_id), None)
+    if not item:
+        raise HTTPException(status_code=404, detail=f"Recorrência com ID {recorrencia_id} não encontrada")
+    
+    # item.status = "pausada"
+    
+    return {"message": f"Recorrência {recorrencia_id} pausada com sucesso"}
+
+@app.post("/api/recorrencias/{recorrencia_id}/cancel")
+def cancel_recorrencia(recorrencia_id: int):
+    """
+    Cancela uma recorrência.
+    """
+    item = next((r for r in recorrencias_db if r.id == recorrencia_id), None)
+    if not item:
+        raise HTTPException(status_code=404, detail=f"Recorrência com ID {recorrencia_id} não encontrada")
         
-    try:
-        cursor.execute(
-            "INSERT INTO users (username, password, full_name) VALUES (?, ?, ?)",
-            (request.username, request.password, request.full_name)
-        )
-        conn.commit()
-    except sqlite3.Error as e:
-        conn.close()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Erro no banco de dados: {str(e)}"
-        )
-        
-    conn.close()
-    return {"message": "Usuário registrado com sucesso!", "username": request.username}
+    # Em um app real, o item seria removido ou marcado como 'cancelado'
+    # recorrencias_db = [r for r in recorrencias_db if r.id != recorrencia_id]
+
+    return {"message": f"Recorrência {recorrencia_id} cancelada com sucesso"}
