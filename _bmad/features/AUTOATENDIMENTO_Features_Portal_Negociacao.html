@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Especificação de Features — Portal de Autoatendimento de Débitos</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --accent: #f59e0b;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .badge {
+            background-color: var(--accent);
+            color: #000;
+            font-weight: bold;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            margin: 0.5rem 0;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .tab-container {
+            margin-top: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: #white;
+            background-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p, ul, ol {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        pre {
+            background-color: #090d16;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            padding: 1rem;
+            overflow-x: auto;
+            color: #a7f3d0;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.875rem;
+        }
+
+        code {
+            color: #f43f5e;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9em;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1e293b;
+            color: var(--text-main);
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .highlight-box {
+            background-color: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin: 1rem 0;
+        }
+
+        .edge-case-box {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge">EXPLORER TECHNICAL SPEC</span>
+        <h1>Detalhamento Técnico de Features</h1>
+        <p class="subtitle">Portal de Autoatendimento de Débitos e Renegociação — Decomposição do Épico <code>EP-PORTAL-RENEG-001</code></p>
+    </header>
+
+    <div class="container">
+        
+        <div class="card">
+            <h2>Contexto do Explorer</h2>
+            <p>Este documento detalha a decomposição técnica do Épico em <strong>5 Features funcionais primárias</strong> para desenvolvimento ágil. Cada Feature contém histórias de usuários, diagramas, esquemas de dados, contratos de API reais, cenários de erro e tratativa de <em>edge cases</em> para a equipe de engenharia.</p>
+        </div>
+
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab(event, 'auth')">FT-AUTH-001: Autenticação OTP</button>
+                <button class="tab-btn" onclick="openTab(event, 'debts')">FT-DEBT-001: Consulta de Dívidas</button>
+                <button class="tab-btn" onclick="openTab(event, 'neg')">FT-NEG-001: Motor Simulador</button>
+                <button class="tab-btn" onclick="openTab(event, 'pay')">FT-PAY-001: Geração Pix / Webhook</button>
+                <button class="tab-btn" onclick="openTab(event, 'set')">FT-SET-001: Quitação & PDF</button>
+            </div>
+
+            <!-- TAB 1: AUTH -->
+            <div id="auth" class="tab-content active">
+                <div class="card">
+                    <h2>FT-AUTH-001: Autenticação Sem Senha via OTP (SMS/WhatsApp)</h2>
+                    <p>Permite a entrada simplificada e altamente segura de clientes, validando o CPF diretamente nas bases de cadastro ativo e enviando um token numérico descartável (OTP - One Time Password) via SMS ou WhatsApp para garantir o não-repúdio do acesso.</p>
+                    
+                    <h3>User Story (US-AUTH-001)</h3>
+                    <div class="highlight-box">
+                        <strong>Como:</strong> Consumidor com restrições de crédito em atraso<br>
+                        <strong>Quero:</strong> Acessar o portal informando apenas meu CPF e recebendo um código de confirmação no meu celular cadastrado<br>
+                        <strong>Para:</strong> Evitar esquecimento de senhas e acessar instantaneamente minha listagem de dívidas com segurança jurídica.
+                    </div>
+
+                    <h3>Critérios de Aceite</h3>
+                    <ul>
+                        <li>O CPF deve ser limpo e validado contra o algoritmo oficial da Receita Federal (DV checksum).</li>
+                        <li><strong>Segurança:</strong> O OTP deve expirar em exatos 180 segundos (3 minutos) após a geração.</li>
+                        <li><strong>Filtro Anti-Abuso (Rate Limit):</strong> Máximo de 3 requisições de OTP por CPF / IP a cada 15 minutos para controle de custos de envio de operadora (Gateways SMS/WhatsApp).</li>
+                    </ul>
+
+                    <h3>Contrato de API</h3>
+                    <h4>1. Solicitação de Token OTP</h4>
+                    <pre>POST /api/v1/auth/otp/request
+Content-Type: application/json
+
+{
+  "cpf": "12345678909",
+  "channel": "whatsapp" // Opções válidas: sms, whatsapp
+}</pre>
+                    <pre>RESPONSE (202 Accepted)
+{
+  "transaction_id": "auth_tx_992384-a1",
+  "expires_in_seconds": 180,
+  "masked_phone": "+55 (11) *****-4321"
+}</pre>
+
+                    <h4>2. Validação e Login</h4>
+                    <pre>POST /api/v1/auth/otp/verify
+Content-Type: application/json
+
+{
+  "transaction_id": "auth_tx_992384-a1",
+  "code": "481023"
+}</pre>
+                    <pre>RESPONSE (200 OK)
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwOSIsIm5hbWUiOiJKb2FvIFNpbHZhIiwiZXhwIjoxNjg0NDY0MDAwfQ...",
+  "user_profile": {
+    "name": "João da Silva",
+    "cpf": "12345678909",
+    "has_active_debts": true
+  }
+}</pre>
+
+                    <div class="edge-case-box">
+                        <strong>Tratativa de Erros & Caso de Borda:</strong> Se o número do telefone do cliente não estiver atualizado na base cadastral do Bureau de Crédito, a API retornará o status <code>404 Not Found</code> com o erro <code>REGISTRATION_OUT_OF_DATE</code>. A UI deverá direcionar para um fluxo assistido de confirmação de identidade por meio de perguntas cadastrais (KYC comportamental).
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: DEBTS -->
+            <div id="debts" class="tab-content">
+                <div class="card">
+                    <h2>FT-DEBT-001: Consolidação e Busca de Débitos Ativos</h2>
+                    <p>Agrega e exibe em tempo real (SLA inferior a 2 segundos) todas as faturas, empréstimos e títulos vencidos de múltiplos credores parceiros que estão atualmente associados ao CPF autenticado.</p>
+
+                    <h3>User Story (US-DEBT-001)</h3>
+                    <div class="highlight-box">
+                        <strong>Como:</strong> Consumidor autenticado no portal<br>
+                        <strong>Quero:</strong> Visualizar o detalhamento completo dos débitos atrelados ao meu CPF agrupados por credor credenciado<br>
+                        <strong>Para:</strong> Ter uma visão de 360 graus do saldo total devedor e priorizar quais dívidas quero negociar.
+                    </div>
+
+                    <h3>Métricas Técnicas & Desempenho</h3>
+                    <ul>
+                        <li><strong>Indexação:</strong> Tabela de pendências deve possuir índice composto por <code>(cpf, status_cobranca, data_vencimento)</code>.</li>
+                        <li><strong>Caching:</strong> Resultados de consultas integradas a credores externos devem persistir em Redis por 5 minutos para evitar gargalos em requisições consecutivas.</li>
+                    </ul>
+
+                    <h3>Contrato de API</h3>
+                    <pre>GET /api/v1/debts
+Authorization: Bearer &lt;access_token&gt;</pre>
+                    <pre>RESPONSE (200 OK)
+{
+  "summary": {
+    "total_creditors": 2,
+    "total_debts": 3,
+    "total_original_amount": 3500.00,
+    "total_updated_amount": 4250.00
+  },
+  "items": [
+    {
+      "debt_id": "deb_00a12",
+      "creditor": {
+        "name": "Banco Platinum S.A.",
+        "cnpj": "12.345.678/0001-90"
+      },
+      "contract_number": "CONTRATO-88392-A",
+      "original_amount": 1500.00,
+      "updated_amount": 1750.00,
+      "days_past_due": 180,
+      "due_date": "2023-08-10"
+    },
+    {
+      "debt_id": "deb_00b45",
+      "creditor": {
+        "name": "Telecom Conectividade",
+        "cnpj": "98.765.432/0001-21"
+      },
+      "contract_number": "FATURA-2023-10",
+      "original_amount": 2000.00,
+      "updated_amount": 2500.00,
+      "days_past_due": 120,
+      "due_date": "2023-10-10"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+
+            <!-- TAB 3: NEGOTIATION -->
+            <div id="neg" class="tab-content">
+                <div class="card">
+                    <h2>FT-NEG-001: Motor Parametrizável de Descontos e Parcelamento</h2>
+                    <p>O cérebro financeiro da plataforma. Avalia o perfil da dívida e aplica dinamicamente as tabelas de descontos autorizadas por cada credor, gerando simulações customizadas de amortização à vista ou com divisão de parcelas.</p>
+
+                    <h3>Modelo de Dados Simplificado (Tabela de Parâmetros de Credores)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Credor ID</th>
+                                <th>Desconto Máximo À Vista (%)</th>
+                                <th>Desconto Máximo Parcelado (%)</th>
+                                <th>Parcelas Máximas (X)</th>
+                                <th>Valor Mínimo Parcela (R$)</th>
+                                <th>Taxa Juros A.M (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Banco Platinum</td>
+                                <td>90%</td>
+                                <td>60%</td>
+                                <td>36</td>
+                                <td>R$ 100,00</td>
+                                <td>0.99%</td>
+                            </tr>
+                            <tr>
+                                <td>Telecom Conect</td>
+                                <td>95%</td>
+                                <td>75%</td>
+                                <td>12</td>
+                                <td>R$ 50,00</td>
+                                <td>0.00% (Sem Juros)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h3>User Story (US-NEG-001)</h3>
+                    <div class="highlight-box">
+                        <strong>Como:</strong> Consumidor endividado<br>
+                        <strong>Quero:</strong> Selecionar um ou mais débitos, escolher o pagamento (à vista ou quantidade de parcelas) e ver o cálculo exato de desconto aplicado<br>
+                        <strong>Para:</strong> Encontrar uma parcela mensal que caiba no meu orçamento doméstico.
+                    </div>
+
+                    <h3>Contrato de API</h3>
+                    <pre>POST /api/v1/negotiations/simulate
+Authorization: Bearer &lt;access_token&gt;
+Content-Type: application/json
+
+{
+  "selected_debts": ["deb_00a12"],
+  "payment_method": "installments",
+  "installments": 6
+}</pre>
+                    <pre>RESPONSE (200 OK)
+{
+  "simulation_id": "sim_8832-bc9",
+  "original_amount": 1750.00,
+  "discount_percentage": 50.00,
+  "discount_amount": 875.00,
+  "negotiated_amount": 875.00,
+  "installments_count": 6,
+  "installment_value": 145.83,
+  "due_date_first_installment": "2024-03-10",
+  "interest_applied_am": 0.00
+}</pre>
+                </div>
+            </div>
+
+            <!-- TAB 4: PAYMENTS -->
+            <div id="pay" class="tab-content">
+                <div class="card">
+                    <h2>FT-PAY-001: Integração de Cobrança Pix e Webhook de Notificação</h2>
+                    <p>Permite a emissão do QR Code dinâmico do Pix e o processamento assíncrono imediato do pagamento, ativando os fluxos automáticos de conciliação interna e das registradoras do bureau.</p>
+
+                    <h3>Fluxo Técnico de Conciliação Pix</h3>
+                    <div class="highlight-box">
+                        <ol>
+                            <li>O Usuário confirma a simulação de acordo ➔ Acordo é salvo com status <code>PENDING_PAYMENT</code>.</li>
+                            <li>Sistema chama API do PSP (Banco Parceiro) e recebe String <code>emv_pix</code> e Base64 do QR Code.</li>
+                            <li>O Usuário efetua o pagamento no app de seu banco de preferência.</li>
+                            <li>O Banco liquida na conta do Bureau e aciona nosso Webhook seguro <code>POST /api/v1/payments/webhook</code>.</li>
+                            <li>Nosso webhook altera status para <code>PAID</code> e gera evento na fila de mensagens <code>AcordoLiquidadoEvent</code>.</li>
+                        </ol>
+                    </div>
+
+                    <h3>Contrato do Webhook de Entrada (PSP para o Portal)</h3>
+                    <pre>POST /api/v1/payments/webhook
+X-Signature-Auth: a5e36fde90c23984... // Validação HMAC de Segurança
+
+{
+  "event_id": "evt_9921827",
+  "payment_provider": "PSP_ITA_01",
+  "txid": "pix_tx_sim_8832-bc9",
+  "status": "APPROVED",
+  "amount_paid": 145.83,
+  "paid_at": "2024-03-01T14:30:15Z"
+}</pre>
+                    <pre>RESPONSE (200 OK)
+{
+  "received": true,
+  "processed_at": "2024-03-01T14:30:15.112Z"
+}</pre>
+
+                    <div class="edge-case-box">
+                        <strong>Prevenção de Falhas (SLA Crítico - 15 Minutos):</strong> Se o webhook falhar por instabilidade temporária do nosso servidor de aplicação, o Gateway do PSP tentará novos envios em política de <em>exponential backoff</em>. Adicionalmente, existirá um job periódico no Redis rodando a cada 3 minutos que varrerá acordos criados nos últimos 20 minutos com status <code>PENDING_PAYMENT</code> e consultará ativamente o status no PSP via polling, garantindo a quitação rápida mesmo sob pane de webhooks.
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: SETTLEMENT -->
+            <div id="set" class="tab-content">
+                <div class="card">
+                    <h2>FT-SET-001: Geração de Termo de Acordo e Baixa Automática no Bureau</h2>
+                    <p>Gera o PDF com valor de certidão jurídica do acordo renegociado, realiza a baixa imediata da anotação negativa no cadastro do Bureau de Crédito e dispara a emissão de comprovantes.</p>
+
+                    <h3>User Story (US-SET-001)</h3>
+                    <div class="highlight-box">
+                        <strong>Como:</strong> Consumidor adimplente (que acabou de pagar a entrada ou parcela única do Pix)<br>
+                        <strong>Quero:</strong> Baixar o PDF oficial assinado digitalmente da quitação do meu débito e ver meu CPF regularizado no cadastro em minutos<br>
+                        <strong>Para:</strong> Ter plena segurança jurídica do restabelecimento do meu potencial de crédito de forma instantânea.
+                    </div>
+
+                    <h3>Processo Automatizado pós-Pagamento</h3>
+                    <ul>
+                        <li>Geração do Termo de Acordo em PDF (Template HTML compilado para PDF via biblioteca Puppeteer / Gotenberg).</li>
+                        <li>Assinatura com certificado digital ICP-Brasil do Bureau.</li>
+                        <li>Disparo de requisição interna assíncrona para a API principal de anotações do Bureau para remover o apontamento do CPF em até 15 minutos (SLA Diferencial de Mercado).</li>
+                        <li>Envio do comprovante via WhatsApp e e-mail cadastrado.</li>
+                    </ul>
+
+                    <h3>JSON de Notificação de Baixa de Restrição (Mensageria RabbitMQ/Kafka)</h3>
+                    <pre>Topic: "credit-bureau.cpf-release"
+Payload:
+{
+  "event_type": "RESTRICTION_REMOVED",
+  "cpf": "12345678909",
+  "creditor_cnpj": "12.345.678/0001-90",
+  "contract_id": "CONTRATO-88392-A",
+  "release_timestamp": "2024-03-01T14:31:02Z",
+  "source_channel": "SELF_SERVICE_PORTAL"
+}</pre>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function openTab(evt, tabId) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
