@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Reconcilia - Backlog de User Stories Backend e Contratos de API</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    code, pre {
+      font-family: 'Fira Code', monospace;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-slate-900 border-b border-slate-800 py-6 sticky top-0 z-50 shadow-lg">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <span class="p-2 bg-emerald-500 text-slate-950 rounded-lg font-black text-xl tracking-tight">R-BE</span>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight text-white">Portal Reconcilia - API Core</h1>
+          <p class="text-xs text-slate-400">Backlog de Especificação Backend & Contratos de API</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-bold uppercase">MVP 1.0 TO-BE ARCH</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-6 py-10 flex-grow grid grid-cols-1 lg:grid-cols-4 gap-8">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="lg:col-span-1">
+      <div class="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-sm sticky top-28 space-y-4">
+        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Rotas da API Core</h2>
+        <nav class="space-y-1.5">
+          <a href="#usbe01" class="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-800 transition-all font-semibold text-xs text-slate-400 hover:text-white">
+            <span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded font-mono text-[10px]">POST</span>
+            /auth/login-request
+          </a>
+          <a href="#usbe02" class="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-800 transition-all font-semibold text-xs text-slate-400 hover:text-white">
+            <span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded font-mono text-[10px]">POST</span>
+            /auth/verify-otp
+          </a>
+          <a href="#usbe03" class="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-800 transition-all font-semibold text-xs text-slate-400 hover:text-white">
+            <span class="px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded font-mono text-[10px]">GET</span>
+            /debts
+          </a>
+          <a href="#usbe04" class="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-800 transition-all font-semibold text-xs text-slate-400 hover:text-white">
+            <span class="px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded font-mono text-[10px]">GET</span>
+            /score
+          </a>
+          <a href="#usbe05" class="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-800 transition-all font-semibold text-xs text-slate-400 hover:text-white">
+            <span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded font-mono text-[10px]">POST</span>
+            /negotiations/simulate
+          </a>
+          <a href="#usbe06" class="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-800 transition-all font-semibold text-xs text-slate-400 hover:text-white">
+            <span class="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 rounded font-mono text-[10px]">POST</span>
+            /agreements/confirm
+          </a>
+          <a href="#usbe07" class="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-800 transition-all font-semibold text-xs text-slate-400 hover:text-white">
+            <span class="px-1.5 py-0.5 bg-purple-500/20 text-purple-400 rounded font-mono text-[10px]">POST</span>
+            /payments/webhook
+          </a>
+          <a href="#usbe08" class="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-800 transition-all font-semibold text-xs text-slate-400 hover:text-white">
+            <span class="px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded font-mono text-[10px]">AMQP</span>
+            Worker Conciliação
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <section class="lg:col-span-3 space-y-12">
+      
+      <!-- Welcome Intro -->
+      <div class="bg-gradient-to-r from-slate-900 to-emerald-950 text-white rounded-3xl p-8 border border-emerald-500/10 shadow-lg">
+        <h2 class="text-3xl font-black mb-3 tracking-tight">Especificação de Contratos de API & Backlog Backend</h2>
+        <p class="text-slate-300 max-w-2xl text-sm leading-relaxed mb-4">
+          Este documento consolida o planejamento técnico do Backend para o <strong>Portal Reconcilia</strong>. Aqui são estabelecidos os contratos RESTful, schemas de validação JSON, fluxos assíncronos de mensageria com RabbitMQ, modelos de conciliação financeira de alta resiliência e a persistência poliglota entre o PostgreSQL e o MongoDB.
+        </p>
+        <div class="flex gap-4 text-xs font-semibold text-emerald-400">
+          <span>🛡️ OAuth2 / JWT Sessões</span>
+          <span>🚀 Spring Boot 3 & Java 17</span>
+          <span>⚡ RabbitMQ Event Driven</span>
+          <span>💾 PostgreSQL & MongoDB TTL</span>
+        </div>
+      </div>
+
+      <!-- US-BE-01 -->
+      <article id="usbe01" class="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm space-y-6">
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest font-mono">FT-01 | US-BE-01</span>
+            <h3 class="text-2xl font-bold text-white mt-1">Solicitação de Acesso via Código OTP</h3>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-semibold">Prioridade Crítica</span>
+        </div>
+        
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong>Como</strong> API do Portal Reconcilia, quero receber o CPF do usuário, validar sua existência cadastral no Bureau de Crédito, gerar uma senha de uso único (OTP) criptograficamente segura com validade limitada e enviá-la via canal cadastrado (SMS ou E-mail), para iniciar o processo de identificação confidencial.
+        </p>
+
+        <!-- API Specs -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Contrato de Endpoint</h4>
+          <div class="flex items-center gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-sm text-slate-300">
+            <span class="px-2 py-0.5 bg-emerald-500 text-slate-950 rounded font-bold">POST</span>
+            <span>/api/v1/auth/login-request</span>
+          </div>
+
+          <!-- Request JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Request Body (JSON)</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-emerald-400 overflow-x-auto">{
+  "cpf": "12345678901",
+  "channel": "SMS" // SMS ou EMAIL
+}</pre>
+          </div>
+
+          <!-- Success Response JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Response 200 OK</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-blue-400 overflow-x-auto">{
+  "session_id": "sess_99210a4f-8321-4d1a-9ee0-d02fa7c8fa11",
+  "masked_contact": "(11) 9****-2105",
+  "channel_sent": "SMS",
+  "expires_in_seconds": 300
+}</pre>
+          </div>
+        </div>
+
+        <!-- Business Rules -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Regras de Validação e Negócio</h4>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2 leading-relaxed">
+            <li><strong>Validação de CPF:</strong> Validar o algoritmo matemático dos dígitos verificadores (módulo 11). Se inválido, retornar HTTP 400 Bad Request.</li>
+            <li><strong>Geração do Código OTP:</strong> Gerar um número inteiro aleatório de 6 algarismos utilizando <code class="text-slate-200">SecureRandom</code> e armazenar seu hash criptografado (SHA-256) em cache MongoDB/Redis com tempo de vida limitado a 5 minutos.</li>
+            <li><strong>Controle de Vazão (Rate Limiting):</strong> Permitir no máximo 1 solicitação de código de login por CPF a cada 60 segundos. Se violado, retornar HTTP 429 Too Many Requests.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- US-BE-02 -->
+      <article id="usbe02" class="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm space-y-6">
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest font-mono">FT-01 | US-BE-02</span>
+            <h3 class="text-2xl font-bold text-white mt-1">Validação de OTP e Emissão de Token JWT</h3>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-semibold">Prioridade Crítica</span>
+        </div>
+
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong>Como</strong> API do Portal Reconcilia, quero validar o código OTP enviado pelo usuário em sua respectiva sessão temporária de login, e caso correto, emitir um token JWT assinado para assegurar o tráfego do usuário sob criptografia e sigilo financeiro.
+        </p>
+
+        <!-- API Specs -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Contrato de Endpoint</h4>
+          <div class="flex items-center gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-sm text-slate-300">
+            <span class="px-2 py-0.5 bg-emerald-500 text-slate-950 rounded font-bold">POST</span>
+            <span>/api/v1/auth/verify-otp</span>
+          </div>
+
+          <!-- Request JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Request Body (JSON)</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-emerald-400 overflow-x-auto">{
+  "session_id": "sess_99210a4f-8321-4d1a-9ee0-d02fa7c8fa11",
+  "otp_code": "482015"
+}</pre>
+          </div>
+
+          <!-- Success Response JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Response 200 OK (JWT setado no Cookie HttpOnly)</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-blue-400 overflow-x-auto">{
+  "authenticated": true,
+  "user": {
+    "cpf": "12345678901",
+    "name": "Ana Maria de Souza",
+    "last_access": "2023-11-20T10:15:30Z"
+  }
+}</pre>
+          </div>
+        </div>
+
+        <!-- Business Rules -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Regras de Validação e Negócio</h4>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2 leading-relaxed">
+            <li><strong>Bloqueio contra Brute Force:</strong> Limitar o número de tentativas de validação do código OTP a no máximo 3 vezes consecutivas. Caso ultrapasse, expirar permanentemente a sessão e retornar HTTP 401 Unauthorized com payload de erro descritivo.</li>
+            <li><strong>Criação de Sessão JWT:</strong> O token JWT emitido conterá claims de identificação (<code class="text-slate-200">sub</code> = CPF, <code class="text-slate-200">roles</code> = ["CONSUMER"]) e será assinado com chaves privadas RSA-256 geradas dinamicamente no Secrets Manager.</li>
+            <li><strong>Armazenamento Seguro:</strong> O token JWT de acesso seguro será injetado no cabeçalho de resposta através de cookies com flags <code class="text-slate-200">HttpOnly</code>, <code class="text-slate-200">Secure</code> e <code class="text-slate-200">SameSite=Strict</code> para mitigar ataques XSS e CSRF.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- US-BE-03 -->
+      <article id="usbe03" class="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm space-y-6">
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest font-mono">FT-02 | US-BE-03</span>
+            <h3 class="text-2xl font-bold text-white mt-1">Consulta e Consolidação de Dívidas Elegíveis</h3>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-semibold">Prioridade Alta</span>
+        </div>
+
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong>Como</strong> API do Portal Reconcilia, quero receber o token JWT do usuário, extrair o CPF de forma criptograficamente segura, consultar a base local de restrições de crédito integradas e as APIs dos credores parceiros, aplicando as regras de descontos de partida para exibir a listagem unificada de pendências.
+        </p>
+
+        <!-- API Specs -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Contrato de Endpoint</h4>
+          <div class="flex items-center gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-sm text-slate-300">
+            <span class="px-2 py-0.5 bg-blue-500 text-slate-950 rounded font-bold">GET</span>
+            <span>/api/v1/debts</span>
+          </div>
+
+          <!-- Headers -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Requer Cabeçalhos (Headers)</span>
+            <pre class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs text-slate-300 font-mono">Authorization: Bearer [JWT_TOKEN]</pre>
+          </div>
+
+          <!-- Success Response JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Response 200 OK</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-blue-400 overflow-x-auto">{
+  "summary": {
+    "total_original_value": 3100.00,
+    "total_discounted_value": 1150.00,
+    "total_savings": 1950.00,
+    "number_of_debts": 2
+  },
+  "debts": [
+    {
+      "debt_id": "deb_abc123",
+      "creditor_name": "Banco Alpha",
+      "original_value": 2500.00,
+      "current_value_with_interest": 2850.00,
+      "minimum_negotiable_value": 850.00,
+      "discount_percentage": 66,
+      "days_overdue": 320,
+      "status": "ELEGIBLE_FOR_NEGOTIATION",
+      "contract_number": "CTR-99481-A"
+    },
+    {
+      "debt_id": "deb_xyz789",
+      "creditor_name": "Telefonia Beta",
+      "original_value": 600.00,
+      "current_value_with_interest": 600.00,
+      "minimum_negotiable_value": 300.00,
+      "discount_percentage": 50,
+      "days_overdue": 120,
+      "status": "ELEGIBLE_FOR_NEGOTIATION",
+      "contract_number": "TEL-88122-B"
+    }
+  ]
+}</pre>
+          </div>
+        </div>
+
+        <!-- Business Rules -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Regras de Validação e Negócio</h4>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2 leading-relaxed">
+            <li><strong>Autenticidade e Claims:</strong> Se o token JWT não for enviado ou estiver expirado, retornar HTTP 401 Unauthorized de forma imediata.</li>
+            <li><strong>Consolidação de Dados Resiliente:</strong> O backend consulta a base local de restrições (sincronizada via arquivos batch diários dos credores) de modo prioritário. Se a API de algum credor parceiro estiver online para consulta síncrona de saldo em tempo real, aplicar as taxas atualizadas; caso contrário, utilizar o saldo histórico gravado localmente para manter a disponibilidade.</li>
+            <li><strong>Elegibilidade de Dívida:</strong> Apenas dívidas com status <code class="text-slate-200">ELEGIBLE_FOR_NEGOTIATION</code> devem ser listadas. Dívidas já ajuizadas ou em processo jurídico avançado não devem aparecer no portal de autoatendimento.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- US-BE-04 -->
+      <article id="usbe04" class="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm space-y-6">
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest font-mono">FT-02 | US-BE-04</span>
+            <h3 class="text-2xl font-bold text-white mt-1">Consulta de Pontuação de Score</h3>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-semibold">Prioridade Alta</span>
+        </div>
+
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong>Como</strong> API do Portal Reconcilia, quero buscar de forma síncrona a pontuação de score de crédito associada ao CPF autenticado no JWT diretamente na API do Core do Bureau de Crédito, retornando a pontuação e sua classificação de risco para exibição imediata no frontend.
+        </p>
+
+        <!-- API Specs -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Contrato de Endpoint</h4>
+          <div class="flex items-center gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-sm text-slate-300">
+            <span class="px-2 py-0.5 bg-blue-500 text-slate-950 rounded font-bold">GET</span>
+            <span>/api/v1/score</span>
+          </div>
+
+          <!-- Success Response JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Response 200 OK</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-blue-400 overflow-x-auto">{
+  "score": 645,
+  "classification": "GOOD",
+  "updated_at": "2023-11-21T18:40:00Z"
+}</pre>
+          </div>
+        </div>
+
+        <!-- Business Rules -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Regras de Validação e Negócio</h4>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2 leading-relaxed">
+            <li><strong>Isolamento de Timeout:</strong> A chamada de integração com o barramento do Bureau Core para leitura do Score de Crédito terá timeout estrito configurado para 2.0 segundos. Caso o Core apresente lentidão, responder com o score em cache local histórico ou definir o valor de score como nulo, garantindo que o resto do carregamento das dívidas não seja impactado.</li>
+            <li><strong>Mapeamento de Faixas de Score:</strong> Aplicar o algoritmo de categorização do score em conformidade com as regras de negócios: 0 a 300 (LOW), 301 a 500 (REGULAR), 501 a 700 (GOOD) e 701 a 1000 (EXCELLENT).</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- US-BE-05 -->
+      <article id="usbe05" class="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm space-y-6">
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest font-mono">FT-03 | US-BE-05</span>
+            <h3 class="text-2xl font-bold text-white mt-1">Motor de Simulação Dinâmica de Acordo</h3>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-semibold">Prioridade Alta</span>
+        </div>
+
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong>Como</strong> API do Portal Reconcilia, quero receber as variáveis de renegociação propostas pelo devedor (valor da entrada e número de parcelas), validar as permissões financeiras junto às regras cadastradas por credor, e retornar a simulação completa persistindo-a de forma rápida em cache NoSQL MongoDB com validade TTL de 15 minutos.
+        </p>
+
+        <!-- API Specs -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Contrato de Endpoint</h4>
+          <div class="flex items-center gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-sm text-slate-300">
+            <span class="px-2 py-0.5 bg-emerald-500 text-slate-950 rounded font-bold">POST</span>
+            <span>/api/v1/negotiations/simulate</span>
+          </div>
+
+          <!-- Request JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Request Body (JSON)</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-emerald-400 overflow-x-auto">{
+  "debt_id": "deb_abc123",
+  "installments_requested": 12,
+  "down_payment": 100.00
+}</pre>
+          </div>
+
+          <!-- Success Response JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Response 200 OK</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-blue-400 overflow-x-auto">{
+  "simulation_id": "sim_88491823",
+  "debt_id": "deb_abc123",
+  "original_value": 2500.00,
+  "discount_applied": 1500.00,
+  "total_negotiated_value": 1000.00,
+  "installments": 12,
+  "down_payment": 100.00,
+  "installment_value": 75.00,
+  "interest_rate_monthly": 1.5,
+  "savings": 1500.00,
+  "due_date_first_installment": "2023-11-25",
+  "expires_at": "2023-11-21T19:05:00Z"
+}</pre>
+          </div>
+        </div>
+
+        <!-- Business Rules -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Regras de Validação e Negócio</h4>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2 leading-relaxed">
+            <li><strong>Validação de Parcela Mínima:</strong> Rejeitar a simulação e retornar HTTP 422 Unprocessable Entity caso o valor da parcela calculado fique abaixo de R$ 50,00, informando o erro no payload de erro estruturado.</li>
+            <li><strong>Lógica de Juros Simples/Compostos:</strong> O motor de cálculo de backend deve aplicar juros compostos ou juros simples, a depender da política parametrizada do credor da dívida, incidindo sobre o saldo devedor amortizado pelo valor de entrada (<code class="text-slate-200">down_payment</code>).</li>
+            <li><strong>Persistência Volátil (MongoDB TTL):</strong> A simulação gerada de forma provisória é salva em uma coleção com índice <code class="text-slate-200">expireAfterSeconds</code> de 900 segundos (15 minutos). Isso impede que simulações rascunho descartadas consumam armazenamento físico no banco PostgreSQL.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- US-BE-06 -->
+      <article id="usbe06" class="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm space-y-6">
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest font-mono">FT-04 | US-BE-06</span>
+            <h3 class="text-2xl font-bold text-white mt-1">Confirmação e Criação do Acordo de Pagamento</h3>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-semibold">Prioridade Crítica</span>
+        </div>
+
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong>Como</strong> API do Portal Reconcilia, quero validar o ID de simulação ativo no MongoDB, assegurar o consentimento explícito do termo de confissão de dívida, cadastrar o acordo de forma transacional (PostgreSQL) com status "AWAITING_PAYMENT", e solicitar a emissão do QR Code Pix do pagamento diretamente na API do Gateway, para formalizar o encerramento da simulação.
+        </p>
+
+        <!-- API Specs -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Contrato de Endpoint</h4>
+          <div class="flex items-center gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-sm text-slate-300">
+            <span class="px-2 py-0.5 bg-emerald-500 text-slate-950 rounded font-bold">POST</span>
+            <span>/api/v1/agreements/confirm</span>
+          </div>
+
+          <!-- Request JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Request Body (JSON)</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-emerald-400 overflow-x-auto">{
+  "simulation_id": "sim_88491823",
+  "payment_method": "PIX",
+  "terms_accepted": true
+}</pre>
+          </div>
+
+          <!-- Success Response JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Response 201 Created</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-blue-400 overflow-x-auto">{
+  "agreement_id": "agr_559102",
+  "status": "AWAITING_PAYMENT",
+  "payment_method": "PIX",
+  "pix_copia_e_cola": "00020101021226870014br.gov.bcb.pix2565...",
+  "pix_qr_code_url": "https://images.bureau.com.br/qrcodes/agr_559102.png",
+  "expires_at": "2023-11-21T20:05:00Z",
+  "amount_due": 100.00
+}</pre>
+          </div>
+        </div>
+
+        <!-- Business Rules -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Regras de Validação e Negócio</h4>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2 leading-relaxed">
+            <li><strong>Validação de Consentimento Legal:</strong> Se o parâmetro <code class="text-slate-200">terms_accepted</code> for falso, recusar a operação retornando HTTP 400 Bad Request com mensagem legal específica.</li>
+            <li><strong>Garantia de Transação ACID:</strong> A inserção do acordo na tabela <code class="text-slate-200">tb_agreements</code> e o parcelamento na tabela <code class="text-slate-200">tb_installments</code> devem ocorrer dentro de uma transação do banco PostgreSQL (<code class="text-slate-200">@Transactional</code>). Qualquer falha de gravação ou timeout com o banco deve desfazer as operações (Rollback).</li>
+            <li><strong>Geração do Pix via Gateway:</strong> Consumir a API síncrona do Gateway Bancário parceiro enviando o valor negociado e obter a chave do Pix. O Pix de entrada terá vencimento estipulado para 1 hora. Caso seja boleto, o vencimento mestre será de 3 dias úteis.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- US-BE-07 -->
+      <article id="usbe07" class="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm space-y-6">
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest font-mono">FT-04 | US-BE-07</span>
+            <h3 class="text-2xl font-bold text-white mt-1">Webhook de Recebimento de Pagamento do Gateway</h3>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-semibold">Prioridade Crítica</span>
+        </div>
+
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong>Como</strong> API do Portal Reconcilia, quero escutar as chamadas HTTP seguras do webhook do Gateway de Pagamentos contendo os dados de liquidação da transação, conferir a assinatura digital e o token de segurança, atualizar transacionalmente o status do acordo para "PAID", e enfileirar o evento no RabbitMQ para conciliação física.
+        </p>
+
+        <!-- API Specs -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Contrato de Endpoint</h4>
+          <div class="flex items-center gap-2 bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-sm text-slate-300">
+            <span class="px-2 py-0.5 bg-purple-500 text-white rounded font-bold font-mono">POST</span>
+            <span>/api/v1/payments/webhook</span>
+          </div>
+
+          <!-- Request JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Request Body (JSON)</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-emerald-400 overflow-x-auto">{
+  "event": "payment.succeeded",
+  "timestamp": "2023-11-21T19:10:15Z",
+  "signature": "sha256=abcdef1234567890abcdef...",
+  "data": {
+    "transaction_id": "tx_bc881920aa",
+    "agreement_id": "agr_559102",
+    "payment_method": "PIX",
+    "amount_paid": 100.00,
+    "paid_at": "2023-11-21T19:10:12Z"
+  }
+}</pre>
+          </div>
+
+          <!-- Success Response JSON -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Response 200 OK</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-blue-400 overflow-x-auto">{
+  "status": "PROCESSED",
+  "received_at": "2023-11-21T19:10:16Z"
+}</pre>
+          </div>
+        </div>
+
+        <!-- Business Rules -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Regras de Validação e Negócio</h4>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2 leading-relaxed">
+            <li><strong>Assinatura Digital de Segurança:</strong> O cabeçalho de requisição conterá um hash criptografado em assinatura digital (<code class="text-slate-200">X-Hub-Signature-256</code>) calculado pelo Gateway utilizando o algoritmo HMAC-SHA256 com segredo compartilhado. O backend do portal deve recalculá-lo e validá-lo; se divergente, retornar HTTP 403 Forbidden.</li>
+            <li><strong>Idempotência Transacional:</strong> Garantir a idempotência do webhook para evitar dupla quitação se o mesmo evento de sucesso for reenviado pelo Gateway. Tratar isso por meio de uma trava otimista no banco PostgreSQL ou validação de chave única de pagamento cadastrada.</li>
+            <li><strong>Event Sourcing (Mensageria):</strong> Assim que o status do acordo for atualizado para <code class="text-slate-200">PAID</code> de forma transacional, publicar imediatamente a mensagem JSON <code class="text-slate-200">AgreementPaidEvent</code> no exchange <code class="text-slate-200">ex.agreement.events</code> do RabbitMQ com chave de roteamento <code class="text-slate-200">agreement.paid</code>.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- US-BE-08 -->
+      <article id="usbe08" class="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm space-y-6">
+        <div class="flex justify-between items-start border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest font-mono">FT-04 | US-BE-08</span>
+            <h3 class="text-2xl font-bold text-white mt-1">Worker Assíncrono de Conciliação e Baixa</h3>
+          </div>
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-xs font-semibold">Prioridade Crítica</span>
+        </div>
+
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong>Como</strong> Microsserviço Worker de Conciliação do Portal Reconcilia, quero consumir as mensagens da fila de sucesso de acordos do RabbitMQ, atualizar o status restritivo do devedor no Bureau Core para garantir o Score Boost, e notificar os sistemas internos do credor externo sobre o acordo quitado, para cumprir o SLA mestre de 24 horas úteis.
+        </p>
+
+        <!-- Message Details -->
+        <div class="space-y-4">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Especificação de Mensageria (AMQP)</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-300 font-mono">
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+              <span class="text-slate-400 block text-[10px] font-bold uppercase">Exchange</span>
+              <span class="text-emerald-400">ex.agreement.events</span>
+            </div>
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+              <span class="text-slate-400 block text-[10px] font-bold uppercase">Queue</span>
+              <span class="text-emerald-400">q.agreement.paid</span>
+            </div>
+          </div>
+
+          <!-- Event Payload -->
+          <div>
+            <span class="text-xs text-slate-400 block mb-1.5 font-semibold uppercase">Payload do Evento (JSON)</span>
+            <pre class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs text-emerald-400 overflow-x-auto">{
+  "event_id": "evt_bc9910aa-ff02-41aa-8812-d02fa7c8faef",
+  "event_type": "AGREEMENT_PAID",
+  "timestamp": "2023-11-21T19:10:16Z",
+  "payload": {
+    "agreement_id": "agr_559102",
+    "cpf": "12345678901",
+    "debt_id": "deb_abc123",
+    "amount_paid": 100.00,
+    "creditor_identifier": "cred_alpha_bank"
+  }
+}</pre>
+          </div>
+        </div>
+
+        <!-- Business Rules -->
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-sm uppercase tracking-wider border-l-2 border-emerald-500 pl-2">Regras de Validação e Negócio</h4>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1.5 pl-2 leading-relaxed">
+            <li><strong>SLA de Limpeza do Nome (24 horas):</strong> O worker de conciliação executa em background de forma isolada do fluxo HTTP principal. Ao receber a mensagem, o worker chama a API interna de negativação do Bureau Core para remover o registro restritivo do CPF devedor de forma priorizada.</li>
+            <li><strong>Atualização Assíncrona do Credor:</strong> O worker efetua uma requisição de conciliação comercial à API externa de cobrança do credor parceiro correspondente. Se a API externa estiver fora do ar, reter a mensagem na fila de retentativa e não realizar o Ack.</li>
+            <li><strong>Resiliência de Integração (Dead Letter Exchange):</strong> No caso de falha de conexão persistente com a API do credor, o RabbitMQ deve reencaminhar a mensagem para uma fila com política de retentativa exponencial (Retry Exponential Backoff) em intervalos progressivos. Se após 5 tentativas consecutivas o erro persistir, o evento é movido para a Dead-Letter Queue (<code class="text-slate-200">q.agreement.paid.dlq</code>) e um alerta prioritário de suporte técnico é gerado no console de monitoramento.</li>
+          </ul>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 text-center text-sm">
+    <div class="max-w-7xl mx-auto px-6">
+      <p>&copy; 2023 Portal Reconcilia. Documentação Técnica de Engenharia Backend, Mensageria & APIs.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
