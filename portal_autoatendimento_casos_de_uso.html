@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelagem de Casos de Uso - Portal de Autoatendimento de Negociação de Dívidas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #0f172a;
+            --bg-canvas: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fffbeb;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #dbeafe;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            letter-spacing: -0.025em;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Seção de Atores */
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+
+        .actors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .actor-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .actor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .actor-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .actor-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .actor-type {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .actor-type.primary {
+            background-color: #dbeafe;
+            color: var(--primary);
+        }
+
+        .actor-type.secondary {
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+
+        .actor-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .actor-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Casos de Uso */
+        .uc-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .uc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .uc-title-area h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+
+        .uc-id {
+            color: var(--primary);
+            font-weight: 800;
+            margin-right: 8px;
+        }
+
+        .uc-metadata {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            font-size: 0.85rem;
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 6px;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .meta-label {
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .uc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .uc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .uc-block {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .uc-block-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .uc-block-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        .uc-list {
+            padding-left: 18px;
+            font-size: 0.925rem;
+            color: var(--text-main);
+        }
+
+        .uc-list li {
+            margin-bottom: 6px;
+        }
+
+        /* Tabelas de Fluxos */
+        .flow-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.925rem;
+        }
+
+        .flow-table th {
+            background-color: #f1f5f9;
+            color: var(--secondary);
+            font-weight: 700;
+            text-align: left;
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .flow-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .flow-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .step-num {
+            font-weight: 700;
+            color: var(--primary);
+            width: 50px;
+        }
+
+        .actor-action {
+            width: 45%;
+        }
+
+        .system-response {
+            width: 45%;
+        }
+
+        /* Alternativos e Exceções */
+        .flow-section-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin: 25px 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flow-card {
+            border-left: 4px solid var(--primary);
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 15px;
+            font-size: 0.925rem;
+        }
+
+        .flow-card.alternative {
+            border-left-color: var(--warning);
+            background: var(--warning-light);
+        }
+
+        .flow-card.exception {
+            border-left-color: var(--danger);
+            background: var(--danger-light);
+        }
+
+        .flow-card-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .flow-card-title .tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .tag.alt {
+            background-color: #fef3c7;
+            color: #b45309;
+        }
+
+        .tag.exc {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <span class="badge">Modelagem Greenfield</span>
+        <h1>Portal de Autoatendimento de Negociação de Dívidas</h1>
+        <p class="subtitle">Documentação Completa de Casos de Uso (UML / Estrutural) para a engenharia de desenvolvimento e automação de testes do ecossistema de Bureau de Crédito.</p>
+    </header>
+
+    <!-- ATORES DO SISTEMA -->
+    <section>
+        <h2 class="section-title">Atores do Sistema</h2>
+        <div class="actors-grid">
+            <!-- Consumidor Inadimplente -->
+            <div class="actor-card">
+                <div class="actor-header">
+                    <div class="actor-icon">👤</div>
+                    <div>
+                        <div class="actor-name">Consumidor</div>
+                        <span class="actor-type primary">Primário</span>
+                    </div>
+                </div>
+                <p class="actor-desc">Pessoa física inadimplente buscando consultar pendências financeiras registradas em seu CPF e realizar a quitação/renegociação autônoma das dívidas.</p>
+            </div>
+
+            <!-- Bureau de Crédito -->
+            <div class="actor-card">
+                <div class="actor-header">
+                    <div class="actor-icon">⚙️</div>
+                    <div>
+                        <div class="actor-name">Bureau Core</div>
+                        <span class="actor-type secondary">Secundário</span>
+                    </div>
+                </div>
+                <p class="actor-desc">Sistema interno do Bureau de Crédito que hospeda a base de dados cadastral oficial, o score de risco de crédito do cidadão e o repositório de negativações ativas.</p>
+            </div>
+
+            <!-- Credor Parceiro -->
+            <div class="actor-card">
+                <div class="actor-header">
+                    <div class="actor-icon">🏢</div>
+                    <div>
+                        <div class="actor-name">Credor Parceiro</div>
+                        <span class="actor-type secondary">Secundário</span>
+                    </div>
+                </div>
+                <p class="actor-desc">Instituição credora externa (Banco, Telecom, Varejo) que disponibiliza as dívidas elegíveis e o conjunto dinâmico de regras de descontos e parcelas.</p>
+            </div>
+
+            <!-- Gateway de Pagamentos -->
+            <div class="actor-card">
+                <div class="actor-header">
+                    <div class="actor-icon">💳</div>
+                    <div>
+                        <div class="actor-name">Payment Gateway</div>
+                        <span class="actor-type secondary">Secundário</span>
+                    </div>
+                </div>
+                <p class="actor-desc">Provedor de serviços financeiros integrador responsável pela geração instantânea de QR Code Pix, boleto em PDF e notificação de liquidação via webhook.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CASO DE USO 1 -->
+    <section class="uc-container" id="uc-01">
+        <div class="uc-header">
+            <div class="uc-title-area">
+                <h2><span class="uc-id">UC-01</span>Autenticar Consumidor (Acesso Seguro 2FA)</h2>
+                <p class="actor-desc">Garante a identificação segura e o sigilo de dados financeiros do consumidor sem requerer senhas estáticas preexistentes.</p>
+            </div>
+            <div class="uc-metadata">
+                <span class="meta-item"><span class="meta-label">Prioridade:</span> Crítica</span>
+                <span class="meta-item"><span class="meta-label">Complexidade:</span> Média</span>
+                <span class="meta-item"><span class="meta-label">Feature Associada:</span> FT-01</span>
+            </div>
+        </div>
+
+        <div class="uc-grid">
+            <div class="uc-block">
+                <div class="uc-block-title">Pré-condições</div>
+                <ul class="uc-list">
+                    <li>O consumidor possui um CPF válido.</li>
+                    <li>O número de celular ou e-mail correspondente está atualizado na base de dados do Bureau de Crédito.</li>
+                </ul>
+            </div>
+            <div class="uc-block">
+                <div class="uc-block-title">Pós-condições (Sucesso)</div>
+                <ul class="uc-list">
+                    <li>Sessão iniciada e Token JWT gerado e guardado localmente (HttpOnly Cookie).</li>
+                    <li>Consumidor redirecionado ao painel consolidador.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flow-section-title">Fluxo Principal (Caminho Feliz)</div>
+        <table class="flow-table">
+            <thead>
+                <tr>
+                    <th class="step-num">Passo</th>
+                    <th class="actor-action">Ações do Consumidor</th>
+                    <th class="system-response">Respostas do Sistema</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="step-num">1</td>
+                    <td>Acessa a URL principal do portal e digita o número do seu CPF.</td>
+                    <td>Valida a formatação do CPF, verifica se o número existe na base cadastral do Bureau e identifica canais de contato vinculados (celular/e-mail mascarados).</td>
+                </tr>
+                <tr>
+                    <td class="step-num">2</td>
+                    <td>Seleciona o canal de preferência (ex: SMS) para recebimento do token e clica em "Receber Código".</td>
+                    <td>Gera um código OTP aleatório de 6 dígitos de uso único com expiração de 5 minutos, armazena o hash criptografado na sessão temporária, dispara o SMS via API parceira e redireciona para a tela de verificação.</td>
+                </tr>
+                <tr>
+                    <td class="step-num">3</td>
+                    <td>Digita o código de 6 dígitos recebido no celular e clica em "Entrar".</td>
+                    <td>Compara o código informado com o código gerado em cache. Ao coincidir, cria um Token JWT seguro com tempo de expiração de 20 minutos, atualiza o timestamp de último acesso e direciona o usuário à dashboard.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flow-section-title">Fluxos Alternativos e Exceções</div>
+        
+        <div class="flow-card alternative">
+            <div class="flow-card-title">
+                <span>Fluxo Alternativo A: Login via Gov.br</span>
+                <span class="tag alt">Alternativo</span>
+            </div>
+            <p><strong>Condição:</strong> Consumidor prefere autenticar-se com sua identidade cidadã oficial.</p>
+            <p>No Passo 1, o consumidor clica no botão "Entrar com Gov.br". O sistema redireciona o usuário para o fluxo OAuth do portal oficial do governo. Após o login e autorização do compartilhamento do CPF pelo cidadão, a API do Gov.br devolve o fluxo ao Portal de Autoatendimento com o CPF autenticado. O sistema valida os dados cadastrais locais e gera o token de sessão JWT, pulando a etapa de OTP.</p>
+        </div>
+
+        <div class="flow-card exception">
+            <div class="flow-card-title">
+                <span>Fluxo de Exceção E1: Código OTP Expirado ou Inválido</span>
+                <span class="tag exc">Exceção</span>
+            </div>
+            <p><strong>Condição:</strong> Código OTP digitado incorretamente ou após 5 minutos de sua geração.</p>
+            <p>No Passo 3, se o código não coincidir ou o tempo limite estiver ultrapassado, o sistema incrementa o contador de tentativas erradas da sessão, limpa o campo de entrada e exibe a mensagem de alerta correspondente ("Código inválido ou expirado"). Permite até 3 tentativas. Ao atingir o limite, o sistema bloqueia temporariamente novas requisições para o CPF por 15 minutos (mitigação de força bruta).</p>
+        </div>
+    </section>
+
+    <!-- CASO DE USO 2 -->
+    <section class="uc-container" id="uc-02">
+        <div class="uc-header">
+            <div class="uc-title-area">
+                <h2><span class="uc-id">UC-02</span>Consultar Restrições e Score Cadastral</h2>
+                <p class="actor-desc">Carrega na tela do usuário o diagnóstico financeiro integrado, exibindo sua pontuação de crédito atual e os apontamentos de dívidas aptas a serem negociadas.</p>
+            </div>
+            <div class="uc-metadata">
+                <span class="meta-item"><span class="meta-label">Prioridade:</span> Crítica</span>
+                <span class="meta-item"><span class="meta-label">Complexidade:</span> Média</span>
+                <span class="meta-item"><span class="meta-label">Feature Associada:</span> FT-02</span>
+            </div>
+        </div>
+
+        <div class="uc-grid">
+            <div class="uc-block">
+                <div class="uc-block-title">Pré-condições</div>
+                <ul class="uc-list">
+                    <li>Sessão do consumidor devidamente autenticada com Token JWT ativo.</li>
+                </ul>
+            </div>
+            <div class="uc-block">
+                <div class="uc-block-title">Pós-condições (Sucesso)</div>
+                <ul class="uc-list">
+                    <li>Painel renderizado com a pontuação de score de crédito e o somatório analítico de pendências (originais vs. descontados).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flow-section-title">Fluxo Principal (Caminho Feliz)</div>
+        <table class="flow-table">
+            <thead>
+                <tr>
+                    <th class="step-num">Passo</th>
+                    <th class="actor-action">Ações do Consumidor</th>
+                    <th class="system-response">Respostas do Sistema</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="step-num">1</td>
+                    <td>O sistema navega para a rota padrão da Dashboard automaticamente pós-login.</td>
+                    <td>Dispara duas requisições paralelas síncronas ao backend para obter a pontuação do score e a lista consolidada de restrições ativas vinculadas ao CPF.</td>
+                </tr>
+                <tr>
+                    <td class="step-num">2</td>
+                    <td>Visualiza as informações na tela em formato de cards analíticos.</td>
+                    <td>Calcula o total de economia disponível caso todas as dívidas sejam renegociadas e exibe a lista agrupada por Credor com os respectivos descontos.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flow-section-title">Fluxos Alternativos e Exceções</div>
+
+        <div class="flow-card alternative">
+            <div class="flow-card-title">
+                <span>Fluxo Alternativo A: Consumidor sem Restrições Ativas</span>
+                <span class="tag alt">Alternativo</span>
+            </div>
+            <p><strong>Condição:</strong> CPF consultado não possui dívidas pendentes com parceiros credores.</p>
+            <p>Se as APIs internas retornarem vazias para débitos, o sistema exibe uma tela diferenciada comemorativa ("Seu nome está limpo!") destacando o score em cor verde e oferecendo dicas de saúde financeira.</p>
+        </div>
+
+        <div class="flow-card exception">
+            <div class="flow-card-title">
+                <span>Fluxo de Exceção E1: Indisponibilidade na API do Bureau</span>
+                <span class="tag exc">Exceção</span>
+            </div>
+            <p><strong>Condição:</strong> Tempo de resposta da base de score ultrapassa o limite tolerado (Timeout de 3s).</p>
+            <p>Se a requisição de score falhar, o sistema exibe um marcador cinza neutro (esqueleto de carregamento) no componente do score com a indicação "Score indisponível no momento", mas mantém ativa a listagem de dívidas que é carregada a partir do cache local resiliente.</p>
+        </div>
+    </section>
+
+    <!-- CASO DE USO 3 -->
+    <section class="uc-container" id="uc-03">
+        <div class="uc-header">
+            <div class="uc-title-area">
+                <h2><span class="uc-id">UC-03</span>Simular Plano de Renegociação (Slider Dinâmico)</h2>
+                <p class="actor-desc">Permite ao consumidor simular dinamicamente diferentes formas de quitação e planos de parcelamento, adaptando os valores aos limites do seu orçamento.</p>
+            </div>
+            <div class="uc-metadata">
+                <span class="meta-item"><span class="meta-label">Prioridade:</span> Crítica</span>
+                <span class="meta-item"><span class="meta-label">Complexidade:</span> Alta</span>
+                <span class="meta-item"><span class="meta-label">Feature Associada:</span> FT-03</span>
+            </div>
+        </div>
+
+        <div class="uc-grid">
+            <div class="uc-block">
+                <div class="uc-block-title">Pré-condições</div>
+                <ul class="uc-list">
+                    <li>O consumidor selecionou uma dívida elegível na Dashboard.</li>
+                    <li>As parametrizações vigentes de desconto do credor correspondente estão carregadas no cache do backend.</li>
+                </ul>
+            </div>
+            <div class="uc-block">
+                <div class="uc-block-title">Pós-condições (Sucesso)</div>
+                <ul class="uc-list">
+                    <li>Uma proposta comercial de acordo é formalizada temporariamente no sistema, gerando um ID de simulação ativo.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flow-section-title">Fluxo Principal (Caminho Feliz)</div>
+        <table class="flow-table">
+            <thead>
+                <tr>
+                    <th class="step-num">Passo</th>
+                    <th class="actor-action">Ações do Consumidor</th>
+                    <th class="system-response">Respostas do Sistema</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="step-num">1</td>
+                    <td>Clica em "Negociar" sobre uma dívida específica da listagem.</td>
+                    <td>Apresenta a tela do Simulador com a opção "Pagar à Vista" selecionada por padrão, aplicando o desconto máximo elegível fornecido pelas regras de negócio.</td>
+                </tr>
+                <tr>
+                    <td class="step-num">2</td>
+                    <td>Arrasta o slider para a opção parcelada ou digita um valor de entrada personalizado.</td>
+                    <td>Envia uma requisição assíncrona (debounce de 300ms) contendo a quantidade de parcelas e o valor de entrada ao motor de cálculo. O motor aplica a taxa de juros do credor, gera as parcelas e devolve os valores atualizados.</td>
+                </tr>
+                <tr>
+                    <td class="step-num">3</td>
+                    <td>Clica em "Visualizar Proposta de Acordo".</td>
+                    <td>Valida o plano contra as regras mínimas do credor, salva a proposta com status de "PROSPECT" e apresenta o resumo detalhado para aprovação do devedor.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flow-section-title">Fluxos Alternativos e Exceções</div>
+
+        <div class="flow-card alternative">
+            <div class="flow-card-title">
+                <span>Fluxo Alternativo A: Alteração de Entrada com Regra Customizada</span>
+                <span class="tag alt">Alternativo</span>
+            </div>
+            <p><strong>Condição:</strong> Consumidor altera manualmente o valor de entrada para amortização.</p>
+            <p>No Passo 2, se o consumidor digitar um valor de entrada maior que o mínimo exigido, o motor calcula automaticamente o desconto progressivo sobre as parcelas subsequentes, reduzindo os encargos globais de juros e o saldo devedor financiado, exibindo o aviso "Maior entrada reduz taxas de juros".</p>
+        </div>
+
+        <div class="flow-card exception">
+            <div class="flow-card-title">
+                <span>Fluxo de Exceção E1: Parcela Abaixo do Mínimo do Credor</span>
+                <span class="tag exc">Exceção</span>
+            </div>
+            <p><strong>Condição:</strong> A divisão simula parcelas com valor individual menor do que o limite definido pelo Credor (ex: R$ 50,00).</p>
+            <p>No Passo 2, se o valor resultante da parcela for inferior ao mínimo da política do credor, o sistema limita visualmente a progressão do slider, trava a opção e apresenta o alerta: "O número máximo de parcelas para este valor é de X vezes devido ao valor mínimo de R$ 50,00 por parcela".</p>
+        </div>
+    </section>
+
+    <!-- CASO DE USO 4 -->
+    <section class="uc-container" id="uc-04">
+        <div class="uc-header">
+            <div class="uc-title-area">
+                <h2><span class="uc-id">UC-04</span>Confirmar Acordo de Dívida e Emitir Guia</h2>
+                <p class="actor-desc">Conclui formalmente a negociação do débito no sistema e disponibiliza imediatamente as vias de pagamento para o devedor.</p>
+            </div>
+            <div class="uc-metadata">
+                <span class="meta-item"><span class="meta-label">Prioridade:</span> Crítica</span>
+                <span class="meta-item"><span class="meta-label">Complexidade:</span> Alta</span>
+                <span class="meta-item"><span class="meta-label">Feature Associada:</span> FT-04</span>
+            </div>
+        </div>
+
+        <div class="uc-grid">
+            <div class="uc-block">
+                <div class="uc-block-title">Pré-condições</div>
+                <ul class="uc-list">
+                    <li>O consumidor possui uma simulação ativa e validada.</li>
+                </ul>
+            </div>
+            <div class="uc-block">
+                <div class="uc-block-title">Pós-condições (Sucesso)</div>
+                <ul class="uc-list">
+                    <li>Termo de compromisso assinado digitalmente com aceite dos termos de uso do portal.</li>
+                    <li>Guia Pix (QR Code/Copia e Cola) ou boleto em PDF gerado no Gateway de Pagamento e exibido em tela.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flow-section-title">Fluxo Principal (Caminho Feliz)</div>
+        <table class="flow-table">
+            <thead>
+                <tr>
+                    <th class="step-num">Passo</th>
+                    <th class="actor-action">Ações do Consumidor</th>
+                    <th class="system-response">Respostas do Sistema</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="step-num">1</td>
+                    <td>Clica em "Confirmar Acordo com Pagamento Pix" para gerar a liquidação rápida.</td>
+                    <td>Valida o ID da simulação, verifica se o prazo de expiração financeira ainda é vigente e envia a requisição de geração de cobrança Pix imediata ao Gateway de Pagamentos.</td>
+                </tr>
+                <tr>
+                    <td class="step-num">2</td>
+                    <td>Lê os termos de compromisso de renegociação e clica em "Aceitar e Confirmar".</td>
+                    <td>Gera o registro oficial do Acordo com o status de "AWAITING_PAYMENT", retorna o código copia e cola Pix e o QR Code gerado pelo Gateway, e inicia o pooling de monitoramento de status da transação no frontend.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flow-section-title">Fluxos Alternativos e Exceções</div>
+
+        <div class="flow-card alternative">
+            <div class="flow-card-title">
+                <span>Fluxo Alternativo A: Emissão em Formato de Boleto Bancário</span>
+                <span class="tag alt">Alternativo</span>
+            </div>
+            <p><strong>Condição:</strong> Consumidor prefere efetuar o pagamento através de boleto bancário.</p>
+            <p>No Passo 1, se o consumidor escolher "Pagar via Boleto", o sistema realiza a chamada ao Gateway para emissão do boleto de cobrança com vencimento estendido de 3 dias úteis. Em vez de gerar o QR Code imediato Pix, o sistema disponibiliza o código de barras digitável para cópia e o link direto para download do documento em PDF.</p>
+        </div>
+
+        <div class="flow-card exception">
+            <div class="flow-card-title">
+                <span>Fluxo de Exceção E1: Timeout de Resposta do Gateway de Pagamento</span>
+                <span class="tag exc">Exceção</span>
+            </div>
+            <p><strong>Condição:</strong> Falha de comunicação ou timeout no consumo das APIs do Gateway.</p>
+            <p>No Passo 2, se o Gateway falhar ao emitir a cobrança, o sistema desfaz a pré-reserva do acordo, exibe o modal de erro avisando: "Não conseguimos gerar sua chave Pix no momento. Não se preocupe, sua proposta está salva! Tente reemitir em alguns minutos", e dispara um log prioritário com payload de falha ao time técnico.</p>
+        </div>
+    </section>
+
+    <!-- CASO DE USO 5 -->
+    <section class="uc-container" id="uc-05">
+        <div class="uc-header">
+            <div class="uc-title-area">
+                <h2><span class="uc-id">UC-05</span>Conciliar Pagamento e Dar Baixa na Restrição (Assíncrono)</h2>
+                <p class="actor-desc">Sistema recebe confirmação bancária do pagamento e inicia os fluxos automáticos de baixa do débito junto ao credor e atualização de cadastro de restrição do Bureau.</p>
+            </div>
+            <div class="uc-metadata">
+                <span class="meta-item"><span class="meta-label">Prioridade:</span> Crítica</span>
+                <span class="meta-item"><span class="meta-label">Complexidade:</span> Alta</span>
+                <span class="meta-item"><span class="meta-label">Feature Associada:</span> FT-04</span>
+            </div>
+        </div>
+
+        <div class="uc-grid">
+            <div class="uc-block">
+                <div class="uc-block-title">Pré-condições</div>
+                <ul class="uc-list">
+                    <li>O acordo foi gerado sob o status "AWAITING_PAYMENT".</li>
+                    <li>O consumidor efetuou o pagamento no seu banco de origem.</li>
+                </ul>
+            </div>
+            <div class="uc-block">
+                <div class="uc-block-title">Pós-condições (Sucesso)</div>
+                <ul class="uc-list">
+                    <li>Acordo marcado como "PAID".</li>
+                    <li>Dívida excluída das restrições ativas do CPF no banco de dados em até 24h.</li>
+                    <li>Comprovante de quitação disparado para o e-mail cadastrado.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flow-section-title">Fluxo Principal (Caminho Feliz)</div>
+        <table class="flow-table">
+            <thead>
+                <tr>
+                    <th class="step-num">Passo</th>
+                    <th class="actor-action">Ações do Gateway (Webhook)</th>
+                    <th class="system-response">Respostas do Sistema (Backend)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="step-num">1</td>
+                    <td>Gateway de Pagamentos dispara um webhook `POST /api/v1/payments/webhook` avisando a liquidação do Pix.</td>
+                    <td>Verifica a assinatura de segurança do payload do webhook, identifica o ID do acordo associado e altera o status do acordo para "PAID".</td>
+                </tr>
+                <tr>
+                    <td class="step-num">2</td>
+                    <td>Envia confirmação assíncrona (OK 200) para o Gateway de Pagamentos.</td>
+                    <td>Dispara um evento de barramento interno (Broker): <br>1. API Bureau Core: Agenda a remoção imediata da restrição do CPF (limpeza do nome).<br>2. API Credor Parceiro: Envia a notificação da liquidação do acordo.<br>3. Notification Service: Envia e-mail e SMS de parabéns ao consumidor.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flow-section-title">Fluxos Alternativos e Exceções</div>
+
+        <div class="flow-card alternative">
+            <div class="flow-card-title">
+                <span>Fluxo Alternativo A: Conciliação de Boletos via Arquivo de Retorno</span>
+                <span class="tag alt">Alternativo</span>
+            </div>
+            <p><strong>Condição:</strong> Acordo pago via Boleto Bancário (prazo de compensação em até 48 horas).</p>
+            <p>O Gateway de Pagamentos envia um arquivo consolidado de retorno bancário (CNAB 240) contendo as compensações. O sistema processa o arquivo no lote diário noturno, localiza o acordo correspondente pelo ID da cobrança e segue os passos normais de conciliação e eventos assíncronos de baixa.</p>
+        </div>
+
+        <div class="flow-card exception">
+            <div class="flow-card-title">
+                <span>Fluxo de Exceção E1: Falha na Comunicação de Baixa com o Bureau Core</span>
+                <span class="tag exc">Exceção</span>
+            </div>
+            <p><strong>Condição:</strong> Indisponibilidade temporária na fila do barramento para o Bureau Core.</p>
+            <p>Se o microsserviço falhar ao atualizar o cadastro de restrição do Bureau Core, o sistema retém o evento de baixa no broker de mensagens (RabbitMQ / SQS) sob uma política de retry exponencial (até 5 tentativas em 2 horas). Caso esgote, move a mensagem para a Dead-Letter Queue (DLQ), emitindo um alerta prioritário para a equipe de monitoramento de Ops para intervenção manual (garantindo o SLA de remoção em até 24h).</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Bureau de Crédito S.A. - Todos os direitos reservados. Especificação técnica elaborada por The Escriba.</p>
+    </footer>
+</div>
+
+</body>
+</html>
