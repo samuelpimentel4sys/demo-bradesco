@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Autoatendimento — Negociação de Dívidas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-600 text-white p-2 rounded-lg font-bold text-xl tracking-tight shadow-sm flex items-center justify-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-extrabold text-slate-950 text-lg tracking-tight">RECONCILIA</span>
+                    <span class="text-emerald-600 font-semibold text-[10px] block -mt-1 tracking-wider uppercase">Autoatendimento</span>
+                </div>
+            </div>
+            
+            <!-- User Status Header -->
+            <div id="header-user-info" class="hidden flex items-center space-x-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-bold text-slate-950" id="user-display-name">Ana Maria de Souza</p>
+                    <p class="text-[10px] text-slate-500 font-medium">CPF: ***.456.***-01</p>
+                </div>
+                <div class="h-10 w-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm border border-emerald-200">
+                    AS
+                </div>
+                <button onclick="logout()" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors" title="Sair do Portal">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- ==================== TELA 1: LOGIN ==================== -->
+        <section id="step-login" class="max-w-md mx-auto my-12 transition-all duration-300">
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-2xl font-black text-slate-950">Consulte suas pendências</h1>
+                    <p class="text-slate-500 mt-2 text-sm">Veja suas dívidas ativas, simule propostas e regularize seu nome de forma simples, segura e 100% digital.</p>
+                </div>
+
+                <form onsubmit="handleLogin(event)" class="space-y-6">
+                    <div>
+                        <label for="cpf" class="block text-sm font-semibold text-slate-700 mb-1.5">Informe seu CPF</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                                </svg>
+                            </span>
+                            <input type="text" id="cpf" required placeholder="000.000.000-00" 
+                                class="pl-10 block w-full rounded-xl border border-slate-300 px-3 py-3 text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-emerald-500 text-lg tracking-wider"
+                                oninput="maskCPF(this)">
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-md shadow-emerald-100 hover:shadow-emerald-200 flex items-center justify-center space-x-2 text-base">
+                            <span>Continuar</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                        
+                        <div class="relative flex py-3 items-center">
+                            <div class="flex-grow border-t border-slate-200"></div>
+                            <span class="flex-shrink mx-4 text-xs text-slate-400 uppercase tracking-wider">ou</span>
+                            <div class="flex-grow border-t border-slate-200"></div>
+                        </div>
+
+                        <button type="button" onclick="loginGov()" class="w-full bg-slate-900 hover:bg-slate-950 text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 text-sm shadow-md">
+                            <span class="bg-white text-slate-900 px-1.5 py-0.5 rounded text-xs font-black">gov.br</span>
+                            <span>Entrar com o Governo Federal</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-8 pt-6 border-t border-slate-100 text-center text-xs text-slate-400 space-y-2">
+                    <p class="flex items-center justify-center space-x-1.5">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        <span>Ambiente seguro e em conformidade com a LGPD</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 2: AUTENTICAÇÃO 2FA ==================== -->
+        <section id="step-otp" class="max-w-md mx-auto my-12 hidden transition-all duration-300">
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
+                <button onclick="goToStep('login')" class="flex items-center text-slate-500 hover:text-slate-800 text-sm font-medium mb-6 transition-colors">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    Voltar
+                </button>
+
+                <div class="text-center mb-6">
+                    <h1 class="text-2xl font-black text-slate-950">Confirme sua identidade</h1>
+                    <p class="text-slate-500 mt-2 text-sm">Enviamos um código de segurança de 6 dígitos para o número de celular cadastrado em seu CPF:</p>
+                    <p class="text-slate-900 font-bold mt-1 text-base">(11) 9****-2105</p>
+                </div>
+
+                <form onsubmit="handleVerifyOTP(event)" class="space-y-6">
+                    <div class="flex justify-between space-x-2" id="otp-inputs">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-2xl font-bold text-slate-900 border border-slate-300 rounded-xl focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none" oninput="moveNext(this, 1)" onkeydown="movePrev(this, event)">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-2xl font-bold text-slate-900 border border-slate-300 rounded-xl focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none" oninput="moveNext(this, 2)" onkeydown="movePrev(this, event)">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-2xl font-bold text-slate-900 border border-slate-300 rounded-xl focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none" oninput="moveNext(this, 3)" onkeydown="movePrev(this, event)">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-2xl font-bold text-slate-900 border border-slate-300 rounded-xl focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none" oninput="moveNext(this, 4)" onkeydown="movePrev(this, event)">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-2xl font-bold text-slate-900 border border-slate-300 rounded-xl focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none" oninput="moveNext(this, 5)" onkeydown="movePrev(this, event)">
+                        <input type="text" maxlength="1" class="otp-field w-12 h-12 text-center text-2xl font-bold text-slate-900 border border-slate-300 rounded-xl focus:border-emerald-500 focus:ring-emerald-500 focus:outline-none" oninput="moveNext(this, 6)" onkeydown="movePrev(this, event)">
+                    </div>
+
+                    <p id="otp-error-msg" class="text-rose-600 text-sm text-center font-medium hidden">Código inválido. Tente novamente.</p>
+
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-md shadow-emerald-100 flex items-center justify-center space-x-2 text-base">
+                        <span>Acessar Portal</span>
+                    </button>
+                </form>
+
+                <div class="mt-8 pt-6 border-t border-slate-100 text-center space-y-4">
+                    <p class="text-xs text-slate-400">Não recebeu o código?</p>
+                    <button onclick="resendOTP()" class="text-emerald-600 hover:text-emerald-700 font-semibold text-sm transition-colors">Reenviar código por SMS</button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 3: DASHBOARD ==================== -->
+        <section id="step-dashboard" class="hidden transition-all duration-300 space-y-8">
+            
+            <!-- Welcome / Hero Summary Banner -->
+            <div class="bg-gradient-to-r from-slate-950 to-slate-900 rounded-2xl shadow-xl p-6 sm:p-8 text-white relative overflow-hidden">
+                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl"></div>
+                <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-2 space-y-2">
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Olá, <span id="dashboard-user-name">Ana Maria</span>!</h2>
+                        <p class="text-slate-300 text-sm max-w-lg">Encontramos oportunidades exclusivas de renegociação de dívidas ativas para o seu CPF. Você tem total controle para simular e escolher o plano ideal.</p>
+                        
+                        <!-- Economy highlight -->
+                        <div class="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1.5 rounded-full text-xs font-semibold mt-4">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>Até R$ 1.950,00 de economia total em descontos pré-aprovados</span>
+                        </div>
+                    </div>
+
+                    <!-- Score gauge card -->
+                    <div class="bg-white/5 backdrop-blur-md rounded-xl p-5 border border-white/10 flex flex-col items-center justify-center text-center">
+                        <span class="text-slate-300 text-[10px] font-bold uppercase tracking-wider mb-2">Seu Score de Crédito</span>
+                        <div class="relative flex items-center justify-center">
+                            <!-- Circular SVG Gauge background -->
+                            <svg class="w-24 h-24 transform -rotate-90">
+                                <circle cx="48" cy="48" r="40" stroke="rgba(255, 255, 255, 0.1)" stroke-width="8" fill="transparent"></circle>
+                                <circle cx="48" cy="48" r="40" stroke="#10b981" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="87.9" fill="transparent" stroke-linecap="round"></circle>
+                            </svg>
+                            <div class="absolute flex flex-col items-center justify-center">
+                                <span class="text-2xl font-black text-white" id="user-score-value">645</span>
+                                <span class="text-[9px] text-emerald-400 font-bold uppercase tracking-wider">Bom</span>
+                            </div>
+                        </div>
+                        <p class="text-slate-400 text-[10px] mt-3">Sua pontuação subirá automaticamente após as liquidações.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List of Debts Section -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-lg font-black text-slate-900">Suas Pendências de Crédito</h3>
+                        <p class="text-slate-500 text-xs">Selecione uma pendência para iniciar a simulação e negociação.</p>
+                    </div>
+                    <span class="bg-amber-100 text-amber-800 text-xs px-3 py-1 rounded-full font-semibold border border-amber-200">2 restrições ativas</span>
+                </div>
+
+                <!-- Debts Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    <!-- Card Debt 1 -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:border-emerald-300 hover:shadow-md transition-all group relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
+                        <div class="space-y-4">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center font-bold text-slate-800 text-sm border border-slate-200">
+                                        BA
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900">Banco Alpha S.A.</h4>
+                                        <p class="text-slate-400 text-xs">Contrato: CTR-99481-A • Atraso: 320 dias</p>
+                                    </div>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-md font-semibold border border-emerald-200">66% de desconto</span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 text-xs block mb-0.5">Valor original</span>
+                                    <span class="text-slate-700 font-semibold line-through text-sm">R$ 2.500,00</span>
+                                </div>
+                                <div>
+                                    <span class="text-emerald-600 text-xs font-semibold block mb-0.5">Pague à vista por</span>
+                                    <span class="text-emerald-600 font-bold text-lg">R$ 850,00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Economia de R$ 1.650,00</span>
+                            <button onclick="startNegotiation('deb_abc123', 'Banco Alpha S.A.', 2500.00, 850.00, 320)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm px-4 py-2 rounded-xl transition-all shadow-sm group-hover:scale-[1.02] flex items-center space-x-1.5">
+                                <span>Negociar com Desconto</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Card Debt 2 -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col justify-between hover:border-emerald-300 hover:shadow-md transition-all group relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
+                        <div class="space-y-4">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="h-10 w-10 bg-slate-100 rounded-lg flex items-center justify-center font-bold text-slate-800 text-sm border border-slate-200">
+                                        TB
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-900">Telefonia Beta</h4>
+                                        <p class="text-slate-400 text-xs">Contrato: TEL-88122-B • Atraso: 120 dias</p>
+                                    </div>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded-md font-semibold border border-emerald-200">50% de desconto</span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl">
+                                <div>
+                                    <span class="text-slate-500 text-xs block mb-0.5">Valor original</span>
+                                    <span class="text-slate-700 font-semibold line-through text-sm">R$ 600,00</span>
+                                </div>
+                                <div>
+                                    <span class="text-emerald-600 text-xs font-semibold block mb-0.5">Pague à vista por</span>
+                                    <span class="text-emerald-600 font-bold text-lg">R$ 300,00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-xs text-slate-400">Economia de R$ 300,00</span>
+                            <button onclick="startNegotiation('deb_xyz789', 'Telefonia Beta', 600.00, 300.00, 120)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm px-4 py-2 rounded-xl transition-all shadow-sm group-hover:scale-[1.02] flex items-center space-x-1.5">
+                                <span>Negociar com Desconto</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- FAQ Support section -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="h-12 w-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center flex-shrink-0 border border-emerald-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900 text-sm sm:text-base">Como funciona a baixa da dívida?</h4>
+                        <p class="text-slate-500 text-xs max-w-xl">Assim que o pagamento for realizado por Pix, a baixa da restrição em seu CPF é processada internamente no Bureau de Crédito em até 24 horas úteis.</p>
+                    </div>
+                </div>
+                <a href="#" class="text-emerald-600 hover:text-emerald-700 font-bold text-sm whitespace-nowrap">Central de Dúvidas &rarr;</a>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 4: SIMULADOR DE NEGOCIAÇÃO ==================== -->
+        <section id="step-simulador" class="hidden transition-all duration-300">
+            <div class="space-y-6">
+                <!-- Navigation and title -->
+                <div class="flex items-center space-x-4">
+                    <button onclick="goToStep('dashboard')" class="bg-white hover:bg-slate-50 text-slate-600 p-2.5 rounded-xl border border-slate-200 transition-colors shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <div>
+                        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Passo 2 de 3: Negociação</span>
+                        <h2 class="text-2xl font-black text-slate-950">Simulador de Acordo Financeiro</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                    
+                    <!-- Left: Controls & Config -->
+                    <div class="lg:col-span-2 space-y-6">
+                        
+                        <!-- Debt Details Card -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-semibold text-slate-500">Credor Selecionado</span>
+                                <span class="bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold" id="sim-creditor-name">Banco Alpha S.A.</span>
+                            </div>
+                            <div class="flex items-center justify-between border-t border-slate-100 pt-4">
+                                <div>
+                                    <p class="text-xs text-slate-400 uppercase tracking-wider">Valor Original do Débito</p>
+                                    <p class="text-xl font-bold text-slate-500 line-through" id="sim-original-val">R$ 2.500,00</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-emerald-600 font-semibold uppercase tracking-wider">Desconto Máximo Ativo</p>
+                                    <p class="text-2xl font-black text-emerald-600" id="sim-discount-pct">66% Off</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Simulator Controls -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-8">
+                            <h3 class="font-bold text-slate-900 border-b border-slate-100 pb-3 text-base">Ajuste as condições de pagamento</h3>
+
+                            <!-- Payment type tab selector -->
+                            <div class="flex bg-slate-100 p-1 rounded-xl">
+                                <button onclick="setPaymentType('vista')" id="btn-tab-vista" class="flex-1 py-2.5 text-sm font-bold rounded-lg transition-all bg-white text-emerald-700 shadow-sm">
+                                    À Vista com Desconto Máximo
+                                </button>
+                                <button onclick="setPaymentType('parcelado')" id="btn-tab-parcelado" class="flex-1 py-2.5 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 transition-all">
+                                    Parcelado Amigável
+                                </button>
+                            </div>
+
+                            <!-- Optional: Down Payment Input (Only visible in installment mode) -->
+                            <div id="down-payment-container" class="space-y-3 hidden transition-all">
+                                <div class="flex items-center justify-between">
+                                    <label class="block text-sm font-semibold text-slate-700">Adicionar Entrada (Opcional)</label>
+                                    <span class="text-xs text-slate-400">Ajuda a diminuir os juros das parcelas</span>
+                                </div>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">R$</span>
+                                    <input type="number" id="input-down-payment" value="0" min="0" oninput="calculateSimulation()" class="pl-10 block w-full rounded-xl border border-slate-300 px-3 py-3 text-slate-900 placeholder-slate-400 focus:border-emerald-500 focus:ring-emerald-500 text-lg">
+                                </div>
+                            </div>
+
+                            <!-- Installment Slider (Only visible in installment mode) -->
+                            <div id="slider-container" class="space-y-4 hidden transition-all">
+                                <div class="flex items-center justify-between">
+                                    <label for="slider-installments" class="block text-sm font-semibold text-slate-700">Número de parcelas</label>
+                                    <span class="text-lg font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-100" id="display-installments">1x</span>
+                                </div>
+                                <input type="range" id="slider-installments" min="1" max="24" value="1" step="1" oninput="updateInstallmentsLabel(this.value); calculateSimulation();" 
+                                    class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600 focus:outline-none">
+                                <div class="flex justify-between text-[10px] text-slate-400 px-1 font-semibold">
+                                    <span>1x (Sem Juros)</span>
+                                    <span>6x</span>
+                                    <span>12x</span>
+                                    <span>18x</span>
+                                    <span>24x (Juros 1.5% a.m.)</span>
+                                </div>
+                                
+                                <p id="installment-error-msg" class="text-amber-600 text-xs font-semibold mt-2 hidden">⚠️ O valor de parcela simulado está abaixo do mínimo permitido de R$ 50,00 por este credor. Reduza o número de parcelas.</p>
+                            </div>
+
+                            <!-- Interactive Banner Information -->
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-start space-x-3 text-xs text-slate-500">
+                                <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div>
+                                    <p class="font-bold text-slate-800">Compromisso Reconclia</p>
+                                    <p class="mt-0.5">As taxas de desconto e juros aplicadas são homologadas diretamente pelo credor parceiro. Não cobramos taxas de serviço extras para realizar seu autoatendimento.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Live Summary Panel & Checkout trigger -->
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-6 sticky top-24 space-y-6 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 left-0 h-2 bg-gradient-to-r from-emerald-500 to-emerald-600"></div>
+                            
+                            <h3 class="font-black text-slate-900 text-lg">Resumo da sua proposta</h3>
+
+                            <div class="space-y-4">
+                                <div class="flex justify-between text-sm text-slate-500">
+                                    <span>Plano selecionado</span>
+                                    <span class="font-bold text-slate-800" id="sum-plan-type">À Vista</span>
+                                </div>
+                                <div class="flex justify-between text-sm text-slate-500" id="row-down-payment">
+                                    <span>Valor da entrada</span>
+                                    <span class="font-bold text-slate-800" id="sum-down-payment-val">R$ 0,00</span>
+                                </div>
+                                <div class="flex justify-between text-sm text-slate-500">
+                                    <span>Valor original</span>
+                                    <span class="font-semibold text-slate-500 line-through" id="sum-original-val2">R$ 2.500,00</span>
+                                </div>
+                                <div class="flex justify-between text-sm text-slate-500">
+                                    <span>Desconto obtido</span>
+                                    <span class="font-bold text-emerald-600" id="sum-discount-val">- R$ 1.650,00</span>
+                                </div>
+                                
+                                <div class="border-t border-slate-100 pt-4 space-y-2">
+                                    <div class="flex justify-between items-baseline">
+                                        <span class="text-sm font-semibold text-slate-900">Valor a Pagar</span>
+                                        <div class="text-right">
+                                            <span class="text-2xl font-black text-slate-950 block" id="sum-total-due">R$ 850,00</span>
+                                            <span class="text-xs text-slate-500" id="sum-installment-detail">Parcela única</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-400 text-right" id="sum-due-date">Vencimento da guia: Hoje</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-emerald-50 text-emerald-800 text-xs p-3 rounded-xl border border-emerald-100 flex items-center space-x-2 font-medium">
+                                <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Você economizará <span id="sum-savings">R$ 1.650,00</span> nesta renegociação!</span>
+                            </div>
+
+                            <!-- Terms and Conditions Checkbox -->
+                            <div class="space-y-3">
+                                <label class="flex items-start space-x-3 cursor-pointer">
+                                    <input type="checkbox" id="terms-accept" class="mt-1 h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer">
+                                    <span class="text-xs text-slate-500 leading-relaxed">
+                                        Declaro que concordo com os <a href="#" class="text-emerald-600 underline font-medium">Termos de Confissão de Dívida</a> e dou consentimento para tratamento dos dados para fins de liquidação.
+                                    </span>
+                                </label>
+                                <p id="terms-error" class="text-rose-600 text-xs font-semibold hidden">Você deve aceitar os termos antes de prosseguir.</p>
+                            </div>
+
+                            <button onclick="confirmAgreement()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-md shadow-emerald-100 flex items-center justify-center space-x-2 text-base">
+                                <span>Confirmar e Pagar</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 5: CHECKOUT / PAGAMENTO ==================== -->
+        <section id="step-checkout" class="hidden transition-all duration-300">
+            <div class="max-w-2xl mx-auto space-y-6">
+                
+                <!-- Header / feedback state -->
+                <div class="text-center space-y-2">
+                    <div class="inline-flex h-14 w-14 bg-emerald-100 text-emerald-700 rounded-full items-center justify-center mb-2">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-950">Acordo Formalizado com Sucesso!</h2>
+                    <p class="text-slate-500 text-sm max-w-md mx-auto">Seu plano de acordo foi cadastrado no sistema. Efetue o pagamento da primeira via para dar início à exclusão de restrições do seu CPF.</p>
+                </div>
+
+                <!-- Payment details and methods -->
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden grid grid-cols-1 md:grid-cols-2">
+                    
+                    <!-- Left Column: Guide Information -->
+                    <div class="p-8 border-b md:border-b-0 md:border-r border-slate-100 flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div>
+                                <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Identificador do Acordo</span>
+                                <p class="text-sm font-bold text-slate-800" id="checkout-agreement-id">AGR-559102-ALPHA</p>
+                            </div>
+
+                            <div class="space-y-2">
+                                <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider block">Resumo do pagamento</span>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-slate-500">Credor:</span>
+                                    <span class="font-bold text-slate-800" id="checkout-creditor">Banco Alpha S.A.</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-slate-500">Plano:</span>
+                                    <span class="font-bold text-slate-800" id="checkout-plan-detail">À Vista</span>
+                                </div>
+                                <div class="flex justify-between text-sm border-t border-slate-100 pt-2">
+                                    <span class="text-slate-900 font-semibold">Valor da Guia:</span>
+                                    <span class="font-extrabold text-slate-950 text-lg animate-pulse" id="checkout-amount-due">R$ 850,00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA for alternative method (Boleto) -->
+                        <div class="pt-6 mt-6 border-t border-slate-100 space-y-3">
+                            <span class="text-xs text-slate-400 font-semibold block">Prefere Boleto Bancário?</span>
+                            <button onclick="downloadBoletoPlaceholder()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center justify-center space-x-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                <span>Baixar Boleto em PDF (Compensação 48h)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Pix Code and QR Code -->
+                    <div class="p-8 bg-slate-50 flex flex-col items-center justify-center text-center space-y-6">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider flex items-center space-x-1.5">
+                            <span class="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                            <span>Pague com Pix e limpe seu nome em 24h</span>
+                        </span>
+
+                        <!-- QR Code placeholder SVG -->
+                        <div class="bg-white p-4 rounded-2xl shadow-inner border border-slate-200">
+                            <svg class="w-40 h-40" viewBox="0 0 100 100" fill="none">
+                                <!-- QR Code stylized boxes simulating real dynamic QR -->
+                                <rect width="100" height="100" fill="white"/>
+                                <rect x="5" y="5" width="25" height="25" stroke="#1e293b" stroke-width="6" fill="none"/>
+                                <rect x="10" y="10" width="15" height="15" fill="#10b981"/>
+                                <rect x="70" y="5" width="25" height="25" stroke="#1e293b" stroke-width="6" fill="none"/>
+                                <rect x="75" y="10" width="15" height="15" fill="#1e293b"/>
+                                <rect x="5" y="70" width="25" height="25" stroke="#1e293b" stroke-width="6" fill="none"/>
+                                <rect x="10" y="75" width="15" height="15" fill="#1e293b"/>
+                                <!-- Simulated dots pattern inside -->
+                                <rect x="40" y="10" width="5" height="5" fill="#1e293b"/>
+                                <rect x="50" y="15" width="10" height="5" fill="#1e293b"/>
+                                <rect x="45" y="25" width="5" height="10" fill="#10b981"/>
+                                <rect x="40" y="45" width="15" height="5" fill="#1e293b"/>
+                                <rect x="60" y="40" width="5" height="15" fill="#1e293b"/>
+                                <rect x="50" y="60" width="15" height="10" fill="#10b981"/>
+                                <rect x="80" y="45" width="5" height="5" fill="#1e293b"/>
+                                <rect x="75" y="55" width="10" height="10" fill="#1e293b"/>
+                                <rect x="40" y="80" width="15" height="5" fill="#10b981"/>
+                                <rect x="60" y="80" width="5" height="15" fill="#1e293b"/>
+                                <rect x="80" y="80" width="15" height="15" fill="#1e293b"/>
+                            </svg>
+                        </div>
+
+                        <!-- Copia e Cola field -->
+                        <div class="w-full space-y-2">
+                            <span class="text-xs text-slate-400 font-semibold block">Pix Copia e Cola</span>
+                            <div class="flex">
+                                <input type="text" readonly id="pix-key-val" value="00020101021226870014br.gov.bcb.pix2565agr559102alphacreditorbancoalphaamount850" class="flex-grow bg-white border border-slate-300 rounded-l-xl px-3 py-2.5 text-xs text-slate-600 outline-none select-all truncate">
+                                <button onclick="copyPixKey()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 rounded-r-xl text-xs transition-colors whitespace-nowrap flex items-center space-x-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                    </svg>
+                                    <span id="btn-copy-txt">Copiar</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Countdown timer of code -->
+                        <p class="text-xs text-slate-400">Este QR Code expira em: <span class="font-bold text-rose-600" id="pix-countdown">59:59</span></p>
+
+                        <!-- Simulation helper for testing in DEV -->
+                        <div class="w-full pt-4 border-t border-slate-200">
+                            <button onclick="simulatePaymentApproval()" class="w-full bg-slate-900 hover:bg-black text-white font-semibold py-2 px-4 rounded-xl text-xs transition-colors flex items-center justify-center space-x-2">
+                                <span class="bg-amber-400 text-slate-950 font-black px-1.5 py-0.5 rounded text-[10px]">DEV-MODE</span>
+                                <span>Simular Quitação via Webhook (Simulador)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==================== TELA 6: COMPROVANTE DE SUCESSO ==================== -->
+        <section id="step-success" class="hidden transition-all duration-300 max-w-lg mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 text-center space-y-6 relative overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                
+                <div class="inline-flex h-16 w-16 bg-emerald-100 text-emerald-700 rounded-full items-center justify-center animate-bounce">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-black text-slate-950">Pagamento Confirmado!</h2>
+                    <p class="text-slate-500 text-sm">Seu acordo foi quitado e compensado com sucesso pelo banco liquidante. Começamos a processar a atualização cadastral imediatamente.</p>
+                </div>
+
+                <!-- Score Boost box -->
+                <div class="bg-emerald-50 rounded-2xl p-5 border border-emerald-100 flex flex-col items-center space-y-3">
+                    <span class="text-emerald-800 text-xs font-bold uppercase tracking-wider">Seu Score subiu!</span>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-slate-400 line-through text-lg font-bold">645</span>
+                        <svg class="w-6 h-6 text-emerald-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                        <span class="text-3xl font-black text-emerald-700" id="boosted-score">720</span>
+                    </div>
+                    <p class="text-[11px] text-emerald-600 text-center font-medium">Parabéns! Com essa baixa, sua pontuação de Score de Crédito aumentou de 645 para 720. Isso facilitará futuras concessões de cartões e empréstimos.</p>
+                </div>
+
+                <!-- Process timelines / next steps -->
+                <div class="bg-slate-50 rounded-xl p-5 text-left border border-slate-200 space-y-4">
+                    <h4 class="text-xs font-bold text-slate-900 uppercase tracking-wider">O que acontece agora?</h4>
+                    <div class="space-y-3 text-xs text-slate-600">
+                        <div class="flex items-start space-x-2.5">
+                            <span class="h-5 w-5 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-bold text-[10px]">1</span>
+                            <p class="mt-0.5"><span class="font-bold text-slate-800">Baixa no Bureau (24h úteis):</span> Removeremos o apontamento negativo do seu CPF de nossas consultas cadastrais.</p>
+                        </div>
+                        <div class="flex items-start space-x-2.5">
+                            <span class="h-5 w-5 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-bold text-[10px]">2</span>
+                            <p class="mt-0.5"><span class="font-bold text-slate-800">Baixa no Credor:</span> O credor atualizará seus sistemas internos marcando o contrato como quitado de forma definitiva.</p>
+                        </div>
+                        <div class="flex items-start space-x-2.5">
+                            <span class="h-5 w-5 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-bold text-[10px]">3</span>
+                            <p class="mt-0.5"><span class="font-bold text-slate-800">Comprovante por E-mail:</span> Enviamos uma via do termo de quitação deste acordo em PDF para o seu e-mail cadastrado.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <button onclick="downloadComprovante()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl text-sm transition-all shadow-sm flex items-center justify-center space-x-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span>Baixar Comprovante</span>
+                    </button>
+                    <button onclick="logout()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 px-4 rounded-xl text-sm transition-all">
+                        <span>Ir para Início / Sair</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:flex sm:items-center sm:justify-between text-xs text-slate-400 space-y-2 sm:space-y-0">
+            <p>&copy; 2023 RECONCILIA — Soluções de Crédito e Cobrança S.A. Todos os direitos reservados.</p>
+            <p class="flex items-center justify-center space-x-3">
+                <a href="#" class="hover:text-slate-600 underline">Políticas de Privacidade</a>
+                <span>•</span>
+                <a href="#" class="hover:text-slate-600 underline">Termos de Uso</a>
+                <span>•</span>
+                <a href="#" class="hover:text-slate-600 underline">Contato LGPD</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- App Logic Script (State Management & Interactions) -->
+    <script>
+        // App State
+        let state = {
+            currentStep: 'login',
+            user: {
+                name: 'Ana Maria de Souza',
+                cpf: '',
+                score: 645,
+                authenticated: false
+            },
+            currentNegotiation: {
+                debtId: '',
+                creditorName: '',
+                originalValue: 0,
+                minimumNegotiableValue: 0,
+                daysOverdue: 0,
+                paymentType: 'vista', // vista or parcelado
+                installments: 1,
+                downPayment: 0,
+                calculatedDiscountValue: 0,
+                calculatedInstallmentValue: 0,
+                calculatedTotalDue: 0,
+                savings: 0
+            },
+            timerInterval: null
+        };
+
+        // Navigation Controller
+        function goToStep(stepId) {
+            // Hide all sections
+            document.querySelectorAll('main > section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            // Show target section
+            const targetSection = document.getElementById(`step-${stepId}`);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
+            state.currentStep = stepId;
+
+            // Handle header visibility
+            const headerUserInfo = document.getElementById('header-user-info');
+            if (stepId === 'login' || stepId === 'otp') {
+                headerUserInfo.classList.add('hidden');
+            } else {
+                headerUserInfo.classList.remove('hidden');
+            }
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mask CPF input (000.000.000-00)
+        function maskCPF(input) {
+            let value = input.value.replace(/\D/g, "");
+            if (value.length > 11) value = value.slice(0, 11);
+            
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            
+            input.value = value;
+        }
+
+        // Login Submit
+        function handleLogin(e) {
+            e.preventDefault();
+            const cpfVal = document.getElementById('cpf').value;
+            if (cpfVal.length < 14) {
+                alert('Por favor, informe um CPF válido completo.');
+                return;
+            }
+            state.user.cpf = cpfVal;
+            goToStep('otp');
+            focusOTP();
+        }
+
+        // Gov.br integration mock
+        function loginGov() {
+            state.user.cpf = "123.456.789-01";
+            state.user.authenticated = true;
+            document.getElementById('dashboard-user-name').innerText = state.user.name;
+            goToStep('dashboard');
+        }
+
+        // OTP inputs handling
+        function focusOTP() {
+            setTimeout(() => {
+                const first = document.querySelector('.otp-field');
+                if (first) first.focus();
+            }, 100);
+        }
+
+        function moveNext(input, index) {
+            if (input.value.length === 1 && index < 6) {
+                document.querySelectorAll('.otp-field')[index].focus();
+            }
+        }
+
+        function movePrev(input, e) {
+            if (e.key === "Backspace" && input.value.length === 0) {
+                const index = Array.from(document.querySelectorAll('.otp-field')).indexOf(input);
+                if (index > 0) {
+                    document.querySelectorAll('.otp-field')[index - 1].focus();
+                }
+            }
+        }
+
+        function handleVerifyOTP(e) {
+            e.preventDefault();
+            let otp = "";
+            document.querySelectorAll('.otp-field').forEach(input => {
+                otp += input.value;
+            });
+
+            if (otp === "123456" || otp.length === 6) { // allow any 6 digit for simulation
+                state.user.authenticated = true;
+                document.getElementById('dashboard-user-name').innerText = state.user.name;
+                document.getElementById('otp-error-msg').classList.add('hidden');
+                goToStep('dashboard');
+            } else {
+                document.getElementById('otp-error-msg').classList.remove('hidden');
+            }
+        }
+
+        function resendOTP() {
+            alert('Um novo código de acesso OTP foi enviado por SMS para seu celular!');
+        }
+
+        function logout() {
+            state.user.authenticated = false;
+            state.user.cpf = '';
+            document.getElementById('cpf').value = '';
+            document.querySelectorAll('.otp-field').forEach(i => i.value = '');
+            clearInterval(state.timerInterval);
+            goToStep('login');
+        }
+
+        // Negotiation simulation trigger
+        function startNegotiation(debtId, creditorName, originalValue, minimumNegotiableValue, daysOverdue) {
+            state.currentNegotiation = {
+                debtId: debtId,
+                creditorName: creditorName,
+                originalValue: originalValue,
+                minimumNegotiableValue: minimumNegotiableValue,
+                daysOverdue: daysOverdue,
+                paymentType: 'vista',
+                installments: 1,
+                downPayment: 0
+            };
+
+            // Setup UI fields
+            document.getElementById('sim-creditor-name').innerText = creditorName;
+            document.getElementById('sim-original-val').innerText = 'R$ ' + originalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            document.getElementById('sim-original-val2').innerText = 'R$ ' + originalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            
+            // Set tab active
+            setPaymentType('vista');
+            calculateSimulation();
+            goToStep('simulador');
+        }
+
+        function setPaymentType(type) {
+            state.currentNegotiation.paymentType = type;
+            const btnVista = document.getElementById('btn-tab-vista');
+            const btnParcelado = document.getElementById('btn-tab-parcelado');
+            const sliderCont = document.getElementById('slider-container');
+            const downCont = document.getElementById('down-payment-container');
+            const downRow = document.getElementById('row-down-payment');
+
+            if (type === 'vista') {
+                btnVista.className = "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all bg-white text-emerald-700 shadow-sm border border-slate-200/50";
+                btnParcelado.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 transition-all";
+                sliderCont.classList.add('hidden');
+                downCont.classList.add('hidden');
+                downRow.classList.add('hidden');
+                state.currentNegotiation.installments = 1;
+                state.currentNegotiation.downPayment = 0;
+            } else {
+                btnVista.className = "flex-1 py-2.5 text-sm font-medium rounded-lg text-slate-600 hover:text-slate-900 transition-all";
+                btnParcelado.className = "flex-1 py-2.5 text-sm font-bold rounded-lg transition-all bg-white text-emerald-700 shadow-sm border border-slate-200/50";
+                sliderCont.classList.remove('hidden');
+                downCont.classList.remove('hidden');
+                downRow.classList.remove('hidden');
+                
+                // Initialize slider at 6 installments
+                document.getElementById('slider-installments').value = 6;
+                state.currentNegotiation.installments = 6;
+                updateInstallmentsLabel(6);
+            }
+            calculateSimulation();
+        }
+
+        function updateInstallmentsLabel(val) {
+            document.getElementById('display-installments').innerText = val + 'x';
+            state.currentNegotiation.installments = parseInt(val);
+        }
+
+        // Main calculations engine
+        function calculateSimulation() {
+            const neg = state.currentNegotiation;
+            const original = neg.originalValue;
+            const minNegotiable = neg.minimumNegotiableValue;
+            
+            let downPayment = parseFloat(document.getElementById('input-down-payment').value) || 0;
+            if (downPayment < 0) downPayment = 0;
+            if (downPayment >= original) {
+                downPayment = original - 100;
+                document.getElementById('input-down-payment').value = downPayment;
+            }
+            neg.downPayment = downPayment;
+
+            let finalValue = 0;
+            let discountValue = 0;
+            let installmentValue = 0;
+            let discountPct = 0;
+
+            if (neg.paymentType === 'vista') {
+                // Maximum Discount (Vista) e.g., 66%
+                finalValue = minNegotiable;
+                discountValue = original - finalValue;
+                discountPct = Math.round((discountValue / original) * 100);
+                installmentValue = finalValue;
+                
+                document.getElementById('sum-plan-type').innerText = 'À Vista';
+                document.getElementById('sum-installment-detail').innerText = 'Parcela única';
+                document.getElementById('sum-due-date').innerText = 'Vencimento da guia: Hoje';
+            } else {
+                // Installment mode: Discount gets lower with more installments, juros applied
+                const installments = neg.installments;
+                
+                // Discount factor decaying as installments grow
+                let baseDiscountPct = 60 - (installments * 1.5);
+                if (baseDiscountPct < 15) baseDiscountPct = 15; // floor at 15% discount
+                
+                let principalValue = original - downPayment;
+                let discountedPrincipal = principalValue * (1 - (baseDiscountPct / 100));
+                
+                // Monthly compound interest starting from >1 installment
+                let finalValWithInterest = discountedPrincipal;
+                if (installments > 1) {
+                    const r = 0.015; // 1.5% monthly interest
+                    finalValWithInterest = discountedPrincipal * Math.pow(1 + r, installments);
+                }
+
+                finalValue = finalValWithInterest;
+                discountValue = original - (finalValue + downPayment);
+                discountPct = Math.round((discountValue / original) * 100);
+                installmentValue = finalValue / installments;
+
+                document.getElementById('sum-plan-type').innerText = 'Parcelado (' + installments + 'x)';
+                document.getElementById('sum-installment-detail').innerText = installments + 'x de R$ ' + installmentValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                
+                // Display first due date
+                let d = new Date();
+                d.setDate(d.getDate() + 30);
+                document.getElementById('sum-due-date').innerText = 'Primeira parcela em: ' + d.toLocaleDateString('pt-BR');
+            }
+
+            // Constraints validation
+            const errEl = document.getElementById('installment-error-msg');
+            if (neg.paymentType === 'parcelado' && installmentValue < 50 && neg.installments > 1) {
+                errEl.classList.remove('hidden');
+            } else {
+                errEl.classList.add('hidden');
+            }
+
+            // Save variables in state
+            neg.calculatedDiscountValue = discountValue;
+            neg.calculatedTotalDue = finalValue;
+            neg.calculatedInstallmentValue = installmentValue;
+            neg.savings = discountValue;
+
+            // Render right summary pane
+            document.getElementById('sim-discount-pct').innerText = discountPct + '% Off';
+            document.getElementById('sum-down-payment-val').innerText = 'R$ ' + downPayment.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            document.getElementById('sum-discount-val').innerText = '- R$ ' + discountValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            document.getElementById('sum-total-due').innerText = 'R$ ' + finalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('sum-savings').innerText = 'R$ ' + discountValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+        }
+
+        // Terms and trigger Checkout
+        function confirmAgreement() {
+            const acceptTerms = document.getElementById('terms-accept').checked;
+            const termsErr = document.getElementById('terms-error');
+            
+            if (!acceptTerms) {
+                termsErr.classList.remove('hidden');
+                return;
+            }
+            termsErr.classList.add('hidden');
+
+            // Setup Checkout screen fields
+            const neg = state.currentNegotiation;
+            document.getElementById('checkout-creditor').innerText = neg.creditorName;
+            document.getElementById('checkout-amount-due').innerText = 'R$ ' + neg.calculatedTotalDue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            
+            if (neg.paymentType === 'vista') {
+                document.getElementById('checkout-plan-detail').innerText = 'À Vista (Desconto Máximo)';
+            } else {
+                document.getElementById('checkout-plan-detail').innerText = 'Entrada de R$ ' + neg.downPayment.toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + ' + ' + neg.installments + 'x de R$ ' + neg.calculatedInstallmentValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+
+            goToStep('checkout');
+            startPixCountdown();
+        }
+
+        // Pix countdown simulation
+        function startPixCountdown() {
+            clearInterval(state.timerInterval);
+            let time = 3599; // 1 hour
+            const display = document.getElementById('pix-countdown');
+            
+            state.timerInterval = setInterval(() => {
+                let minutes = parseInt(time / 60, 10);
+                let seconds = parseInt(time % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.innerText = minutes + ":" + seconds;
+
+                if (--time < 0) {
+                    clearInterval(state.timerInterval);
+                    display.innerText = "EXPIRADO";
+                }
+            }, 1000);
+        }
+
+        // Copy Pix Code
+        function copyPixKey() {
+            const keyInput = document.getElementById('pix-key-val');
+            keyInput.select();
+            keyInput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(keyInput.value);
+            
+            const btnCopyTxt = document.getElementById('btn-copy-txt');
+            btnCopyTxt.innerText = 'Copiado!';
+            setTimeout(() => {
+                btnCopyTxt.innerText = 'Copiar';
+            }, 2000);
+        }
+
+        // Mock download PDF
+        function downloadBoletoPlaceholder() {
+            alert('Seu arquivo de Boleto Bancário foi registrado na instituição financeira parceira e o download em PDF do boleto foi iniciado para o seu dispositivo.');
+        }
+
+        // Webhook simulator trigger (Dev mode)
+        function simulatePaymentApproval() {
+            clearInterval(state.timerInterval);
+            goToStep('success');
+        }
+
+        function downloadComprovante() {
+            alert('O download do Comprovante de Quitação com Assinatura Digital do Bureau de Crédito foi iniciado!');
+        }
+    </script>
+</body>
+</html>
