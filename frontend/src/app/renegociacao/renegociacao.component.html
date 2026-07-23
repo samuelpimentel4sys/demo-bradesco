@@ -1,0 +1,471 @@
+<div class=\"reneg-layout\">
+  <!-- Header do Portal -->
+  <header class=\"reneg-header\" role=\"banner\">
+    <div class=\"header-container\">
+      <div class=\"brand-logo\">
+        <span class=\"brand-accent\">Foursys</span> Renegociações
+      </div>
+      <div class=\"header-badge\">
+        <span class=\"status-dot pulsing\"></span> Ambiente Seguro SSL
+      </div>
+    </div>
+  </header>
+
+  <!-- Progresso do Fluxo / Stepper -->
+  <div class=\"stepper-wrapper\" aria-label=\"Etapas do Autoatendimento\">
+    <div class=\"stepper-container\">
+      <div class=\"step-node\" [class.active]=\"step() === 1\" [class.completed]=\"step() > 1\">
+        <div class=\"node-circle\">1</div>
+        <span class=\"node-label\">Acesso</span>
+      </div>
+      <div class=\"step-line\" [class.completed]=\"step() > 1\"></div>
+      <div class=\"step-node\" [class.active]=\"step() === 2\" [class.completed]=\"step() > 2\">
+        <div class=\"node-circle\">2</div>
+        <span class=\"node-label\">Dívidas</span>
+      </div>
+      <div class=\"step-line\" [class.completed]=\"step() > 2\"></div>
+      <div class=\"step-node\" [class.active]=\"step() === 3\" [class.completed]=\"step() > 3\">
+        <div class=\"node-circle\">3</div>
+        <span class=\"node-label\">Simulador</span>
+      </div>
+      <div class=\"step-line\" [class.completed]=\"step() > 3\"></div>
+      <div class=\"step-node\" [class.active]=\"step() === 4\" [class.completed]=\"step() === 4 && isConfirmado()\">
+        <div class=\"node-circle\">4</div>
+        <span class=\"node-label\">Quitação</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <main class=\"reneg-main\">
+    <div class=\"main-card\">
+
+      <!-- ========================================== -->
+      <!-- ETAPA 1: LOGIN PASSWORDLESS OTP            -->
+      <!-- ========================================== -->
+      @if (step() === 1) {
+        <section class=\"wizard-section animate-fade-in\" aria-labelledby=\"login-title\">
+          <h2 id=\"login-title\" class=\"section-title\">Acesse seu Painel Financeiro</h2>
+          <p class=\"section-subtitle\">Insira seu CPF abaixo para consultar propostas de quitação com descontos especiais de até 90%.</p>
+
+          @if (!isOtpSent()) {
+            <!-- Entrada de CPF -->
+            <div class=\"form-group\">
+              <label for=\"cpfInput\" class=\"form-label\">Informe seu CPF</label>
+              <input 
+                id=\"cpfInput\"
+                type=\"text\" 
+                class=\"form-control form-control-large\" 
+                placeholder=\"000.000.000-00\"
+                [value]=\"cpf()\"
+                (input)=\"onCpfInput($event)\"
+                maxLength=\"14\"
+                aria-required=\"true\">
+              
+              <div class=\"helper-text\">Seu CPF será validado de forma confidencial nas bases do Bureau.</div>
+
+              <button 
+                class=\"btn btn-primary btn-large btn-block mt-4\"
+                [disabled]=\"cpf().length < 14 || isSending()\"
+                (click)=\"solicitarOtp()\">
+                @if (isSending()) {
+                  <span class=\"spinner\"></span> Consultando CPF...
+                } @else {
+                  Consultar Minhas Dívidas <span class=\"btn-arrow\">➔</span>
+                }
+              </button>
+            </div>
+          } @else {
+            <!-- Inserção do Token OTP -->
+            <div class=\"form-group animate-fade-in\">
+              <div class=\"otp-alert\">
+                Código de autenticação temporário enviado com sucesso para o celular cadastrado vinculado ao CPF.
+              </div>
+
+              <label for=\"otpInput\" class=\"form-label\">Código OTP (6 dígitos)</label>
+              <input 
+                id=\"otpInput\"
+                type=\"text\" 
+                class=\"form-control form-control-large text-center otp-input\" 
+                placeholder=\"000 000\"
+                [(ngModel)]=\"otpCode\"
+                maxLength=\"6\"
+                aria-required=\"true\">
+
+              <div class=\"otp-countdown\">
+                O código expira em: <strong class=\"countdown-timer\">{{ formatTime(timer()) }}</strong>
+              </div>
+
+              <div class=\"button-group mt-4\">
+                <button class=\"btn btn-secondary\" (click)=\"voltarParaCpf()\">Voltar</button>
+                <button 
+                  class=\"btn btn-primary\" 
+                  [disabled]=\"otpCode.length < 6 || isSending()\"
+                  (click)=\"confirmarOtp()\">
+                  @if (isSending()) {
+                    <span class=\"spinner\"></span> Validando...
+                  } @else {
+                    Confirmar e Acessar
+                  }
+                </button>
+              </div>
+
+              <button class=\"btn-link mt-3\" (click)=\"solicitarOtp()\" [disabled]=\"timer() > 150\">
+                Não recebi o código. Reenviar OTP
+              </button>
+            </div>
+          }
+        </section>
+      }
+
+      <!-- ========================================== -->
+      <!-- ETAPA 2: DASHBOARD DE DÍVIDAS ATIVAS       -->
+      <!-- ========================================== -->
+      @if (step() === 2) {
+        <section class=\"wizard-section animate-fade-in\" aria-labelledby=\"debts-title\">
+          <div class=\"section-header-row\">
+            <div>
+              <h2 id=\"debts-title\" class=\"section-title\">Suas Pendências Ativas</h2>
+              <p class=\"section-subtitle\">Selecione abaixo quais contratos deseja renegociar no seu acordo.</p>
+            </div>
+            <span class=\"badge-user\">CPF: {{ formatCpf(cpf()) }}</span>
+          </div>
+
+          <!-- Tabela de Débitos -->
+          <div class=\"table-responsive mt-4\">
+            <table class=\"debts-table\" aria-label=\"Tabela de dívidas em atraso\">
+              <thead>
+                <tr>
+                  <th scope=\"col\" class=\"text-center\" style=\"width: 50px;\">
+                    <input type=\"checkbox\" [checked]=\"isAllSelected()\" (change)=\"toggleSelectAll()\" aria-label=\"Selecionar todos os contratos\">
+                  </th>
+                  <th scope=\"col\">Credor Parceiro</th>
+                  <th scope=\"col\">Nº Contrato</th>
+                  <th scope=\"col\" class=\"text-right\">Valor Original</th>
+                  <th scope=\"col\" class=\"text-right\">Valor Atualizado</th>
+                  <th scope=\"col\" class=\"text-center\">Dias em Atraso</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (debito of debitos(); track debito.id) {
+                  <tr [class.selected]=\"isSelected(debito.id)\" (click)=\"toggleSelecao(debito.id); $event.stopPropagation()\">
+                    <td class=\"text-center\">
+                      <input 
+                        type=\"checkbox\" 
+                        [checked]=\"isSelected(debito.id)\"
+                        (click)=\"toggleSelecao(debito.id); $event.stopPropagation()\"
+                        aria-label=\"Selecionar contrato\">
+                    </td>
+                    <td>
+                      <div class=\"creditor-cell\">
+                        <span class=\"creditor-icon\">🏢</span>
+                        <strong>{{ debito.creditorName }}</strong>
+                      </div>
+                    </td>
+                    <td><code>{{ debito.contractNumber }}</code></td>
+                    <td class=\"text-right text-muted\">R$ {{ debito.originalValue | number:'1.2-2' }}</td>
+                    <td class=\"text-right text-highlight\">R$ {{ debito.updatedValue | number:'1.2-2' }}</td>
+                    <td class=\"text-center\">
+                      <span class=\"badge-overdue\" [class.critical]=\"debito.daysPastDue > 180\">
+                        {{ debito.daysPastDue }} dias
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Sumário de Seleção -->
+          <div class=\"selection-summary mt-4\">
+            <div class=\"summary-item\">
+              <span>Contratos Selecionados:</span>
+              <strong>{{ selectedIdsCount() }} de {{ debitos().length }}</strong>
+            </div>
+            <div class=\"summary-item\">
+              <span>Valor Total Original:</span>
+              <span class=\"text-line-through\">R$ {{ totalOriginal() | number:'1.2-2' }}</span>
+            </div>
+            <div class=\"summary-item highlight-item\">
+              <span>Valor Total Atualizado:</span>
+              <span class=\"price-large\">R$ {{ totalAtualizado() | number:'1.2-2' }}</span>
+            </div>
+          </div>
+
+          <div class=\"button-group mt-4\">
+            <button class=\"btn btn-secondary\" (click)=\"logout()\">Sair</button>
+            <button 
+              class=\"btn btn-primary\" 
+              [disabled]=\"selectedIdsCount() === 0\"
+              (click)=\"prosseguirParaSimulador()\">
+              Simular Opções de Acordo <span class=\"btn-arrow\">➔</span>
+            </button>
+          </div>
+        </section>
+      }
+
+      <!-- ========================================== -->
+      <!-- ETAPA 3: SIMULADOR & TERMOS DO CONTRATO     -->
+      <!-- ========================================== -->
+      @if (step() === 3) {
+        <section class=\"wizard-section animate-fade-in\" aria-labelledby=\"sim-title\">
+          <h2 id=\"sim-title\" class=\"section-title\">Simulador de Acordos Reativo</h2>
+          <p class=\"section-subtitle\">Encontre a melhor parcela para o seu bolso. Nosso simulador recalcula as condições integrando direto com o backend Java.</p>
+
+          <div class=\"simulator-grid mt-4\">
+            <!-- Configurações da Simulação (Coluna Esquerda) -->
+            <div class=\"simulator-config\">
+              <div class=\"form-group\">
+                <label class=\"form-label\">Forma de Pagamento</label>
+                <div class=\"payment-toggle\">
+                  <button 
+                    class=\"toggle-btn\" 
+                    [class.active]=\"tipoPagamento() === 'A_VISTA'\"
+                    (click)=\"setTipoPagamento('A_VISTA')\">
+                    À Vista (Desconto Máximo)
+                  </button>
+                  <button 
+                    class=\"toggle-btn\" 
+                    [class.active]=\"tipoPagamento() === 'PARCELADO'\"
+                    (click)=\"setTipoPagamento('PARCELADO')\">
+                    Parcelado com Juros
+                  </button>
+                </div>
+              </div>
+
+              @if (tipoPagamento() === 'PARCELADO') {
+                <div class=\"form-group animate-slide-down\">
+                  <div class=\"slider-label-row\">
+                    <label class=\"form-label\">Número de Parcelas</label>
+                    <span class=\"slider-value\">{{ parcelas() }}x</span>
+                  </div>
+                  <input 
+                    type=\"range\" 
+                    class=\"form-range\" 
+                    min=\"2\" 
+                    max=\"24\" 
+                    step=\"1\"
+                    [value]=\"parcelas()\"
+                    (input)=\"onParcelasChange($event)\">
+                  <div class=\"slider-range-helper\">
+                    <span>2x</span>
+                    <span>12x</span>
+                    <span>24x</span>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Resumo e Resultado (Coluna Direita) -->
+            <div class=\"simulator-result-box\">
+              @if (isSimLoading()) {
+                <div class=\"skeleton-box\">
+                  <div class=\"skeleton-line\"></div>
+                  <div class=\"skeleton-line short\"></div>
+                  <div class=\"skeleton-line\"></div>
+                </div>
+              } @else if (simError()) {
+                <div class=\"error-banner\">
+                  <span class=\"error-icon\">⚠️</span>
+                  <p class=\"error-text\">{{ simError() }}</p>
+                </div>
+              } @else if (simResponse()) {
+                <div class=\"result-details\">
+                  <div class=\"result-row\">
+                    <span>Saldo Devedor Anterior:</span>
+                    <span class=\"text-line-through\">R$ {{ simResponse()?.valorOriginalTotal | number:'1.2-2' }}</span>
+                  </div>
+                  <div class=\"result-row success-row\">
+                    <span>Desconto Concedido:</span>
+                    <strong>- R$ {{ simResponse()?.descontoAplicado | number:'1.2-2' }}</strong>
+                  </div>
+                  <hr class=\"divider\">
+                  <div class=\"result-row final-price-row\">
+                    <span>Valor Final do Acordo:</span>
+                    <span class=\"final-price\">R$ {{ simResponse()?.valorFinal | number:'1.2-2' }}</span>
+                  </div>
+                  @if (simResponse()!.numeroParcelas > 1) {
+                    <div class=\"result-row installment-row\">
+                      <span>Mensalidade:</span>
+                      <strong>{{ simResponse()?.numeroParcelas }}x de R$ {{ simResponse()?.valorParcela | number:'1.2-2' }}</strong>
+                    </div>
+                  } @else {
+                    <div class=\"result-row installment-row\">
+                      <span>Pagamento Único:</span>
+                      <strong>R$ {{ simResponse()?.valorFinal | number:'1.2-2' }}</strong>
+                    </div>
+                  }
+                  <div class=\"result-badge\">
+                    Economia Real de {{ ((simResponse()?.descontoAplicado || 0) / (simResponse()?.valorOriginalTotal || 1)) * 100 | number:'1.0-0' }}%
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Termos e Minuta Contratual (Scroll para Aceitar) -->
+          @if (simResponse() && !simError() && !isSimLoading()) {
+            <div class=\"terms-box mt-4 animate-fade-in\">
+              <h3 class=\"terms-title\">Contrato de Confissão de Dívida</h3>
+              <div class=\"terms-scroll-container\" (scroll)=\"onTermsScroll($event)\">
+                <p><strong>TERMO DE ACORDO DE RENEGOCIAÇÃO DE DÍVIDAS E CONFISSÃO DE DÉBITO</strong></p>
+                <p>Pelo presente instrumento particular de confissão de dívida, o Devedor portador do CPF informado declara expressamente reconhecer a integralidade dos débitos simulados, confessando ser devedor da quantia principal consolidada de R$ {{ simResponse()?.valorOriginalTotal | number:'1.2-2' }}.</p>
+                <p><strong>CLÁUSULA PRIMEIRA - DO DESCONTO E DA FORMA DE PAGAMENTO:</strong> Os Credores Parceiros concedem por mera liberalidade o desconto sob as faturas ativas selecionadas, restando o saldo líquido final a ser liquidado no montante de R$ {{ simResponse()?.valorFinal | number:'1.2-2' }}. O pagamento será efetuado exclusivamente por meio do QR Code Pix Dinâmico gerado.</p>
+                <p><strong>CLÁUSULA SEGUNDA - DA BAIXA CADASTRAL (SLA 15 MINUTOS):</strong> Fica estipulado que o Bureau de Crédito executará o comando de exclusão física e lógica dos apontamentos restritivos vinculados ao CPF do Devedor em até 15 minutos úteis após a integral liquidação do Pix na rede do PSP Bancário.</p>
+                <p><strong>CLÁUSULA TERCEIRA - DO INADIMPLEMENTO:</strong> O não pagamento do Pix de entrada ou parcela nas datas estipuladas ensejará o cancelamento imediato dos descontos concedidos, retornando o débito ao seu valor original acrescido das penalidades contratuais vigentes.</p>
+                <p class=\"text-center mt-3\">--- FIM DO DOCUMENTO ---</p>
+              </div>
+
+              <div class=\"terms-checkbox-row mt-3\">
+                <input 
+                  type=\"checkbox\" 
+                  id=\"termsAccept\" 
+                  [disabled]=\"!hasReadTerms()\" 
+                  [(ngModel)]=\"termsAccepted\"
+                  aria-describedby=\"terms-help\">
+                <label for=\"termsAccept\" [class.disabled]=\"!hasReadTerms()\">
+                  Li, compreendi e aceito formalmente as condições contratuais contidas neste termo de acordo.
+                </label>
+              </div>
+              @if (!hasReadTerms()) {
+                <div id=\"terms-help\" class=\"terms-warning\">
+                  * Role o contrato até o final para destravar o termo de assinatura digital.
+                </div>
+              }
+            </div>
+          }
+
+          <div class=\"button-group mt-4\">
+            <button class=\"btn btn-secondary\" (click)=\"voltarParaDebitos()\">Voltar</button>
+            <button 
+              class=\"btn btn-primary\" 
+              [disabled]=\"!termsAccepted || isSimLoading() || simError() != null\"
+              (click)=\"confirmarAcordo()\">
+              Assinar Acordo e Gerar Pix <span class=\"btn-arrow\">➔</span>
+            </button>
+          </div>
+        </section>
+      }
+
+      <!-- ========================================== -->
+      <!-- ETAPA 4: PAGAMENTO & SUCESSO FINAL         -->
+      <!-- ========================================== -->
+      @if (step() === 4) {
+        <section class=\"wizard-section animate-fade-in\" aria-labelledby=\"pay-title\">
+          
+          @if (!isConfirmado()) {
+            <!-- Subetapa A: QR Code Pix Ativo -->
+            <div class=\"text-center\">
+              <h2 id=\"pay-title\" class=\"section-title\">Efetuar Pagamento da Entrada</h2>
+              <p class=\"section-subtitle\">Seu acordo foi assinado digitalmente! Escaneie o QR Code ou utilize o código Copia e Cola para efetuar a quitação imediata.</p>
+
+              <div class=\"payment-container mt-4\">
+                <!-- Mock QR Code visual -->
+                <div class=\"qr-code-box\">
+                  <div class=\"qr-placeholder\">
+                    <!-- Desenho de QR code em CSS -->
+                    <div class=\"qr-pattern\"></div>
+                  </div>
+                  <div class=\"qr-timer\">
+                    Este QR Code expira em: <strong>23:59:45</strong>
+                  </div>
+                </div>
+
+                <!-- Copia e Cola -->
+                <div class=\"copia-cola-box mt-3\">
+                  <label for=\"ccInput\" class=\"form-label text-left\">Pix Copia e Cola</label>
+                  <div class=\"cc-input-group\">
+                    <input 
+                      id=\"ccInput\"
+                      type=\"text\" 
+                      class=\"form-control cc-control\" 
+                      [value]=\"pixCode\" 
+                      readonly>
+                    <button class=\"btn btn-secondary btn-copy\" (click)=\"copiarPix()\">
+                      {{ copySuccess() ? 'Copiado!' : 'Copiar' }}
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Painel Exclusivo de Simulação da POC -->
+                <div class=\"poc-simulator-panel mt-4\">
+                  <h4 class=\"poc-title\">⚙️ Painel de Validação e Homologação (QA)</h4>
+                  <p class=\"poc-desc\">Como estamos operando em ambiente de testes, simule o envio do Webhook bancário do PSP confirmando o recebimento da quitação na rede Pix.</p>
+                  <button 
+                    class=\"btn btn-success btn-large btn-block\" 
+                    [disabled]=\"isSimulatingWebhook()\"
+                    (click)=\"dispararWebhook()\">
+                    @if (isSimulatingWebhook()) {
+                      <span class=\"spinner\"></span> Processando Webhook e Comunicando Fila...
+                    } @else {
+                      Simular Webhook Bancário (PSP Liquidação) ⚡
+                    }
+                  </button>
+                </div>
+              </div>
+            </div>
+          } @else {
+            <!-- Subetapa B: Recibo e Comprovante de Quitação -->
+            <div class=\"text-center success-screen animate-fade-in\">
+              <div class=\"success-icon-circle\">✓</div>
+              <h2 id=\"pay-title\" class=\"section-title success-text\">Acordo Liquidado com Sucesso!</h2>
+              <p class=\"section-subtitle\">Seu pagamento foi confirmado instantaneamente. Conforme o SLA regulatório de 15 minutos, seu nome está sendo limpo nas bases.</p>
+
+              <!-- Recibo de Papel CSS -->
+              <div class=\"receipt-box mt-4\">
+                <div class=\"receipt-header\">
+                  <span class=\"receipt-logo\">Foursys</span>
+                  <h3>Comprovante de Quitação Digital</h3>
+                </div>
+                <div class=\"receipt-body\">
+                  <div class=\"receipt-row\">
+                    <span>CPF do Beneficiário:</span>
+                    <strong>{{ formatCpf(cpf()) }}</strong>
+                  </div>
+                  <div class=\"receipt-row\">
+                    <span>Data de Liquidação:</span>
+                    <strong>{{ dataComprovante }}</strong>
+                  </div>
+                  <div class=\"receipt-row\">
+                    <span>Código do Acordo:</span>
+                    <strong><code>{{ simResponse()?.id }}</code></strong>
+                  </div>
+                  <div class=\"receipt-row\">
+                    <span>Valor Pago via Pix:</span>
+                    <strong class=\"price-final-green\">R$ {{ simResponse()?.valorFinal | number:'1.2-2' }}</strong>
+                  </div>
+                  @if (simResponse()!.numeroParcelas > 1) {
+                    <div class=\"receipt-row\">
+                      <span>Contrato:</span>
+                      <strong>Entrada quitada de plano de {{ simResponse()?.numeroParcelas }} parcelas</strong>
+                    </div>
+                  }
+                  <hr class=\"receipt-divider\">
+                  <div class=\"receipt-row text-center flex-column\">
+                    <span class=\"receipt-label-sm\">Assinatura de Autenticidade Digital</span>
+                    <span class=\"receipt-hash\"><code>{{ hashComprovante() }}</code></span>
+                  </div>
+                </div>
+                <div class=\"receipt-footer\">
+                  SLA de Exclusão de CPF em andamento na fila AMQP `q.cpf-release`.
+                </div>
+              </div>
+
+              <div class=\"button-group mt-4 justify-content-center\">
+                <button class=\"btn btn-secondary\" (click)=\"imprimirRecibo()\">🖨️ Imprimir Recibo</button>
+                <button class=\"btn btn-primary\" (click)=\"finalizarEVoltar()\">Voltar ao Início</button>
+              </div>
+            </div>
+          }
+        </section>
+      }
+
+    </div>
+  </main>
+
+  <!-- Footer do Portal -->
+  <footer class=\"reneg-footer\" role=\"contentinfo\">
+    <p>© 2025 Bureau de Crédito S.A. Todos os direitos reservados. Portal de Autoatendimento em parceria com Foursys.</p>
+    <p class=\"footer-small\">Esta plataforma coleta logs de auditoria (carimbo de IP, cookies de sessão de conformidade) de acordo com a LGPD e regras do Banco Central.</p>
+  </footer>
+</div>
