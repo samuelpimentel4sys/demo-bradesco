@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Especificação Técnica de Features - Portal de Autoatendimento</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #118d57;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --border: #dee2e6;
+            --success-bg: #d4edda;
+            --success-color: #155724;
+            --info-bg: #e2f0d9;
+            --info-color: #385723;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 5px solid var(--secondary);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary);
+        }
+        .card.feature-2 { border-left-color: var(--secondary); }
+        .card.feature-3 { border-left-color: #ff9900; }
+        .card.feature-4 { border-left-color: #9900cc; }
+        
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 1.6rem;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+        }
+        .card.feature-2 h2 { color: var(--secondary); }
+        .card.feature-3 h2 { color: #ff9900; }
+        .card.feature-4 h2 { color: #9900cc; }
+
+        h3 {
+            color: #495057;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        .meta-item {
+            font-size: 0.9rem;
+        }
+        .meta-item strong {
+            color: var(--primary);
+            display: block;
+        }
+        .us-box {
+            background-color: #fdfffe;
+            border: 1px solid #d0e1fd;
+            border-radius: 6px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .us-box.backend {
+            border-color: #f7d6ff;
+        }
+        .us-box h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            color: #0d6efd;
+        }
+        .us-box.backend h4 {
+            color: #a100d6;
+        }
+        .gherkin {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin-top: 0.5rem;
+        }
+        .gherkin .keyword { color: #f92672; font-weight: bold; }
+        .gherkin .string { color: #e6db74; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        table th, table td {
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        table th {
+            background-color: var(--light);
+            color: var(--primary);
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+            color: white;
+        }
+        .badge-high { background-color: #dc3545; }
+        .badge-medium { background-color: #ffc107; color: #212529; }
+        .badge-low { background-color: #28a745; }
+        
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Decomposição de Épico em Features de Solução</h1>
+        <p>Portal de Autoatendimento de Negociação de Dívidas (Greenfield) - Bureau de Crédito</p>
+    </header>
+
+    <div class="container">
+
+        <!-- FEATURE 1 -->
+        <div class="card">
+            <h2>FT-01: Autenticação Segura & Verificação Cadastral</h2>
+            
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <strong>Complexidade de Engenharia</strong>
+                    <span class="badge badge-medium">Média</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Prioridade de Negócio</strong>
+                    <span class="badge badge-high">Crítica (Blocker)</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Esforço Estimado</strong>
+                    13 Pontos de Feature
+                </div>
+                <div class="meta-item">
+                    <strong>Perfis Envolvidos</strong>
+                    SecOps, Backend, Frontend Svelte
+                </div>
+            </div>
+
+            <h3>1. Descrição do Escopo</h3>
+            <p>Esta feature engloba todo o fluxo inicial de identificação, cadastro e autenticação de segurança do consumidor no portal. Por tratar de dados protegidos pelo sigilo bancário e LGPD, exige validação em duas etapas (2FA via SMS/E-mail) e verificação cadastral contra o banco de dados oficial do Bureau de Crédito (score/dados pessoais).</p>
+
+            <h3>2. Histórias de Usuário</h3>
+            
+            <div class="us-box">
+                <h4>US-01.1 (Frontend) - Login Descomplicado por CPF</h4>
+                <p><strong>Como</strong> consumidor inadimplente,<br>
+                <strong>Quero</strong> informar meu CPF e receber um código de validação rápida via SMS/E-mail,<br>
+                <strong>Para que</strong> eu possa acessar minhas dívidas sem precisar decorar senhas complexas.</p>
+                
+                <div class="gherkin">
+                    <span class="keyword">Cenário:</span> Login bem-sucedido com envio de OTP (One-Time Password)<br>
+                    <span class="keyword">Dado</span> que estou na tela de login do Portal de Autoatendimento<br>
+                    <span class="keyword">Quando</span> digito um CPF válido cadastrado no Bureau de Crédito<br>
+                    <span class="keyword">E</span> clico em "Receber Código de Acesso"<br>
+                    <span class="keyword">Então</span> o sistema deve enviar um SMS/E-mail com código de 6 dígitos e exibir a tela de inserção do OTP.
+                </div>
+            </div>
+
+            <div class="us-box backend">
+                <h4>US-01.2 (Backend) - Motor de Validação OTP e JWT</h4>
+                <p><strong>Como</strong> API do Portal de Autoatendimento,<br>
+                <strong>Quero</strong> validar o código de acesso temporário enviado ao usuário e retornar um token de sessão criptografado (JWT),<br>
+                <strong>Para</strong> garantir a segurança dos dados financeiros e impedir acessos não autorizados.</p>
+                
+                <div class="gherkin">
+                    <span class="keyword">Cenário:</span> Validação de OTP incorreta<br>
+                    <span class="keyword">Dado</span> que o usuário recebeu o código OTP para o login<br>
+                    <span class="keyword">Quando</span> ele enviar um código que não coincide com o gerado ou expirado (tempo > 5 min)<br>
+                    <span class="keyword">Então</span> a API deve retornar um erro HTTP 401 (Unauthorized) e bloquear novas tentativas após 3 erros consecutivos.
+                </div>
+            </div>
+
+            <h3>3. Integrações de API & Mapeamento de Dados</h3>
+            <p><strong>POST /api/v1/auth/login-request</strong> (Frontend -> Backend)</p>
+            <pre>{
+  "cpf": "12345678901",
+  "channel": "sms"
+}</pre>
+            <p><strong>POST /api/v1/auth/verify-otp</strong> (Frontend -> Backend)</p>
+            <pre>{
+  "cpf": "12345678901",
+  "otp_code": "482015"
+}</pre>
+            <p><strong>Response (Success 200 OK):</strong></p>
+            <pre>{
+  "authenticated": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "name": "Ana Maria de Souza",
+    "last_access": "2023-11-20T10:15:30Z",
+    "score": 645
+  }
+}</pre>
+
+            <h3>4. Casos de Teste e Validação</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Cenário</th>
+                        <th>Entrada</th>
+                        <th>Resultado Esperado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CT-01</td>
+                        <td>Entrada com CPF com formato inválido</td>
+                        <td>"123.456-AA"</td>
+                        <td>Erro visual de validação no front-end, botão desabilitado.</td>
+                    </tr>
+                    <tr>
+                        <td>CT-02</td>
+                        <td>CPF não localizado na base do Bureau</td>
+                        <td>"00000000000"</td>
+                        <td>Redirecionamento amigável sugerindo contato para atualização cadastral.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FEATURE 2 -->
+        <div class="card feature-2">
+            <h2>FT-02: Painel Consolidador de Pendências</h2>
+            
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <strong>Complexidade de Engenharia</strong>
+                    <span class="badge badge-medium">Média</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Prioridade de Negócio</strong>
+                    <span class="badge badge-high">Crítica</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Esforço Estimado</strong>
+                    10 Pontos de Feature
+                </div>
+                <div class="meta-item">
+                    <strong>Perfis Envolvidos</strong>
+                    Backend, Frontend Svelte, Designer UX/UI
+                </div>
+            </div>
+
+            <h3>1. Descrição do Escopo</h3>
+            <p>Consiste no painel de controle principal do devedor (Dashboard) que carrega imediatamente após o login seguro. Consolida em tela única todos os débitos ativos indexados ao CPF cadastrado, agrupando por credor (Instituição Financeira, Varejo, Telecom), mostrando o montante original da dívida, dias de atraso e o desconto pré-aprovado para liquidação rápida.</p>
+
+            <h3>2. Histórias de Usuário</h3>
+            
+            <div class="us-box">
+                <h4>US-02.1 (Frontend) - Listagem de Dívidas Amigável</h4>
+                <p><strong>Como</strong> consumidor inadimplente,<br>
+                <strong>Quero</strong> visualizar minhas dívidas em formato de cartões limpos e fáceis de compreender,<br>
+                <strong>Para que</strong> eu saiba exatamente o total pendente e quais credores oferecem os maiores descontos de forma transparente.</p>
+            </div>
+
+            <div class="us-box backend">
+                <h4>US-02.2 (Backend) - Agregador de Carteiras de Credores</h4>
+                <p><strong>Como</strong> API do Portal de Autoatendimento,<br>
+                <strong>Quero</strong> consultar o banco de dados interno de restrições de crédito sincronizado com as carteiras dos credores parceiros,<br>
+                <strong>Para</strong> consolidar as dívidas elegíveis à negociação do CPF autenticado.</p>
+            </div>
+
+            <h3>3. Integrações de API & Mapeamento de Dados</h3>
+            <p><strong>GET /api/v1/debts</strong> (Com cabeçalho <code>Authorization: Bearer [JWT]</code>)</p>
+            <p><strong>Response (200 OK):</strong></p>
+            <pre>{
+  "summary": {
+    "total_original_value": 3450.00,
+    "total_discounted_value": 1150.00,
+    "total_savings": 2300.00,
+    "number_of_debts": 2
+  },
+  "debts": [
+    {
+      "debt_id": "deb_abc123",
+      "creditor_name": "Banco Alpha",
+      "original_value": 2500.00,
+      "current_value_with_interest": 2850.00,
+      "minimum_negotiable_value": 850.00,
+      "days_overdue": 320,
+      "status": "ELEGIBLE_FOR_NEGOTIATION",
+      "contract_number": "CTR-99481-A"
+    },
+    {
+      "debt_id": "deb_xyz789",
+      "creditor_name": "Telefonia Beta",
+      "original_value": 600.00,
+      "current_value_with_interest": 600.00,
+      "minimum_negotiable_value": 300.00,
+      "days_overdue": 120,
+      "status": "ELEGIBLE_FOR_NEGOTIATION",
+      "contract_number": "TEL-88122-B"
+    }
+  ]
+}</pre>
+
+            <h3>4. Casos de Teste e Validação</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Cenário</th>
+                        <th>Entrada</th>
+                        <th>Resultado Esperado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CT-03</td>
+                        <td>Consumidor sem pendências ativas registradas</td>
+                        <td>CPF com zero restrições</td>
+                        <td>Exibir card celebrativo: "Parabéns, seu nome está limpo!" e mostrar score atualizado.</td>
+                    </tr>
+                    <tr>
+                        <td>CT-04</td>
+                        <td>Falha na conexão com banco de dados de restrições</td>
+                        <td>Requisição para /debts falha</td>
+                        <td>Exibir esqueleto de carregamento com erro amigável "Não foi possível recuperar seus dados, tente novamente em alguns instantes."</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FEATURE 3 -->
+        <div class="card feature-3">
+            <h2>FT-03: Motor Simulador de Acordos & Negociação Interativa</h2>
+            
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <strong>Complexidade de Engenharia</strong>
+                    <span class="badge badge-high">Alta</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Prioridade de Negócio</strong>
+                    <span class="badge badge-high">Crítica</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Esforço Estimado</strong>
+                    21 Pontos de Feature
+                </div>
+                <div class="meta-item">
+                    <strong>Perfis Envolvidos</strong>
+                    Matemático Financeiro, Backend, Frontend Svelte (Slider/UX)
+                </div>
+            </div>
+
+            <h3>1. Descrição do Escopo</h3>
+            <p>O coração do sistema. Permite que o usuário, após selecionar uma das pendências elegíveis, simule opções de liquidação de forma dinâmica. O usuário pode arrastar um slider para alterar a quantidade de parcelas (de 1 a 24) ou o valor da entrada inicial. O motor de cálculo recalcula instantaneamente os juros de parcelamento e o desconto concedido pelo credor de acordo com as faixas configuradas de descontos permitidas.</p>
+
+            <h3>2. Histórias de Usuário</h3>
+            
+            <div class="us-box">
+                <h4>US-03.1 (Frontend) - Simulador Interativo Visual (Slider)</h4>
+                <p><strong>Como</strong> devedor buscando flexibilidade,<br>
+                <strong>Quero</strong> alterar o plano de parcelas em uma régua interativa e ver o valor de cada parcela mudar em tempo real,<br>
+                <strong>Para</strong> encontrar o ponto de equilíbrio de pagamento que caiba perfeitamente no meu bolso de forma intuitiva.</p>
+            </div>
+
+            <div class="us-box backend">
+                <h4>US-03.2 (Backend) - Motor de Simulação e Desconto Progressivo</h4>
+                <p><strong>Como</strong> API do Portal,<br>
+                <strong>Quero</strong> aplicar a tabela progressiva de desconto e juros parametrizada por credor a cada simulação enviada pelo front-end,<br>
+                <strong>Para</strong> retornar simulações financeiras exatas e homologáveis de acordo com a política de cobrança do credor.</p>
+            </div>
+
+            <h3>3. Integrações de API & Mapeamento de Dados</h3>
+            <p><strong>POST /api/v1/negotiations/simulate</strong> (Simulação em tempo real - síncrona)</p>
+            <pre>{
+  "debt_id": "deb_abc123",
+  "installments_requested": 6,
+  "down_payment": 100.00
+}</pre>
+            <p><strong>Response (200 OK):</strong></p>
+            <pre>{
+  "simulation_id": "sim_88491823",
+  "debt_id": "deb_abc123",
+  "original_value": 2500.00,
+  "discount_applied": 1500.00,
+  "total_negotiated_value": 1000.00,
+  "installments": 6,
+  "down_payment": 100.00,
+  "installment_value": 150.00,
+  "interest_rate_monthly": 1.5,
+  "savings": 1500.00,
+  "due_date_first_installment": "2023-11-25"
+}</pre>
+
+            <h3>4. Casos de Teste e Validação</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Cenário</th>
+                        <th>Entrada</th>
+                        <th>Resultado Esperado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CT-05</td>
+                        <td>Simulação de pagamento à vista (desconto máximo)</td>
+                        <td>installments_requested = 1, down_payment = 0</td>
+                        <td>Retorno de desconto máximo (ex: 60%), juros zero, valor de parcela única = valor negociado à vista.</td>
+                    </tr>
+                    <tr>
+                        <td>CT-06</td>
+                        <td>Simulação fora do limite parametrizado pelo credor</td>
+                        <td>installments_requested = 48 (limite é 24)</td>
+                        <td>Retornar HTTP 422 Unprocessable Entity com a mensagem parametrizada do credor ("Este credor aceita renegociações em até 24 vezes").</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FEATURE 4 -->
+        <div class="card feature-4">
+            <h2>FT-04: Checkout, Emissão e Baixa de Pagamentos (Pix & Boleto)</h2>
+            
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <strong>Complexidade de Engenharia</strong>
+                    <span class="badge badge-high">Alta</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Prioridade de Negócio</strong>
+                    <span class="badge badge-high">Crítica</span>
+                </div>
+                <div class="meta-item">
+                    <strong>Esforço Estimado</strong>
+                    18 Pontos de Feature
+                </div>
+                <div class="meta-item">
+                    <strong>Perfis Envolvidos</strong>
+                    Backend Integration Dev, Devops, QA
+                </div>
+            </div>
+
+            <h3>1. Descrição do Escopo</h3>
+            <p>Garante o encerramento do acordo negociado. Fornece as rotas de checkout onde o devedor confirma o plano de simulação escolhido. O sistema se integra aos bancos liquidantes para gerar instantaneamente o QR Code Pix e Copia e Cola (preferencial para liquidação instantânea) ou o link/PDF do boleto bancário tradicional de forma segura. Também gerencia os webhooks de confirmação de pagamento para realizar a baixa imediata da negativação no Bureau de Crédito em até 24 horas.</p>
+
+            <h3>2. Histórias de Usuário</h3>
+            
+            <div class="us-box">
+                <h4>US-04.1 (Frontend) - Finalização Rápida de Acordo via Pix</h4>
+                <p><strong>Como</strong> consumidor comprometido a limpar o nome,<br>
+                <strong>Quero</strong> fechar meu acordo e obter na mesma tela o QR Code do Pix para pagamento imediato,<br>
+                <strong>Para</strong> garantir a liquidação rápida e a exclusão da minha pendência de forma ágil.</p>
+            </div>
+
+            <div class="us-box backend">
+                <h4>US-04.2 (Backend) - Orquestrador de Pagamentos & Sincronizador de Baixa</h4>
+                <p><strong>Como</strong> API do Portal,<br>
+                <strong>Quero</strong> enviar a transação ao gateway de pagamento bancário, gerar as chaves Pix e boletos e registrar o webhook de conciliação,<br>
+                <strong>Para</strong> atualizar o status do acordo no sistema e disparar a limpeza do nome na API de negativação do Bureau.</p>
+            </div>
+
+            <h3>3. Integrações de API & Mapeamento de Dados</h3>
+            <p><strong>POST /api/v1/agreements/confirm</strong> (Geração do acordo formal)</p>
+            <pre>{
+  "simulation_id": "sim_88491823",
+  "payment_method": "PIX"
+}</pre>
+            <p><strong>Response (201 Created):</strong></p>
+            <pre>{
+  "agreement_id": "agr_559102",
+  "status": "AWAITING_PAYMENT",
+  "payment_method": "PIX",
+  "pix_copia_e_cola": "00020101021226870014br.gov.bcb.pix2565...",
+  "pix_qr_code_url": "https://images.bureau.com.br/qrcodes/agr_559102.png",
+  "expires_at": "2023-11-21T23:59:59Z",
+  "due_date": "2023-11-21",
+  "amount_due": 100.00
+}</pre>
+
+            <h3>4. Casos de Teste e Validação</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Caso</th>
+                        <th>Cenário</th>
+                        <th>Entrada</th>
+                        <th>Resultado Esperado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CT-07</td>
+                        <td>Webhook recebe evento de pagamento aprovado do Pix</td>
+                        <td>Payload de liquidação recebido da API do Banco</td>
+                        <td>Status do acordo atualizado para PAID, dispara comando para remover negativação do banco do Bureau, envia SMS confirmando.</td>
+                    </tr>
+                    <tr>
+                        <td>CT-08</td>
+                        <td>Vencimento de Pix não pago</td>
+                        <td>Scheduler do sistema roda após expirar data limite</td>
+                        <td>Cancela o Pix, reabre a dívida no portal para renegociação e envia e-mail alertando o devedor da quebra do acordo.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>
