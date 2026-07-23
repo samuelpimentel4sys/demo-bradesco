@@ -1,286 +1,351 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planejamento Estratégico - Portal de Autoatendimento de Dívidas</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            background-color: #f8fafc;
-        }
-        h1 {
-            color: #1e3a8a;
-            border-bottom: 3px solid #3b82f6;
-            padding-bottom: 12px;
-            font-size: 2.2em;
-        }
-        h2 {
-            color: #1e40af;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 8px;
-            margin-top: 40px;
-            font-size: 1.6em;
-        }
-        h3 {
-            color: #1d4ed8;
-            font-size: 1.25em;
-            margin-top: 25px;
-        }
-        .container {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 0.95em;
-        }
-        th, td {
-            border: 1px solid #cbd5e1;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f1f5f9;
-            color: #0f172a;
-        }
-        tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-        .highlight {
-            background-color: #eff6ff;
-            border-left: 4px solid #3b82f6;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Reconcilia - Planejamento Estratégico & ROI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Planejamento Estratégico & Documento de Épico</h1>
-        <p><strong>Produto:</strong> Portal de Autoatendimento para Negociação de Dívidas (Greenfield)</p>
-        <p><strong>Autor:</strong> The Visionary - Consultor Estratégico de Negócio</p>
-        <p><strong>Data de Emissão:</strong> Ano Corrente 2025/2026</p>
+<body class="bg-slate-900 text-slate-100 min-h-screen">
 
-        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
-
-        <h2>## Fase 1 — Benchmark de Mercado</h2>
-        <p>A digitalização dos canais de cobrança e recuperação de ativos financeiros deixou de ser um diferencial competitivo para se tornar uma necessidade vital de sobrevivência operacional no mercado brasileiro. A partir de análises e indicadores do ano corrente, consolidamos os seguintes pilares de referência:</p>
-        
-        <h3>1. O Comportamento e a Dignidade do Devedor (Benchmark Global InDebted 2025/2026)</h3>
-        <ul>
-            <li><strong>Preferência pelo Autoatendimento:</strong> Em pesquisas de mercado com consumidores submetidos à inadimplência, surpreendentes <strong>86% dos clientes declararam preferir portais de autoatendimento online</strong> para liquidar ou parcelar suas pendências financeiras em vez de interagir por voz com agentes humanos.</li>
-            <li><strong>Redução de Atrito Emocional:</strong> A vergonha e a pressão psicológica impostas por ligações insistentes de assessorias de cobrança tradicional afastam o consumidor devedor. A jornada segura, autônoma, silenciosa e sem julgamentos do ambiente digital aumenta expressivamente a propensão ao engajamento voluntário.</li>
-        </ul>
-
-        <h3>2. Parâmetros de Eficiência do Mercado Brasileiro (Referências: Serasa Limpa Nome, SPC Acordo e QueroQuitar)</h3>
-        <ul>
-            <li><strong>Taxa de Conversão Digital:</strong> Portais que consolidam múltiplos credores em uma única tela geram um aumento médio de <strong>10 a 15 pontos percentuais</strong> na taxa de conversão final em relação às réguas analógicas convencionais de cobrança.</li>
-            <li><strong>Idade da Dívida e Eficiência:</strong> Embora a taxa de recuperação em carteiras maduras (dívidas acima de 2 anos) gire em torno de 15% a 25% no segmento B2C (devido à reincidência e ao enfraquecimento do poder de compra), carteiras "frescas" (menos de 6 meses) em plataformas integradas chegam a atingir taxas de recuperação superiores a <strong>70% a 90%</strong>.</li>
-            <li><strong>Efeito Ecossistema:</strong> Como a empresa já atua como um Bureau de Crédito, a capacidade de integrar a negociação diretamente à consulta do score e à exclusão instantânea das restrições de crédito (limpeza de nome em até 24 horas úteis via API) gera um gatilho de urgência incomparável.</li>
-        </ul>
-
-        <h2>## Fase 2 — Definição de ROI e Metas Financeiras (SMART)</h2>
-        <p>Esta análise de viabilidade financeira projeta os investimentos e os retornos econômicos gerados pela implantação do Portal de Autoatendimento ao longo de um horizonte de 3 anos.</p>
-
-        <h3>1. Estrutura de Investimentos (CAPEX + OPEX Inicial)</h3>
-        <p>O investimento necessário para construir a solução do zero (greenfield), integrar APIs com credores e core do bureau, além de homologar segurança e compliance, é estimado em <strong>R$ 1.500.000,00</strong>, composto por:</p>
-        <ul>
-            <li>Desenvolvimento de Software (Engenharia, UX/UI, Segurança): R$ 850.000,00</li>
-            <li>Estrutura de Cloud, Segurança de Dados (LGPD/Criptografia) e APIs: R$ 350.000,00</li>
-            <li>Esforços Iniciais de Marketing Digital para Posicionamento e Atração de Consumidores: R$ 300.000,00</li>
-        </ul>
-
-        <h3>2. Análise Multicenário de Retorno (Período de 3 Anos)</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Métrica / Indicador</th>
-                    <th>Cenário Conservador</th>
-                    <th>Cenário Moderado (Alvo)</th>
-                    <th>Cenário Otimista</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Volume Transacionado (Ano 1)</strong></td>
-                    <td>R$ 10.000.000,00</td>
-                    <td>R$ 15.000.000,00</td>
-                    <td>R$ 22.000.000,00</td>
-                </tr>
-                <tr>
-                    <td><strong>Taxa de Recuperação de Dívida</strong></td>
-                    <td>25% (carteira mista)</td>
-                    <td>35% (carteira mista)</td>
-                    <td>45% (carteira mista)</td>
-                </tr>
-                <tr>
-                    <td><strong>Take-Rate do Bureau (Taxa de Comissão)</strong></td>
-                    <td>4,0%</td>
-                    <td>5,0%</td>
-                    <td>5,5%</td>
-                </tr>
-                <tr>
-                    <td><strong>Economia Operacional (vs Call Center)</strong></td>
-                    <td>R$ 450.000,00/ano</td>
-                    <td>R$ 750.000,00/ano</td>
-                    <td>R$ 1.100.000,00/ano</td>
-                </tr>
-                <tr>
-                    <td><strong>Período de Payback Estimado</strong></td>
-                    <td>18 meses</td>
-                    <td>12 meses</td>
-                    <td>8 meses</td>
-                </tr>
-                <tr>
-                    <td><strong>ROI Acumulado (3 Anos)</strong></td>
-                    <td><strong>115%</strong></td>
-                    <td><strong>160%</strong></td>
-                    <td><strong>240%</strong></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>3. Metas SMART Estabelecidas</h3>
-        <ul>
-            <li><strong>S (Específica):</strong> Reduzir o custo transacional por acordo negociado migrando a operação ativa/passiva humana para o fluxo autônomo digital.</li>
-            <li><strong>M (Mensurável):</strong> Alcançar uma redução de 80% no custo operacional unitário de negociação (custo por ticket resolvido de R$ 12,00 no contact center para R$ 2,40 na infraestrutura web).</li>
-            <li><strong>A (Atingível):</strong> Implementar uma API integrada de gateway de pagamentos (Pix e Boleto) que liquide o pagamento e sincronize a baixa no sistema de restrição em tempo real.</li>
-            <li><strong>R (Relevante):</strong> Aumentar a taxa geral de recuperação de dívidas dos parceiros credores em 12 pontos percentuais no primeiro ano de uso ativo do portal.</li>
-            <li><strong>T (Temporal):</strong> Lançar o MVP com as 5 principais carteiras de credores no mercado em até 6 meses; atingir o breakeven financeiro no 12º mês pós-lançamento.</li>
-        </ul>
-
-        <h2>## Fase 3 — Documento de Épico Completo</h2>
-        
-        <h3>1. Visão de Negócio e Descrição</h3>
-        <p>O objetivo deste épico é conceber, desenvolver e lançar o <strong>Portal de Autoatendimento de Negociação de Dívidas</strong> do Bureau de Crédito. Trata-se de um marketplace financeiro de cobrança amigável 100% digital, onde o cidadão com restrições financeiras poderá consultar de forma gratuita seu CPF, identificar as dívidas ativas associadas, simular propostas de pagamento de forma dinâmica e efetuar a quitação via Pix ou Boleto Bancário. O portal será focado na facilidade de uso, sigilo absoluto e desintermediação de contatos telefônicos incômodos.</p>
-
-        <h3>2. Histórias de Usuário Principais</h3>
-        <div class="highlight">
-            <p><strong>Como</strong> Consumidor Inadimplente,<br>
-            <strong>Quero</strong> acessar o Portal de Autoatendimento através de uma autenticação simples e segura,<br>
-            <strong>Para</strong> visualizar o detalhamento das minhas pendências sem sofrer constrangimento ou pressão de cobrança por telefone.</p>
+  <!-- Header Executive Nav -->
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2.5 bg-gradient-to-tr from-emerald-500 to-teal-400 rounded-xl shadow-lg shadow-emerald-500/20">
+          <svg class="w-6 h-6 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
         </div>
-        <div class="highlight">
-            <p><strong>Como</strong> Consumidor Inadimplente,<br>
-            <strong>Quero</strong> simular cenários de pagamento com desconto para pagamento à vista ou parcelado de forma interativa,<br>
-            <strong>Para</strong> escolher a opção que se encaixa perfeitamente no meu orçamento mensal e quitar a pendência.</p>
+        <div>
+          <h1 class="text-lg font-extrabold tracking-tight bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">RECONCILIA</h1>
+          <p class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">Portal de Autoatendimento Greenfield</p>
         </div>
-        <div class="highlight">
-            <p><strong>Como</strong> Instituição Credora Parceira,<br>
-            <strong>Quero</strong> disponibilizar o upload automatizado do meu arquivo de devedores e regras de desconto via API,<br>
-            <strong>Para</strong> recuperar o capital de forma ágil, integrada e com baixíssimo custo operacional transacional.</p>
-        </div>
-
-        <h3>3. Requisitos Funcionais (RF)</h3>
-        <ul>
-            <li><strong>RF-001 - Autenticação Segura:</strong> Integração com sistemas de verificação cadastral do Bureau e suporte para login único via plataforma Gov.br.</li>
-            <li><strong>RF-002 - Painel Consolidador de Pendências:</strong> Listagem unificada de todas as dívidas registradas no CPF do usuário pertencentes a credores parceiros.</li>
-            <li><strong>RF-003 - Motor de Simulação Interativa (Régua Deslizante):</strong> Slider em tela para escolha de número de parcelas ou valor de entrada, recalculando automaticamente descontos, juros e o valor de cada parcela com base nas regras do credor.</li>
-            <li><strong>RF-004 - Geração Instantânea de Meios de Pagamento:</strong> Emissão imediata de "Copia e Cola" e QR Code Pix, bem como PDF de Boleto Bancário para pagamento.</li>
-            <li><strong>RF-005 - Canal de Notificações e Comprovantes:</strong> Disparo automatizado de confirmação de acordos e lembretes de parcelas vincendas via e-mail, SMS ou push web.</li>
-        </ul>
-
-        <h3>4. Requisitos Não Funcionais (RNF)</h3>
-        <ul>
-            <li><strong>RNF-001 - Segurança e LGPD:</strong> Criptografia de dados em trânsito (TLS 1.3) e em repouso (AES-256). Consentimento explícito do usuário para tratamento de dados sensíveis e conformidade estrita com as regulamentações da LGPD.</li>
-            <li><strong>RNF-002 - Alta Disponibilidade:</strong> Arquitetura em nuvem escalável com uptime mínimo garantido de 99,9% (SLA de produção).</li>
-            <li><strong>RNF-003 - Performance e Latência:</strong> Carregamento das páginas de simulação em menos de 1.5 segundo sob picos normais de acesso.</li>
-            <li><strong>RNF-004 - Responsividade e Acessibilidade:</strong> Front-end otimizado para dispositivos móveis e desktops, em conformidade com as diretrizes do WCAG.</li>
-        </ul>
-
-        <h3>4.1. Análise de ROI e Métricas Financeiras</h3>
-        <p><em>(Conforme detalhado e dimensionado na Fase 2 deste documento)</em>. O portal foi planejado sob a ótica da geração direta de valor e economia operacional. O ROI acumulado de 3 anos do projeto está estruturado em <strong>160% (Cenário Moderado)</strong>, fundamentado na taxa de comissão de 5% sobre os montantes recuperados somado ao ganho de imagem e diminuição drástica dos custos transacionais de call center. O ponto de equilíbrio (breakeven) e payback do capital investido (R$ 1,5M) ocorrerá em 12 meses pós-lançamento comercial do MVP.</p>
-
-        <h3>5. Cenários de Teste e Critérios de Aceitação</h3>
-        <ul>
-            <li><strong>Cenário de Teste 1 - Simulação de Acordo com Desconto Máximo:</strong>
-                <br><em>Dado</em> que o consumidor "Ana" possui uma dívida de R$ 1.000,00 elegível a 60% de desconto para pagamento à vista.
-                <br><em>Quando</em> Ana selecionar a opção "Pagar à vista" no slider de negociação do portal.
-                <br><em>Então</em> o sistema deve aplicar o desconto, apresentar o valor consolidado de R$ 400,00, exibir a economia gerada de R$ 600,00 e habilitar exclusivamente o botão para geração do QR Code Pix.
-            </li>
-            <li><strong>Cenário de Teste 2 - Falha de Sincronização de API do Credor:</strong>
-                <br><em>Dado</em> que o serviço do credor "Banco Alpha" esteja indisponível no momento de confirmar o acordo.
-                <br><em>Quando</em> o usuário clicar para finalizar a renegociação daquela dívida específica.
-                <br><em>Então</em> o portal deve registrar a simulação localmente em uma fila de resiliência, exibir uma mensagem amigável ao usuário ("Estamos processando seu acordo com a instituição. Você receberá o boleto por e-mail em até 30 minutos") e disparar um alerta interno de erro na integração para a equipe de monitoramento técnico.
-            </li>
-        </ul>
-
-        <h3>6. Arquitetura de Integração</h3>
-        <p>A arquitetura será baseada em microsserviços desacoplados e orientados a eventos:</p>
-        <ul>
-            <li><strong>API de Bureau (Interna):</strong> Consulta cadastral rápida de score de crédito e dados de identificação do consumidor.</li>
-            <li><strong>API dos Parceiros Credores:</strong> Recebimento diário assíncrono (arquivos batch) ou consultas síncronas via webhooks para verificar as regras de desconto vigentes e os valores atualizados das dívidas.</li>
-            <li><strong>Gateway de Pagamentos Integrado:</strong> Geração automatizada de Pix via webhook com bancos emissores para notificação imediata de quitação.</li>
-        </ul>
-
-        <h3>7. Plano de Lançamento e Rollout</h3>
-        <ul>
-            <li><strong>Fase 1 - MVP Controlado (Meses 1 a 4):</strong> Desenvolvimento do motor de simulação e integração com os 3 maiores credores parceiros. Testes em ambiente fechado com grupo de usuários selecionados de 5.000 devedores.</li>
-            <li><strong>Fase 2 - Rollout Parcial (Meses 5 a 6):</strong> Abertura do portal na web para tráfego orgânico restrito; inclusão de meios de pagamento em Pix Copia e Cola e Boletos tradicionais; integração de 10 novos credores.</li>
-            <li><strong>Fase 3 - Lançamento Nacional e Escalonamento (Meses 7+):</strong> Campanha nacional de comunicação do portal; ativação do motor de recomendação inteligente com base em propensão ao pagamento; integração total ao fluxo de consulta de score no app/site principal do Bureau.</li>
-        </ul>
-
-        <h3>8. Fluxo de Decisão</h3>
-        <p>O fluxo de decisão de negociação de dívida baseia-se na identificação segura do consumidor, na avaliação rápida das regras de negócio do credor associadas à dívida e na geração imediata de meios digitais de pagamento facilitado para liquidação instantânea.</p>
-
-        <h3>9. Matriz de Riscos e Mitigações</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Risco Mapeado</th>
-                    <th>Nível de Impacto</th>
-                    <th>Probabilidade</th>
-                    <th>Ação Mitigadora Proposta</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Vazamento de dados financeiros sensíveis (Quebra da LGPD)</td>
-                    <td><strong>Crítico</strong></td>
-                    <td>Baixa</td>
-                    <td>Adotar criptografia de ponta a ponta, tokenização de informações sigilosas e realizar auditorias trimestrais de invasão (Pentest).</td>
-                </tr>
-                <tr>
-                    <td>Indisponibilidade de APIs dos Credores durante negociação</td>
-                    <td>Alto</td>
-                    <td>Média</td>
-                    <td>Uso de filas de resiliência e gravação de simulações em cache (modo assíncrono) para processamento em background assim que a API restabelecer.</td>
-                </tr>
-                <tr>
-                    <td>Baixa adesão do consumidor devedor ao portal web</td>
-                    <td>Médio</td>
-                    <td>Baixa</td>
-                    <td>Investir forte em UX simplificada, design focado em mobile, linguagem acolhedora, e disparar réguas automatizadas via canais digitais (WhatsApp e SMS).</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h3>10. Definição de Pronto (Definition of Done - DoD)</h3>
-        <p>Cada feature desenvolvida para o portal só será considerada finalizada e pronta para homologação se atender aos seguintes critérios:</p>
-        <ul>
-            <li>Cobertura mínima de 85% em testes unitários automatizados.</li>
-            <li>Revisão de código (Code Review) aprovada por pelo menos dois Engenheiros de Software Sênior.</li>
-            <li>Aprovação em testes de conformidade com a LGPD e testes de segurança de OWASP.</li>
-            <li>Jornada de tela validada em conformidade com o protótipo de alta fidelidade desenhado pelo time de UX.</li>
-            <li>Documentação das rotas de APIs criadas registradas no Swagger/Postman.</li>
-        </ul>
-
-        <h3>11. UX/UI e Jornada do Consumidor</h3>
-        <p>A experiência visual deve transmitir transparência, segurança, serenidade e controle para o usuário. A paleta de cores usará tons suaves de azul e verde (associados a soluções financeiras seguras e otimismo de nome limpo). O fluxo conterá no máximo 4 telas para fechar um acordo: Login → Listagem de Dívidas → Simulador de Propostas → Tela de Pagamento. O uso de termos jurídicos ou de cobrança pesada (como 'devedor', 'inadimplente', 'execução judicial') está proibido na interface, sendo substituído por termos amigáveis (como 'suas pendências', 'oportunidades de acordo', 'regularize já').</p>
-
-        <h3>12. Considerações Legais e LGPD</h3>
-        <p>Nos termos do Marco Civil da Internet e da Lei Geral de Proteção de Dados (LGPD), todas as bases de dados financeiras tratadas no portal de autoatendimento serão manipuladas estritamente sob as bases legais de "Proteção ao Crédito" (Art. 7º, X da LGPD) e "Execução de Contrato" (Art. 7º, V da LGPD). O consentimento expresso será coletado no momento do aceite dos termos de uso da renegociação, garantindo ao consumidor o direito de exclusão de dados cadastrais não regulamentados e o acesso transparente e simplificado às suas informações de débitos registrados.</p>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <span class="px-3.5 py-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-bold tracking-wide">
+          ESTRATEGIA & ROI
+        </span>
+        <span class="px-3.5 py-1.5 bg-slate-800/80 border border-slate-700/50 text-slate-300 rounded-full text-xs font-semibold">
+          v1.0.0
+        </span>
+      </div>
     </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-6 py-12 space-y-12">
+    
+    <!-- Hero / Intro -->
+    <section class="relative rounded-3xl overflow-hidden border border-slate-800 bg-gradient-to-b from-slate-950 to-slate-900 p-8 md:p-12 shadow-2xl">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.08),transparent_50%)]"></div>
+      <div class="relative max-w-3xl space-y-6">
+        <span class="px-3 py-1 bg-slate-800 text-slate-400 rounded-lg text-xs font-semibold uppercase tracking-wider">Documento de Diretrizes</span>
+        <h2 class="text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+          Planejamento Estratégico, ROI & Benchmark de Mercado
+        </h2>
+        <p class="text-slate-400 text-base md:text-lg leading-relaxed">
+          Esta especificação detalha o racional financeiro, objetivos SMART de negócios e a viabilidade do produto greenfield. Desenvolvido para apresentar ao C-Level a relação de valor operacional, taxa de conversão digital e retorno de investimento (ROI).
+        </p>
+        <div class="pt-4 flex flex-wrap gap-6 text-sm">
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <span>Investimento Estimado: <strong>R$ 1.5M</strong></span>
+          </div>
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span>
+            <span>Payback Estimado: <strong>12 meses</strong></span>
+          </div>
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+            <span>ROI Alvo: <strong>160%</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive ROI Simulator (Executive Feature!) -->
+    <section class="border border-slate-800 bg-slate-950 rounded-3xl p-8 shadow-xl space-y-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-6">
+        <div>
+          <h3 class="text-2xl font-extrabold text-white">Simulador de ROI Executivo</h3>
+          <p class="text-xs text-slate-400">Ajuste os parâmetros financeiros em tempo real para projetar os ganhos do portal.</p>
+        </div>
+        <span class="text-[10px] px-2.5 py-1 bg-emerald-500/10 text-emerald-400 rounded font-mono uppercase font-bold tracking-wider">Interativo</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Sliders -->
+        <div class="lg:col-span-2 space-y-6">
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-300 font-semibold">Volume Transacionável (Ano 1)</span>
+              <span class="text-emerald-400 font-bold" id="val-vol">R$ 15.000.000</span>
+            </div>
+            <input type="range" id="slide-vol" min="5000000" max="30000000" step="1000000" value="15000000" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>R$ 5M</span>
+              <span>R$ 30M</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-300 font-semibold">Taxa de Comissão (Take-Rate)</span>
+              <span class="text-emerald-400 font-bold" id="val-take">5.0%</span>
+            </div>
+            <input type="range" id="slide-take" min="2" max="10" step="0.5" value="5" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>2.0%</span>
+              <span>10.0%</span>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-300 font-semibold">Economia Operacional Anual</span>
+              <span class="text-emerald-400 font-bold" id="val-eco">R$ 750.000</span>
+            </div>
+            <input type="range" id="slide-eco" min="200000" max="2000000" step="50000" value="750000" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <div class="flex justify-between text-[10px] text-slate-500">
+              <span>R$ 200 mil</span>
+              <span>R$ 2M</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Output Panel -->
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-850 p-6 rounded-2xl flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <div class="text-center pb-4 border-b border-slate-800">
+              <span class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Retorno Total Estimado</span>
+              <h4 class="text-4xl font-black text-white mt-1" id="res-total">R$ 1.500.000</h4>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-400">Investimento Inicial:</span>
+              <span class="text-slate-300 font-semibold">R$ 1.500.000</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-400">Ganhos por Comissão:</span>
+              <span class="text-slate-300 font-semibold" id="res-comm">R$ 750.000</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-400">Ganhos por Economia:</span>
+              <span class="text-slate-300 font-semibold" id="res-ecos">R$ 750.000</span>
+            </div>
+          </div>
+
+          <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 text-center">
+            <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">ROI Estimado (Ano 1)</span>
+            <div class="text-3xl font-extrabold text-emerald-400" id="res-roi">100.0%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Content Sections Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Benchmark Panel -->
+      <section class="lg:col-span-2 space-y-6">
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-8 space-y-6">
+          <h3 class="text-2xl font-extrabold text-white border-b border-slate-850 pb-4">Benchmark de Mercado</h3>
+          
+          <div class="space-y-4">
+            <div class="border border-slate-800 hover:border-slate-700 bg-slate-900/40 p-5 rounded-2xl transition-all">
+              <h4 class="text-emerald-400 font-bold text-lg mb-2">Preferência por Autoatendimento (InDebted)</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Pesquisas revelam que <strong class="text-slate-200">86% dos inadimplentes</strong> preferem portais de negociação online. A jornada autônoma, sem pressão por ligações telefônicas, preserva a dignidade e acelera a taxa de pagamento voluntário.
+              </p>
+            </div>
+
+            <div class="border border-slate-800 hover:border-slate-700 bg-slate-900/40 p-5 rounded-2xl transition-all">
+              <h4 class="text-emerald-400 font-bold text-lg mb-2">Parâmetros de Conversão (Serasa Limpa Nome)</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                A unificação de credores em canais digitais aumenta as conversões em até <strong class="text-slate-200">15 pontos percentuais</strong>. Além disso, a agilidade na baixa cadastral via API atrai o cliente pela urgência de limpar seu score de crédito.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Multicenário -->
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-8 space-y-6">
+          <h3 class="text-2xl font-extrabold text-white border-b border-slate-850 pb-4">Análise Multicenário (3 Anos)</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-800 text-xs uppercase tracking-widest text-slate-400">
+                  <th class="py-3 px-4">Indicador</th>
+                  <th class="py-3 px-4 text-right">Conservador</th>
+                  <th class="py-3 px-4 text-right text-emerald-400">Moderado (Alvo)</th>
+                  <th class="py-3 px-4 text-right">Otimista</th>
+                </tr>
+              </thead>
+              <tbody class="text-sm text-slate-300 divide-y divide-slate-850">
+                <tr class="hover:bg-slate-900/30">
+                  <td class="py-4 px-4 font-semibold text-slate-200">Volume Transacionado</td>
+                  <td class="py-4 px-4 text-right">R$ 10M</td>
+                  <td class="py-4 px-4 text-right text-emerald-400 font-bold">R$ 15M</td>
+                  <td class="py-4 px-4 text-right">R$ 22M</td>
+                </tr>
+                <tr class="hover:bg-slate-900/30">
+                  <td class="py-4 px-4 font-semibold text-slate-200">Taxa de Recuperação</td>
+                  <td class="py-4 px-4 text-right">25%</td>
+                  <td class="py-4 px-4 text-right text-emerald-400 font-bold">35%</td>
+                  <td class="py-4 px-4 text-right">45%</td>
+                </tr>
+                <tr class="hover:bg-slate-900/30">
+                  <td class="py-4 px-4 font-semibold text-slate-200">Take-Rate do Bureau</td>
+                  <td class="py-4 px-4 text-right">4.0%</td>
+                  <td class="py-4 px-4 text-right text-emerald-400 font-bold">5.0%</td>
+                  <td class="py-4 px-4 text-right">5.5%</td>
+                </tr>
+                <tr class="hover:bg-slate-900/30">
+                  <td class="py-4 px-4 font-semibold text-slate-200">ROI Acumulado (3 anos)</td>
+                  <td class="py-4 px-4 text-right">115%</td>
+                  <td class="py-4 px-4 text-right text-emerald-400 font-extrabold">160%</td>
+                  <td class="py-4 px-4 text-right">240%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sidebar KPI & Metas -->
+      <section class="space-y-6">
+        <div class="bg-gradient-to-b from-slate-950 to-slate-900 border border-slate-800 rounded-3xl p-8 space-y-6">
+          <h3 class="text-xl font-bold text-white border-b border-slate-800 pb-4">Metas SMART</h3>
+          
+          <div class="space-y-4">
+            <div class="flex gap-4">
+              <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 text-sm">S</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-200">Específica</h4>
+                <p class="text-xs text-slate-400 mt-1">Migrar renegociação ativa humana para o autoatendimento web.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 text-sm">M</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-200">Mensurável</h4>
+                <p class="text-xs text-slate-400 mt-1">Reduzir o custo operacional unitário de R$ 12,00 para R$ 2,40.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 text-sm">A</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-200">Atingível</h4>
+                <p class="text-xs text-slate-400 mt-1">API integrada para emissão de Pix e boletos e baixa rápida.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 text-sm">R</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-200">Relevante</h4>
+                <p class="text-xs text-slate-400 mt-1">Elevar a recuperação do credor parceiro em 12 pontos percentuais.</p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 text-sm">T</span>
+              <div>
+                <h4 class="text-sm font-bold text-slate-200">Temporal</h4>
+                <p class="text-xs text-slate-400 mt-1">Lançamento do MVP em até 6 meses com 5 principais carteiras.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-950 border border-slate-800 rounded-3xl p-8 space-y-4">
+          <h4 class="text-lg font-bold text-white">Matriz de Riscos</h4>
+          <div class="space-y-3">
+            <div class="p-3 bg-red-500/5 border border-red-500/10 rounded-xl">
+              <div class="flex justify-between items-center text-xs mb-1">
+                <span class="text-red-400 font-bold">Vazamento de Dados</span>
+                <span class="px-1.5 py-0.5 bg-red-500/10 text-red-400 rounded font-bold uppercase tracking-wider text-[8px]">Crítico</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Mitigação: Criptografia ponta a ponta e auditorias de Pentest trimestrais.</p>
+            </div>
+
+            <div class="p-3 bg-amber-500/5 border border-amber-500/10 rounded-xl">
+              <div class="flex justify-between items-center text-xs mb-1">
+                <span class="text-amber-400 font-bold">Indisponibilidade de API</span>
+                <span class="px-1.5 py-0.5 bg-amber-500/10 text-amber-400 rounded font-bold uppercase tracking-wider text-[8px]">Médio</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Mitigação: Fila resiliente (RabbitMQ) e cache NoSQL temporário.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-950 py-8 text-center text-sm text-slate-500">
+    <div class="max-w-7xl mx-auto px-6">
+      <p>&copy; 2026 Bureau de Crédito Reconcilia. Desenvolvido para apresentação executiva.</p>
+    </div>
+  </footer>
+
+  <script>
+    const slideVol = document.getElementById('slide-vol');
+    const slideTake = document.getElementById('slide-take');
+    const slideEco = document.getElementById('slide-eco');
+
+    const valVol = document.getElementById('val-vol');
+    const valTake = document.getElementById('val-take');
+    const valEco = document.getElementById('val-eco');
+
+    const resTotal = document.getElementById('res-total');
+    const resComm = document.getElementById('res-comm');
+    const resEcos = document.getElementById('res-ecos');
+    const resRoi = document.getElementById('res-roi');
+
+    function formatCurrency(val) {
+      return 'R$ ' + val.toLocaleString('pt-BR');
+    }
+
+    function calculateROI() {
+      const vol = parseFloat(slideVol.value);
+      const take = parseFloat(slideTake.value) / 100;
+      const eco = parseFloat(slideEco.value);
+
+      const commGains = vol * take;
+      const totalReturn = commGains + eco;
+      const investment = 1500000;
+      const roi = ((totalReturn - investment) / investment) * 100;
+
+      valVol.textContent = formatCurrency(vol);
+      valTake.textContent = slideTake.value + '%';
+      valEco.textContent = formatCurrency(eco);
+
+      resComm.textContent = formatCurrency(commGains);
+      resEcos.textContent = formatCurrency(eco);
+      resTotal.textContent = formatCurrency(totalReturn);
+      resRoi.textContent = roi.toFixed(1) + '%';
+
+      if (roi >= 0) {
+        resRoi.className = 'text-3xl font-extrabold text-emerald-400';
+      } else {
+        resRoi.className = 'text-3xl font-extrabold text-red-400';
+      }
+    }
+
+    slideVol.addEventListener('input', calculateROI);
+    slideTake.addEventListener('input', calculateROI);
+    slideEco.addEventListener('input', calculateROI);
+
+    calculateROI();
+  </script>
 </body>
 </html>
