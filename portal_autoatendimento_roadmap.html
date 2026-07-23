@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap Priorizado (WSJF) - Portal de Autoatendimento</title>
+    <style>
+        :root {
+            --primary: #003366;
+            --primary-light: #004080;
+            --secondary: #2e7d32;
+            --secondary-light: #4caf50;
+            --neutral-dark: #2c3e50;
+            --neutral-light: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-color: #333333;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--neutral-light);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+        header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        main {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary);
+        }
+        .section-secondary {
+            border-top-color: var(--secondary);
+        }
+        h2 {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 2px solid var(--neutral-light);
+            padding-bottom: 0.5rem;
+            font-size: 1.6rem;
+        }
+        .section-secondary h2 {
+            color: var(--secondary);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background-color: var(--neutral-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f1f3f5;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        .badge-critical { background-color: #ffe3e3; color: #e03131; }
+        .badge-high { background-color: #fff3bf; color: #f08c00; }
+        .badge-medium { background-color: #e2f0d9; color: #38761d; }
+        
+        .roadmap-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .onda-card {
+            background: var(--neutral-light);
+            border-radius: 6px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        .onda-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            border-radius: 6px 6px 0 0;
+        }
+        .onda-1::before { background-color: #e03131; }
+        .onda-2::before { background-color: #f08c00; }
+        .onda-3::before { background-color: #12b886; }
+        
+        .onda-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .onda-meta {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .feature-item {
+            background: white;
+            padding: 0.8rem;
+            border-radius: 4px;
+            margin-bottom: 0.8rem;
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .feature-item-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+        .feature-item-desc {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.85rem;
+            background-color: var(--neutral-light);
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+        .highlight-box {
+            background-color: #eef2f7;
+            border-left: 4px solid var(--primary-light);
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Roadmap Estratégico & Priorização WSJF</h1>
+        <p>Portal de Autoatendimento para Negociação de Dívidas — Bureau de Crédito</p>
+    </header>
+
+    <main>
+        <section class="section">
+            <h2>1. Metodologia de Priorização WSJF</h2>
+            <p>Para otimizar o retorno sobre o investimento (ROI) e garantir entregas frequentes de alto valor de negócio, utilizamos o framework <strong>WSJF (Weighted Shortest Job First)</strong>. Esta metodologia prioriza iniciativas calculando o <strong>Custo do Atraso (Cost of Delay - CoD)</strong> dividido pelo <strong>Esforço Técnico (Story Points)</strong>.</p>
+            
+            <div class="highlight-box">
+                <strong>Fórmula WSJF:</strong> (Valor de Negócio + Urgência Temporal + Redução de Risco / Ativação de Oportunidade) / Tamanho/Esforço do Trabalho
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Feature</th>
+                        <th>Nome da Feature</th>
+                        <th>Valor de Negócio (1-10)</th>
+                        <th>Urgência Temporal (1-10)</th>
+                        <th>Redução Risco/Oport. (1-10)</th>
+                        <th>Custo do Atraso (CoD)</th>
+                        <th>Esforço (Story Points)</th>
+                        <th>Score WSJF</th>
+                        <th>Prioridade Sequencial</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>FT-01</strong></td>
+                        <td>Autenticação Segura &amp; Verificação Cadastral</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td>10</td>
+                        <td><strong>30</strong></td>
+                        <td>13 SP</td>
+                        <td><strong>2.31</strong></td>
+                        <td><span class="badge badge-critical">1º Lugar</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>FT-02</strong></td>
+                        <td>Painel Consolidador de Pendências</td>
+                        <td>8</td>
+                        <td>8</td>
+                        <td>5</td>
+                        <td><strong>21</strong></td>
+                        <td>10 SP</td>
+                        <td><strong>2.10</strong></td>
+                        <td><span class="badge badge-critical">2º Lugar</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>FT-04</strong></td>
+                        <td>Checkout, Emissão e Baixa de Pagamentos</td>
+                        <td>10</td>
+                        <td>9</td>
+                        <td>7</td>
+                        <td><strong>26</strong></td>
+                        <td>18 SP</td>
+                        <td><strong>1.44</strong></td>
+                        <td><span class="badge badge-high">3º Lugar*</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>FT-03</strong></td>
+                        <td>Motor Simulador de Acordos</td>
+                        <td>10</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td><strong>25</strong></td>
+                        <td>21 SP</td>
+                        <td><strong>1.19</strong></td>
+                        <td><span class="badge badge-high">4º Lugar*</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><em>* <strong>Nota de Dependência Técnica:</strong> Embora a FT-04 (Checkout) apresente um score WSJF ligeiramente superior devido ao fechamento do caixa, a <strong>FT-03 (Simulador) é um pré-requisito técnico estrito</strong>. Não é logicamente possível realizar o checkout de uma simulação que ainda não foi parametrizada e calculada. Portanto, o fluxo de engenharia ajusta a execução sequencial dessas duas features.</em></p>
+        </section>
+
+        <section class="section section-secondary">
+            <h2>2. Roadmap de Execução (Ondas)</h2>
+            <p>O desenvolvimento e implantação do portal serão divididos em 3 ondas sequenciais de entrega incremental, mitigando riscos de produção e agilizando o lançamento de um MVP (Minimum Viable Product) funcional no mercado.</p>
+
+            <div class="roadmap-container">
+                <div class="onda-card onda-1">
+                    <div class="onda-title">Onda 1: Fundação <span style="font-size: 0.8rem;" class="badge badge-critical">Sprints 1 e 2</span></div>
+                    <div class="onda-meta"><strong>Foco:</strong> Autenticação e Visibilidade Cadastral</div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-item-title">FT-01: Autenticação Segura (2FA)</div>
+                        <div class="feature-item-desc">Acesso seguro por CPF e validação via código dinâmico OTP (SMS/E-mail) integrado ao Core.</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-item-title">FT-02: Painel Consolidador</div>
+                        <div class="feature-item-desc">Visualização limpa e acolhedora de todas as dívidas ativas, score de crédito e descontos potenciais.</div>
+                    </div>
+                </div>
+
+                <div class="onda-card onda-2">
+                    <div class="onda-title">Onda 2: Transação <span style="font-size: 0.8rem;" class="badge badge-high">Sprints 3 e 4</span></div>
+                    <div class="onda-meta"><strong>Foco:</strong> Negociação e Liquidação de Acordos</div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-item-title">FT-03: Motor Simulador (Slider)</div>
+                        <div class="feature-item-desc">Régua interativa de parcelamento e simulação em tempo real baseada em regras dinâmicas do credor.</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-item-title">FT-04: Checkout e Emissão (Pix/Boleto)</div>
+                        <div class="feature-item-desc">Geração de Pix QR Code, Copia e Cola e boleto, integrando com Gateway de Pagamentos e conciliação síncrona.</div>
+                    </div>
+                </div>
+
+                <div class="onda-card onda-3">
+                    <div class="onda-title">Onda 3: Escala <span style="font-size: 0.8rem;" class="badge badge-medium">Sprints 5+</span></div>
+                    <div class="onda-meta"><strong>Foco:</strong> Engajamento e Otimização Operacional</div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-item-title">Login Federado Gov.br</div>
+                        <div class="feature-item-desc">Opção de autenticação avançada de identidade pelo ecossistema do Governo Federal.</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-item-title">Régua de Notificação Ativa</div>
+                        <div class="feature-item-desc">Disparos automáticos e lembretes amigáveis de parcelas via WhatsApp, e-mail e SMS.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>3. Justificativas Estratégicas &amp; Dependências</h2>
+            <ul>
+                <li><strong>Justificativa da Onda 1:</strong> Focar nas features estruturantes garante que o barramento de segurança (LGPD e sigilo financeiro) e a integração de dados síncronos do Bureau estejam maduros desde o primeiro dia. O usuário inicial já consegue saber quais pendências possui e seu impacto no score, gerando o primeiro gatilho de engajamento.</li>
+                <li><strong>Justificativa da Onda 2:</strong> Com as informações consolidadas, o motor de cálculo e a liquidação das transações ativam a geração direta de receita (comissão sobre a cobrança) e economia operacional, completando o ciclo funcional essencial do MVP.</li>
+                <li><strong>Análise de Dependências Críticas:</strong>
+                    <ul>
+                        <li>O <em>Motor de Simulação (FT-03)</em> necessita da <em>Listagem de Dívidas (FT-02)</em> ativa para que o ID do débito possa ser enviado corretamente.</li>
+                        <li>A <em>Baixa da Restrição (FT-04)</em> em 24h depende diretamente da integração via API webhook com o <em>Bureau de Crédito Core</em> mapeado na FT-01.</li>
+                        <li>O <em>Gateway de Pagamentos</em> requer o aceite prévio dos termos contratuais e do termo de quitação modelados no fluxo de checkout.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <div class="footer">
+        Portal de Autoatendimento - Planejamento Ágil &copy; 2024. Desenvolvido para EBV - Teste em DEV.
+    </div>
+
+</body>
+</html>
