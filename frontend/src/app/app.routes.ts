@@ -12,6 +12,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'recorrencias',
+    loadComponent: () => import('./recorrencias/recorrencias.component').then(m => m.RecorrenciasComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full'

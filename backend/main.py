@@ -4,6 +4,9 @@ from pydantic import BaseModel
 import sqlite3
 from database import init_db, get_db_connection
 
+# Importar o novo roteador de recorrências
+from recorrencias import router as recorrencias_router
+
 app = FastAPI(
     title="POC Login Backend",
     description="Backend Python limpo em FastAPI com SQLite para a POC de Login",
@@ -23,6 +26,9 @@ app.add_middleware(
 @app.on_event("startup")
 def on_startup():
     init_db()
+
+# Adicionar o roteador de recorrências à aplicação
+app.include_router(recorrencias_router)
 
 # Modelos do Pydantic para validação de entrada
 class LoginRequest(BaseModel):

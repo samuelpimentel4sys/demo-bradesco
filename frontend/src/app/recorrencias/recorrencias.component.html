@@ -1,0 +1,47 @@
+<div class="container">
+  <h1>Central de Recorrências</h1>
+
+  <!-- Estado de Erro -->
+  <div *ngIf="error" class="alert alert-danger">
+    <strong>Erro!</strong> Não foi possível carregar as autorizações. Tente novamente mais tarde.
+  </div>
+
+  <!-- Estado de Carregamento (implícito pelo async pipe) e Sucesso -->
+  <div *ngIf="recorrencias$ | async as recorrencias; else loading">
+
+    <!-- Estado de Lista Vazia (NAI-60) -->
+    <div *ngIf="recorrencias.length === 0 && !error" class="empty-state">
+      <p>Nenhuma autorização de Pix Automático encontrada.</p>
+    </div>
+
+    <!-- Lista de Recorrências (NAI-60) -->
+    <div *ngIf="recorrencias.length > 0" class="card-grid">
+      <div *ngFor="let rec of recorrencias" class="card" [ngClass]="'status-' + rec.status.toLowerCase()">
+        <div class="card-header">
+          <h3>{{ rec.favorecido }}</h3>
+          <span class="status">{{ rec.status.replace('_', ' ') }}</span>
+        </div>
+        <div class="card-body">
+          <p>Documento: {{ rec.documento }}</p>
+          <p>Valor Máximo: {{ rec.valorMaximo | currency:'BRL' }}</p>
+          <p>Válido até: {{ rec.dataFim | date:'dd/MM/yyyy' }}</p>
+        </div>
+        <div class="card-actions">
+          <!-- Ações de Gerenciamento (NAI-61) -->
+          <button *ngIf="rec.status === 'PENDENTE_APROVACAO'" (click)="handleAction('approve', rec.id)" class="btn btn-success">Aprovar</button>
+          <button *ngIf="rec.status === 'ATIVO'" (click)="handleAction('pause', rec.id)" class="btn btn-warning">Pausar</button>
+          <button *ngIf="rec.status === 'PAUSADO'" (click)="handleAction('approve', rec.id)" class="btn btn-primary">Reativar</button>
+          <button *ngIf="rec.status !== 'CANCELADO'" (click)="handleAction('cancel', rec.id)" class="btn btn-danger">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template de Loading -->
+  <ng-template #loading>
+    <div class="loading-spinner">
+      <p>Carregando...</p>
+    </div>
+  </ng-template>
+
+</div>
