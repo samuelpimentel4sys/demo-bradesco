@@ -1,0 +1,1025 @@
+/* Layout Principal e Paleta de Cores Foursys Dark Theme */
+.reneg-layout {
+  min-height: 100vh;
+  background-color: #171728;
+  color: #FFFFFF;
+  font-family: 'Nunito', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Estilizado */
+.reneg-header {
+  background-color: #222239;
+  border-bottom: 2px solid rgba(255, 83, 21, 0.2);
+  padding: 1rem 2rem;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.brand-accent {
+  color: #FF5315; /* Laranja Foursys */
+}
+
+.header-badge {
+  background-color: rgba(137, 186, 177, 0.1);
+  color: #89BAB1; /* Menta Foursys */
+  border: 1px solid rgba(137, 186, 177, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #89BAB1;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.pulsing {
+  animation: pulse-green 2s infinite;
+}
+
+/* Stepper de Fluxo */
+.stepper-wrapper {
+  background-color: #1A1A2F;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stepper-container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+
+.step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.node-circle {
+  width: 36px;
+  height: 36px;
+  background-color: #2E2E4E;
+  color: #8888AA;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.node-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #8888AA;
+  transition: all 0.3s ease;
+}
+
+.step-node.active .node-circle {
+  background-color: #FF5315;
+  color: #FFFFFF;
+  border-color: #FF5315;
+  box-shadow: 0 0 15px rgba(255, 83, 21, 0.4);
+}
+
+.step-node.active .node-label {
+  color: #FF5315;
+}
+
+.step-node.completed .node-circle {
+  background-color: #89BAB1;
+  color: #171728;
+}
+
+.step-node.completed .node-label {
+  color: #89BAB1;
+}
+
+.step-line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: #2E2E4E;
+  margin: 0 10px;
+  margin-top: -24px;
+  transition: all 0.3s ease;
+}
+
+.step-line.completed {
+  background-color: #89BAB1;
+}
+
+/* Área de Conteúdo Principal */
+.reneg-main {
+  flex-grow: 1;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.main-card {
+  background-color: #222239;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  padding: 3rem;
+}
+
+/* Seções de Formulário e Wizard */
+.wizard-section {
+  width: 100%;
+}
+
+.section-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #FFE2A9; /* Baunilha Foursys */
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  color: #A0A0C0;
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.section-header-row .section-subtitle {
+  margin-bottom: 0;
+}
+
+.badge-user {
+  background-color: #2E2E4E;
+  color: #FFE2A9;
+  border: 1px solid rgba(255, 226, 169, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+/* Inputs e Controles */
+.form-group {
+  margin-bottom: 1.75rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #FFE2A9;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  width: 100%;
+  background-color: #1A1A2F;
+  border: 1px solid #2E2E4E;
+  border-radius: 6px;
+  color: #FFFFFF;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #FF5315;
+  box-shadow: 0 0 10px rgba(255, 83, 21, 0.2);
+}
+
+.form-control-large {
+  padding: 1rem 1.25rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.helper-text {
+  font-size: 0.8rem;
+  color: #8888AA;
+  margin-top: 0.5rem;
+}
+
+/* Botões */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #FF5315;
+  color: #FFFFFF;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #E0430F;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  background-color: #2E2E4E;
+  color: #666688;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #2E2E4E;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-secondary:hover {
+  background-color: #3E3E6E;
+}
+
+.btn-success {
+  background-color: #89BAB1;
+  color: #171728;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #72A59C;
+  transform: translateY(-1px);
+}
+
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1.15rem;
+}
+
+.btn-block {
+  display: flex;
+  width: 100%;
+}
+
+.btn-arrow {
+  margin-left: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.btn-primary:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #FF5315;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.btn-link:hover {
+  color: #E0430F;
+}
+
+/* Botões em Grupo */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Estilos de OTP e Código */
+.otp-input {
+  letter-spacing: 8px;
+}
+
+.otp-alert {
+  background-color: rgba(255, 83, 21, 0.1);
+  color: #FF5315;
+  border: 1px solid rgba(255, 83, 21, 0.2);
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.otp-countdown {
+  font-size: 0.9rem;
+  color: #A0A0C0;
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+.countdown-timer {
+  color: #FF5315;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+/* Tabela de Dívidas */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 6px;
+  border: 1px solid #2E2E4E;
+}
+
+.debts-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.debts-table th {
+  background-color: #1A1A2F;
+  color: #FFE2A9;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  padding: 1rem;
+  border-bottom: 2px solid #2E2E4E;
+}
+
+.debts-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #2E2E4E;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.debts-table tr:hover td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.debts-table tr.selected td {
+  background-color: rgba(255, 83, 21, 0.04);
+}
+
+.creditor-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.creditor-icon {
+  font-size: 1.2rem;
+}
+
+.badge-overdue {
+  background-color: #2E2E4E;
+  color: #FFE2A9;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.badge-overdue.critical {
+  background-color: rgba(255, 83, 21, 0.15);
+  color: #FF5315;
+  border: 1px solid rgba(255, 83, 21, 0.2);
+}
+
+/* Alinhamentos */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-muted { color: #8888AA; }
+.text-highlight { color: #FFE2A9; font-weight: 700; }
+.text-line-through { text-decoration: line-through; color: #8888AA; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.flex-column { flex-direction: column; }
+
+/* Sumário de Dívidas */
+.selection-summary {
+  background-color: #1A1A2F;
+  border: 1px solid #2E2E4E;
+  border-radius: 6px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: #A0A0C0;
+}
+
+.summary-item strong {
+  color: #FFFFFF;
+}
+
+.highlight-item {
+  border-top: 1px solid #2E2E4E;
+  padding-top: 0.75rem;
+  font-weight: 700;
+  color: #FFE2A9;
+}
+
+.price-large {
+  font-size: 1.5rem;
+  color: #FF5315;
+}
+
+/* Simulador Grid */
+.simulator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .simulator-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.simulator-config {
+  background-color: #1A1A2F;
+  border: 1px solid #2E2E4E;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.payment-toggle {
+  display: flex;
+  gap: 0.5rem;
+  background-color: #121220;
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #2E2E4E;
+}
+
+.toggle-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  color: #8888AA;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.toggle-btn.active {
+  background-color: #FF5315;
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(255, 83, 21, 0.25);
+}
+
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.slider-value {
+  color: #FF5315;
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.form-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #2E2E4E;
+  border-radius: 4px;
+  outline: none;
+  margin: 1rem 0;
+}
+
+.form-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FF5315;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 83, 21, 0.4);
+}
+
+.slider-range-helper {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #8888AA;
+}
+
+/* Simulador Caixa de Resultados */
+.simulator-result-box {
+  background-color: #1A1A2F;
+  border: 1px solid rgba(255, 83, 21, 0.25);
+  border-radius: 8px;
+  padding: 2rem;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result-details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: #A0A0C0;
+}
+
+.success-row {
+  color: #89BAB1;
+}
+
+.final-price-row {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.final-price {
+  font-size: 1.75rem;
+  color: #FFE2A9;
+}
+
+.installment-row {
+  border-top: 1px solid #2E2E4E;
+  padding-top: 1rem;
+}
+
+.installment-row strong {
+  font-size: 1.25rem;
+  color: #FF5315;
+}
+
+.result-badge {
+  background-color: rgba(137, 186, 177, 0.1);
+  color: #89BAB1;
+  border: 1px solid rgba(137, 186, 177, 0.3);
+  padding: 0.4rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #2E2E4E;
+  margin: 0.5rem 0;
+}
+
+/* Termos e Contrato */
+.terms-box {
+  background-color: #1A1A2F;
+  border: 1px solid #2E2E4E;
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+
+.terms-title {
+  font-size: 1.1rem;
+  color: #FFE2A9;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.terms-scroll-container {
+  height: 180px;
+  overflow-y: scroll;
+  background-color: #121220;
+  border: 1px solid #2E2E4E;
+  padding: 1rem;
+  font-size: 0.85rem;
+  color: #A0A0C0;
+  border-radius: 4px;
+  line-height: 1.5;
+}
+
+.terms-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.terms-checkbox-row label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.terms-checkbox-row label.disabled {
+  color: #666688;
+  cursor: not-allowed;
+}
+
+.terms-warning {
+  font-size: 0.8rem;
+  color: #FF5315;
+  margin-top: 0.5rem;
+  font-weight: 700;
+}
+
+/* Área de Pagamento */
+.payment-container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.qr-code-box {
+  background-color: #1A1A2F;
+  border: 1px solid #2E2E4E;
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.qr-placeholder {
+  width: 200px;
+  height: 200px;
+  background-color: #FFFFFF;
+  border-radius: 4px;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-pattern {
+  width: 100%;
+  height: 100%;
+  /* Efeito de QR Code simulado usando gradiente */
+  background: 
+    radial-gradient(circle, #000000 20%, transparent 20%),
+    linear-gradient(45deg, transparent 40%, #000000 40%, #000000 60%, transparent 60%);
+  background-size: 15px 15px;
+}
+
+.qr-timer {
+  font-size: 0.85rem;
+  color: #A0A0C0;
+}
+
+.qr-timer strong {
+  color: #FF5315;
+}
+
+.copia-cola-box {
+  background-color: #1A1A2F;
+  border: 1px solid #2E2E4E;
+  border-radius: 6px;
+  padding: 1.25rem;
+}
+
+.cc-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cc-control {
+  background-color: #121220;
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+.btn-copy {
+  white-space: nowrap;
+}
+
+/* Painel POC Simulador de Webhook */
+.poc-simulator-panel {
+  background-color: rgba(255, 83, 21, 0.05);
+  border: 1px dashed #FF5315;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.poc-title {
+  color: #FF5315;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.poc-desc {
+  font-size: 0.8rem;
+  color: #A0A0C0;
+  margin-bottom: 1.25rem;
+  line-height: 1.4;
+}
+
+/* Tela de Sucesso / Recibo */
+.success-screen {
+  padding: 1.5rem 0;
+}
+
+.success-icon-circle {
+  width: 72px;
+  height: 72px;
+  background-color: rgba(137, 186, 177, 0.15);
+  color: #89BAB1;
+  border: 2px solid #89BAB1;
+  font-size: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+}
+
+.success-text {
+  color: #89BAB1;
+}
+
+/* Recibo de Papel (Retroestilo Financeiro) */
+.receipt-box {
+  background-color: #FFFFFF;
+  color: #171728;
+  border-radius: 8px;
+  max-width: 480px;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  position: relative;
+  /* Efeito de corte serrilhado de recibo */
+  overflow: hidden;
+}
+
+.receipt-box::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-image: linear-gradient(-45deg, #222239 4px, transparent 0), linear-gradient(45deg, #222239 4px, transparent 0);
+  background-size: 8px 8px;
+}
+
+.receipt-header {
+  background-color: #222239;
+  color: #FFFFFF;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.receipt-logo {
+  color: #FF5315;
+  font-weight: 900;
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.receipt-header h3 {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 700;
+  color: #FFE2A9;
+}
+
+.receipt-body {
+  padding: 2rem;
+  text-align: left;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  font-size: 0.9rem;
+}
+
+.receipt-divider {
+  border: none;
+  border-top: 1px dashed #CCCCCC;
+  margin: 1.5rem 0;
+}
+
+.price-final-green {
+  color: #0F7F6A;
+  font-size: 1.25rem;
+}
+
+.receipt-label-sm {
+  font-size: 0.75rem;
+  color: #8888AA;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.receipt-hash {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #555577;
+  word-break: break-all;
+  background-color: #F4F4F9;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.25rem;
+}
+
+.receipt-footer {
+  font-size: 0.75rem;
+  color: #777799;
+  text-align: center;
+  padding: 0 2rem 2.5rem 2rem;
+  line-height: 1.4;
+}
+
+/* Footer do Portal */
+.reneg-footer {
+  background-color: #121220;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: #666688;
+  font-size: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.reneg-footer p {
+  margin: 0 0 0.5rem 0;
+}
+
+.footer-small {
+  color: #444466;
+}
+
+/* Skeletons de Loading */
+.skeleton-box {
+  width: 100%;
+}
+
+.skeleton-line {
+  height: 16px;
+  background: linear-gradient(90deg, #1A1A2F 25%, #2E2E4E 50%, #1A1A2F 75%);
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 0.85rem;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+@keyframes loading-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Animações Auxiliares */
+.animate-fade-in {
+  animation: fadeIn 0.35s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(137, 186, 177, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(137, 186, 177, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(137, 186, 177, 0); }
+}
+
+/* Banners de erro */
+.error-banner {
+  background-color: rgba(255, 83, 21, 0.1);
+  border: 1px solid rgba(255, 83, 21, 0.3);
+  border-radius: 6px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #FF5315;
+}
+
+.error-icon {
+  font-size: 1.5rem;
+}
+
+.error-text {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Elementos de Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Regras de Impressão */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .reneg-layout, .reneg-header, .stepper-wrapper, .reneg-footer, .button-group, .poc-simulator-panel {
+    display: none !important;
+  }
+  .reneg-main {
+    padding: 0 !important;
+  }
+  .main-card {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .receipt-box {
+    box-shadow: none !important;
+    border: 1px solid #000000 !important;
+    margin: 0 auto !important;
+    page-break-inside: avoid;
+  }
+}

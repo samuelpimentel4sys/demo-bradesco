@@ -3,6 +3,10 @@ import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
+    path: 'renegociacao',
+    loadComponent: () => import('./renegociacao/renegociacao.component').then(m => m.RenegociacaoComponent)
+  },
+  {
     path: 'login',
     loadComponent: () => import('./login/login').then(m => m.LoginComponent)
   },
@@ -13,11 +17,11 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'renegociacao', // Redireciona para o portal de renegociações como padrão
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'dashboard'
+    redirectTo: 'renegociacao'
   }
 ];

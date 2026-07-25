@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: portal-negociacao-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/portal_negociacao
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
